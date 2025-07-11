@@ -4,9 +4,21 @@ struct DesignSystem {
     
     // MARK: - Colors inspired by logo gradient
     struct Colors {
-        // Primary brand gradient (from logo)
-        static let brandTeal = Color(red: 0.0, green: 0.6, blue: 0.7)
-        static let brandPurple = Color(red: 0.4, green: 0.2, blue: 0.8)
+        // Dynamic brand colors based on selected theme
+        static var brandTeal: Color {
+            return StoreManager.shared.selectedColorTheme.colors.brandTeal
+        }
+        static var brandPurple: Color {
+            return StoreManager.shared.selectedColorTheme.colors.brandPurple
+        }
+        static var accentCyan: Color {
+            return StoreManager.shared.selectedColorTheme.colors.accentCyan
+        }
+        
+        // Fallback default colors (in case StoreManager isn't available)
+        static let defaultBrandTeal = Color(red: 0.0, green: 0.6, blue: 0.7)
+        static let defaultBrandPurple = Color(red: 0.4, green: 0.2, blue: 0.8)
+        static let defaultAccentCyan = Color(red: 0.0, green: 0.9, blue: 0.9)
         
         // Sophisticated background gradients
         static let backgroundPrimary = LinearGradient(
@@ -28,8 +40,7 @@ struct DesignSystem {
             endPoint: .bottomTrailing
         )
         
-        // Refined accent colors
-        static let accentCyan = Color(red: 0.0, green: 0.9, blue: 0.9)
+        // Additional accent colors (static)
         static let accentGold = Color(red: 1.0, green: 0.8, blue: 0.2)
         static let accentRose = Color(red: 1.0, green: 0.4, blue: 0.6)
         
@@ -66,6 +77,10 @@ struct DesignSystem {
         
         static func bodyMedium(weight: Font.Weight = .regular) -> Font {
             .system(size: 16, weight: weight, design: .default)
+        }
+        
+        static func bodySmall(weight: Font.Weight = .regular) -> Font {
+            .system(size: 14, weight: weight, design: .default)
         }
         
         // Monospace for retro gaming elements

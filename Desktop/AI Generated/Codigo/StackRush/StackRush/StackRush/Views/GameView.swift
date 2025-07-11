@@ -5,9 +5,10 @@ import UIKit
 #endif
 
 struct GameView: View {
-    @StateObject private var stack = Stack()
+    @StateObject private var gameController = StackRushGameController()
     @StateObject private var gameLoop = GameLoop()
     @EnvironmentObject var gameState: GameState
+    @State private var stack: Stack? = nil
     @State private var scene: GameScene?
     @State private var screenWidth: CGFloat = 400 // Default width, will be updated in GeometryReader
     @State private var isPaused = false
@@ -36,7 +37,7 @@ struct GameView: View {
                         Text("SCORE")
                             .font(DesignSystem.Typography.monoSmall(weight: .medium))
                             .foregroundColor(DesignSystem.Colors.textSecondary)
-                        Text("\(stack.score)")
+                        Text("\(stack?.score ?? 0)")
                             .font(DesignSystem.Typography.monoLarge(weight: .bold))
                             .foregroundColor(DesignSystem.Colors.textPrimary)
                     }
@@ -76,11 +77,38 @@ struct GameView: View {
                             )
                     }
                     
+                    // Level indicator
+                    HStack(spacing: DesignSystem.Spacing.xs) {
+                        Text("LV.\(gameController.level)")
+                            .font(DesignSystem.Typography.monoMedium(weight: .bold))
+                            .foregroundColor(DesignSystem.Colors.textPrimary)
+                        
+                        if gameController.blocksInCurrentRow > 1 {
+                            HStack(spacing: 2) {
+                                ForEach(0..<gameController.blocksInCurrentRow, id: \.self) { _ in
+                                    Circle()
+                                        .fill(Color.white.opacity(0.6))
+                                        .frame(width: 4, height: 4)
+                                }
+                            }
+                        }
+                    }
+                    .padding(.horizontal, DesignSystem.Spacing.md)
+                    .padding(.vertical, DesignSystem.Spacing.sm)
+                    .background(
+                        Capsule()
+                            .fill(Color.black.opacity(0.3))
+                            .overlay(
+                                Capsule()
+                                    .stroke(Color.white.opacity(0.15), lineWidth: 1)
+                            )
+                    )
+                    
                     Spacer()
                     
-                    if stack.combo > 0 {
+                    if let stackCombo = stack?.combo, stackCombo > 0 {
                         HStack(spacing: DesignSystem.Spacing.xs) {
-                            Text("×\(stack.combo)")
+                            Text("×\(stackCombo)")
                                 .font(DesignSystem.Typography.monoLarge(weight: .bold))
                                 .foregroundColor(DesignSystem.Colors.accentGold)
                             Text("COMBO")
@@ -101,7 +129,7 @@ struct GameView: View {
                             insertion: .scale(scale: 0.8).combined(with: .opacity),
                             removal: .scale(scale: 1.2).combined(with: .opacity)
                         ))
-                        .animation(.spring(response: 0.4, dampingFraction: 0.7), value: stack.combo)
+                        .animation(.spring(response: 0.4, dampingFraction: 0.7), value: stackCombo)
                     }
                 }
                 .padding(DesignSystem.Spacing.lg)
@@ -109,8 +137,8 @@ struct GameView: View {
                 Spacer()
                 
                 // Redesigned bottom area with better spacing
-                if !stack.gameOver {
-                    if stack.blocks.count <= 2 {
+                if stack?.gameOver != true {
+                    if (stack?.blocks.count ?? 0) <= 2 {
                         // Minimal floating instruction
                         VStack(spacing: DesignSystem.Spacing.xs) {
                             Image(systemName: "hand.tap")
@@ -158,13 +186,37 @@ struct GameView: View {
                 }
             }
             
-            if stack.gameOver {
-                GameOverView(score: stack.score) {
+            // Prize Event Overlay
+            if gameController.prizeState != .none {
+                PrizeEventView(
+                    prizeState: gameController.prizeState,
+                    onContinue: {
+                        gameController.acknowledgePrize()
+                        // Continue game
+                        stack?.spawnNextBlock()
+                    },
+                    onCollect: {
+                        gameController.acknowledgePrize()
+                        // End game with prize
+                        Task { @MainActor in
+                            stack?.recordStats()
+                            gameLoop.stop()
+                            gameState.endGame(score: stack?.score ?? 0)
+                        }
+                    }
+                )
+            }
+            
+            if stack?.gameOver == true {
+                GameOverView(score: stack?.score ?? 0) {
                     Task { @MainActor in
-                        stack.startNewGame()
+                        initializeStack()
+                        stack?.startNewGame(mode: gameState.currentGameMode)
                         scene?.reset()
                         isPaused = false
-                        gameLoop.start(stack: stack, scene: scene)
+                        if let stack = stack {
+                            gameLoop.start(stack: stack, scene: scene)
+                        }
                     }
                 } onMenu: {
                     Task { @MainActor in
@@ -176,7 +228,8 @@ struct GameView: View {
         }
         .onAppear {
             gameLoop.screenWidth = screenWidth
-            stack.startNewGame()
+            initializeStack()
+            stack?.startNewGame(mode: gameState.currentGameMode)
         }
         .onDisappear {
             gameLoop.stop()
@@ -190,6 +243,12 @@ struct GameView: View {
         }
     }
     
+    private func initializeStack() {
+        if stack == nil {
+            stack = Stack(gameController: gameController)
+        }
+    }
+    
     private func makeScene(size: CGSize) -> GameScene {
         if let existingScene = scene {
             return existingScene
@@ -198,64 +257,72 @@ struct GameView: View {
         let newScene = GameScene()
         newScene.size = size
         newScene.scaleMode = .fill
-        newScene.stack = stack
         
         // Use a task to avoid state modification during view update
         Task { @MainActor in
             scene = newScene
-            gameLoop.start(stack: stack, scene: newScene)
+            // Initialize stack first if needed
+            initializeStack()
+            // Set the stack reference in scene
+            newScene.stack = stack
+            // Start the game loop
+            if let stack = stack {
+                gameLoop.start(stack: stack, scene: newScene)
+            }
         }
         
         return newScene
     }
     
     private func handleTap() {
-        guard !stack.gameOver && !isPaused else { return }
+        guard stack?.gameOver != true && !isPaused else { return }
         
-        let currentBlock = stack.currentBlock
+        let currentBlock = stack?.currentBlock
         scene?.animateBlockDrop {
             // Use a task to handle state changes properly
             Task { @MainActor in
-                if stack.stopCurrentBlock() {
-                    if stack.combo > 2 {
+                if stack?.stopCurrentBlock() == true {
+                    if (stack?.combo ?? 0) > 2 {
                         scene?.animatePerfectStack()
                         SoundManager.shared.playPerfectStackSound()
                     } else {
                         SoundManager.shared.playStackSound()
-                        if let chopInfo = stack.lastChopInfo, let block = currentBlock {
+                        if let chopInfo = stack?.lastChopInfo, let block = currentBlock {
                             scene?.animateBlockChop(leftOverhang: chopInfo.leftOverhang,
                                                   rightOverhang: chopInfo.rightOverhang,
                                                   block: block)
-                            stack.lastChopInfo = nil
+                            stack?.lastChopInfo = nil
                         }
                     }
-                    stack.spawnNextBlock()
+                    stack?.spawnNextBlock()
                 } else {
                     SoundManager.shared.playGameOverSound()
-                    stack.recordStats()
+                    stack?.recordStats()
                     gameLoop.stop()
-                    gameState.endGame(score: stack.score)
+                    gameState.endGame(score: stack?.score ?? 0)
                 }
             }
         }
     }
     
     private func isCurrentAlignmentPerfect() -> Bool {
-        guard let currentBlock = stack.currentBlock,
+        guard let stack = stack,
+              let currentBlock = stack.currentBlock,
               !stack.blocks.isEmpty,
               let targetBlock = stack.blocks.last else { return false }
         
-        let (leftOverhang, rightOverhang, _) = currentBlock.overlapWith(targetBlock)
-        return leftOverhang < 1 && rightOverhang < 1
+        let alignment = currentBlock.calculateAlignment(with: targetBlock, tolerance: gameController.hitWindowTolerance)
+        return alignment.isPerfect
     }
     
     private func isCurrentAlignmentGood() -> Bool {
-        guard let currentBlock = stack.currentBlock,
+        guard let stack = stack,
+              let currentBlock = stack.currentBlock,
               !stack.blocks.isEmpty,
               let targetBlock = stack.blocks.last else { return false }
         
-        let (_, _, overlap) = currentBlock.overlapWith(targetBlock)
-        return overlap > 0
+        let alignment = currentBlock.calculateAlignment(with: targetBlock)
+        return alignment.hasOverlap
     }
 }
 
