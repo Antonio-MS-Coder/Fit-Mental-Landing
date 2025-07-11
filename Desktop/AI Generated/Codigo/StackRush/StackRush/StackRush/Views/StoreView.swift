@@ -7,18 +7,31 @@ struct StoreView: View {
     @State private var selectedCategory: StoreItemType = .colorTheme
     @State private var showPurchaseSuccess = false
     @State private var purchasedItem: StoreItem?
+    @State private var showThemeChangeAlert = false
     
     var body: some View {
         NavigationView {
             storeContent
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .alert("Purchase Successful!", isPresented: $showPurchaseSuccess) {
+        .alert("Success!", isPresented: $showPurchaseSuccess) {
             Button("OK") { }
         } message: {
             if let item = purchasedItem {
-                Text("You bought \(item.name)! It's now equipped and ready to use.")
+                if item.type == .powerUp {
+                    Text("You used \(item.name)! Check your active power-ups during gameplay.")
+                } else {
+                    Text("You bought \(item.name)! It's now equipped and ready to use.")
+                }
             }
+        }
+        .alert("Theme Changed", isPresented: $showThemeChangeAlert) {
+            Button("OK") { }
+        } message: {
+            Text("Your new theme has been applied! Some visual changes may require restarting the app to fully take effect.")
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ColorThemeChanged"))) { _ in
+            showThemeChangeAlert = true
         }
     }
     
@@ -188,8 +201,6 @@ struct StoreView: View {
     }
     
     private func selectItem(_ item: StoreItem) {
-        guard storeManager.isOwned(item.itemId) else { return }
-        
         switch item.type {
         case .colorTheme:
             if let theme = ColorTheme.allCases.first(where: { $0.id == item.itemId }) {
@@ -200,8 +211,21 @@ struct StoreView: View {
                 storeManager.setSelectedSoundPack(pack)
             }
         case .powerUp:
-            break // Power-ups will be handled differently
+            // Use power-up from inventory
+            if let powerUp = PowerUp.allCases.first(where: { $0.id == item.itemId }) {
+                if InventoryManager.shared.usePowerUp(powerUp) {
+                    // Show usage feedback
+                    showPowerUpUsage(powerUp)
+                }
+            }
         }
+    }
+    
+    private func showPowerUpUsage(_ powerUp: PowerUp) {
+        // You can add usage feedback here
+        // For now, we'll just show a success message
+        purchasedItem = StoreItem.powerUpItem(powerUp)
+        showPurchaseSuccess = true
     }
 }
 
@@ -211,6 +235,8 @@ struct StoreItemCard: View {
     let isSelected: Bool
     let onPurchase: () -> Void
     let onSelect: () -> Void
+    
+    @StateObject private var inventoryManager = InventoryManager.shared
     
     var body: some View {
         VStack(spacing: DesignSystem.Spacing.sm) {
@@ -236,10 +262,30 @@ struct StoreItemCard: View {
             
             // Name and description
             VStack(spacing: 4) {
-                Text(item.name)
-                    .font(DesignSystem.Typography.bodyMedium(weight: .bold))
-                    .foregroundColor(DesignSystem.Colors.textPrimary)
-                    .multilineTextAlignment(.center)
+                HStack {
+                    Text(item.name)
+                        .font(DesignSystem.Typography.bodyMedium(weight: .bold))
+                        .foregroundColor(DesignSystem.Colors.textPrimary)
+                        .multilineTextAlignment(.center)
+                    
+                    // Show inventory count for power-ups
+                    if item.type == .powerUp {
+                        let powerUp = PowerUp.allCases.first { $0.id == item.itemId }
+                        let count = powerUp.map { inventoryManager.getPowerUpCount($0) } ?? 0
+                        
+                        if count > 0 {
+                            Text("×\(count)")
+                                .font(DesignSystem.Typography.bodySmall(weight: .bold))
+                                .foregroundColor(DesignSystem.Colors.brandTeal)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(DesignSystem.Colors.brandTeal.opacity(0.2))
+                                )
+                        }
+                    }
+                }
                 
                 Text(item.description)
                     .font(DesignSystem.Typography.bodySmall(weight: .medium))
@@ -249,21 +295,50 @@ struct StoreItemCard: View {
             }
             
             // Action button
-            if isOwned {
-                if item.type == .powerUp {
-                    // Power-ups show use button
+            if item.type == .powerUp {
+                // Power-ups show inventory count and purchase button
+                let powerUp = PowerUp.allCases.first { $0.id == item.itemId }
+                let count = powerUp.map { inventoryManager.getPowerUpCount($0) } ?? 0
+                
+                if count > 0 {
+                    // Show use button if player has this power-up
                     Button(action: onSelect) {
-                        Text("USE")
-                            .font(DesignSystem.Typography.bodySmall(weight: .bold))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 8)
-                            .background(
-                                RoundedRectangle(cornerRadius: DesignSystem.Radius.small)
-                                    .fill(DesignSystem.Colors.brandTeal)
-                            )
+                        HStack(spacing: 4) {
+                            Image(systemName: "bolt.fill")
+                                .font(.system(size: 12, weight: .bold))
+                            Text("USE")
+                                .font(DesignSystem.Typography.bodySmall(weight: .bold))
+                        }
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: DesignSystem.Radius.small)
+                                .fill(DesignSystem.Colors.brandTeal)
+                        )
                     }
-                } else if isSelected {
+                } else {
+                    // Show buy button for power-ups
+                    Button(action: onPurchase) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "dollarsign.circle.fill")
+                                .font(.system(size: 12, weight: .bold))
+                            Text("\(item.price)")
+                                .font(DesignSystem.Typography.bodySmall(weight: .bold))
+                        }
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: DesignSystem.Radius.small)
+                                .fill(CoinsManager.shared.canAfford(item.price) ? DesignSystem.Colors.brandTeal : DesignSystem.Colors.textTertiary)
+                        )
+                    }
+                    .disabled(!CoinsManager.shared.canAfford(item.price))
+                }
+            } else if isOwned {
+                // Themes and sound packs show owned/equipped status
+                if isSelected {
                     // Selected themes show equipped
                     HStack(spacing: 4) {
                         Image(systemName: "checkmark.circle.fill")
@@ -289,7 +364,7 @@ struct StoreItemCard: View {
                     }
                 }
             } else {
-                // Show purchase button with price
+                // Show purchase button for themes/sound packs (one-time purchase)
                 Button(action: onPurchase) {
                     HStack(spacing: 4) {
                         Image(systemName: "dollarsign.circle.fill")

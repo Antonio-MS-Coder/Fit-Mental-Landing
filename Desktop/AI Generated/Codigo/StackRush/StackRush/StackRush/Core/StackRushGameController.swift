@@ -137,12 +137,15 @@ class StackRushGameController: ObservableObject {
     }
     
     func acknowledgePrize() {
-        // Award coins based on prize type
+        // Award coins based on prize type, with power-up multiplier
+        let multiplier = InventoryManager.shared.currentCoinMultiplier
         switch prizeState {
         case .minorPrize:
-            CoinsManager.shared.addCoins(CoinsManager.minorPrizeCoins)
+            let coins = Int(Double(CoinsManager.minorPrizeCoins) * multiplier)
+            CoinsManager.shared.addCoins(coins)
         case .majorPrize:
-            CoinsManager.shared.addCoins(CoinsManager.majorPrizeCoins)
+            let coins = Int(Double(CoinsManager.majorPrizeCoins) * multiplier)
+            CoinsManager.shared.addCoins(coins)
         case .none:
             break
         }

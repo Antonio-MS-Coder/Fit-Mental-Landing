@@ -3,6 +3,7 @@ import SwiftUI
 struct MenuView: View {
     @EnvironmentObject var gameState: GameState
     @StateObject private var soundManager = SoundManager.shared
+    @StateObject private var inventoryManager = InventoryManager.shared
     @State private var titleScale: CGFloat = 0.5
     @State private var titleOpacity: Double = 0
     @State private var buttonOffset: CGFloat = 50
@@ -38,6 +39,7 @@ struct MenuView: View {
                                     .stroke(DesignSystem.Colors.brandTeal, lineWidth: 1)
                             )
                     )
+                    
                     
                     Spacer()
                     
@@ -239,4 +241,5 @@ struct MenuView: View {
                 .environmentObject(gameState)
         }
     }
+    
 }

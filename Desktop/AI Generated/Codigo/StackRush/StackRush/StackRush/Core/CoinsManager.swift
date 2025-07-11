@@ -12,7 +12,11 @@ class CoinsManager: ObservableObject {
     }
     
     func addCoins(_ amount: Int) {
-        coinBalance += amount
+        // Apply power-up multiplier if active
+        let multiplier = InventoryManager.shared.currentCoinMultiplier
+        let finalAmount = Int(Double(amount) * multiplier)
+        
+        coinBalance += finalAmount
         saveCoins()
         
         // Play coin sound effect

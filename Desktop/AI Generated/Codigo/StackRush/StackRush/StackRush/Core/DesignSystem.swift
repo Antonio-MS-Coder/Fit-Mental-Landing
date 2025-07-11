@@ -20,16 +20,72 @@ struct DesignSystem {
         static let defaultBrandPurple = Color(red: 0.4, green: 0.2, blue: 0.8)
         static let defaultAccentCyan = Color(red: 0.0, green: 0.9, blue: 0.9)
         
-        // Sophisticated background gradients
-        static let backgroundPrimary = LinearGradient(
-            gradient: Gradient(colors: [
-                Color(red: 0.02, green: 0.08, blue: 0.16),
-                Color(red: 0.08, green: 0.12, blue: 0.24),
-                Color(red: 0.12, green: 0.08, blue: 0.32)
-            ]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
+        // Dynamic sophisticated background gradients based on theme
+        static var backgroundPrimary: LinearGradient {
+            let theme = StoreManager.shared.selectedColorTheme
+            switch theme {
+            case .defaultTheme:
+                return LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(red: 0.02, green: 0.08, blue: 0.16),
+                        Color(red: 0.08, green: 0.12, blue: 0.24),
+                        Color(red: 0.12, green: 0.08, blue: 0.32)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            case .neonPink:
+                return LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(red: 0.16, green: 0.02, blue: 0.08),
+                        Color(red: 0.24, green: 0.08, blue: 0.12),
+                        Color(red: 0.32, green: 0.08, blue: 0.16)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            case .oceanBlue:
+                return LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(red: 0.02, green: 0.08, blue: 0.20),
+                        Color(red: 0.05, green: 0.12, blue: 0.28),
+                        Color(red: 0.08, green: 0.16, blue: 0.36)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            case .sunsetOrange:
+                return LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(red: 0.20, green: 0.08, blue: 0.02),
+                        Color(red: 0.28, green: 0.12, blue: 0.05),
+                        Color(red: 0.36, green: 0.16, blue: 0.08)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            case .purpleHaze:
+                return LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(red: 0.12, green: 0.02, blue: 0.20),
+                        Color(red: 0.20, green: 0.05, blue: 0.28),
+                        Color(red: 0.28, green: 0.08, blue: 0.36)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            case .emeraldGreen:
+                return LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(red: 0.02, green: 0.16, blue: 0.08),
+                        Color(red: 0.05, green: 0.24, blue: 0.12),
+                        Color(red: 0.08, green: 0.32, blue: 0.16)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            }
+        }
         
         static let cardBackground = LinearGradient(
             gradient: Gradient(colors: [

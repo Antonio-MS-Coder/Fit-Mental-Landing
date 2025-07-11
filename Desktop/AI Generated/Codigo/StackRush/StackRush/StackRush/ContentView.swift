@@ -17,10 +17,10 @@ struct ContentView: View {
                 MenuView()
                     .environmentObject(gameState)
             case .playing, .paused:
-                GameView()
+                StackerGridView()
                     .environmentObject(gameState)
             case .gameOver:
-                GameView()
+                StackerGridView()
                     .environmentObject(gameState)
             }
         }

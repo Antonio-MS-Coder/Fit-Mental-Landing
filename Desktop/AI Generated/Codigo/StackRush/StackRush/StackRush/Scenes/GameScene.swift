@@ -19,6 +19,11 @@ class GameScene: SKScene {
         setupCamera()
         setupBackground()
         PerformanceOptimizer.shared.optimizeScene(self)
+        
+        // Debug: Force initial update to ensure blocks are created
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.updateBlocks()
+        }
     }
     
     private func setupPhysics() {
@@ -114,8 +119,10 @@ class GameScene: SKScene {
                 addChild(currentBlockNode!)
             }
             
+            // Convert SwiftUI coordinates to SpriteKit coordinates for current block
+            let spriteKitY = size.height - currentBlock.position.y - currentBlock.height
             currentBlockNode?.position = CGPoint(x: currentBlock.position.x + currentBlock.width / 2,
-                                               y: currentBlock.position.y + currentBlock.height / 2)
+                                               y: spriteKitY + currentBlock.height / 2)
         } else {
             currentBlockNode?.removeFromParent()
             currentBlockNode = nil
@@ -139,9 +146,11 @@ class GameScene: SKScene {
         // Add a glow effect
         node.glowWidth = 5
         
-        // Fix coordinate system - SpriteKit origin is at bottom-left
+        // Convert SwiftUI coordinates to SpriteKit coordinates
+        // SpriteKit origin is bottom-left, SwiftUI origin is top-left
+        let spriteKitY = size.height - block.position.y - block.height
         node.position = CGPoint(x: block.position.x + block.width / 2,
-                              y: block.position.y + block.height / 2)
+                              y: spriteKitY + block.height / 2)
         node.name = block.id.uuidString
         node.zPosition = 1
         
@@ -179,10 +188,12 @@ class GameScene: SKScene {
             ghostBlockNode = createGhostBlockNode(for: currentBlock, targetY: targetY, isPerfect: isPerfectAlignment)
             addChild(ghostBlockNode!)
         } else {
+            // Convert coordinates for ghost block positioning
+            let spriteKitTargetY = size.height - targetY - currentBlock.height
             // Update position and color based on alignment
             ghostBlockNode?.position = CGPoint(
                 x: currentBlock.position.x + currentBlock.width / 2,
-                y: targetY + currentBlock.height / 2
+                y: spriteKitTargetY + currentBlock.height / 2
             )
             
             // Update color based on alignment
@@ -222,8 +233,10 @@ class GameScene: SKScene {
             node.path = dashedPath
         }
         
+        // Convert coordinates for ghost block
+        let spriteKitTargetY = size.height - targetY - block.height
         node.position = CGPoint(x: block.position.x + block.width / 2,
-                              y: targetY + block.height / 2)
+                              y: spriteKitTargetY + block.height / 2)
         node.zPosition = 0.5
         node.alpha = 0.7
         

@@ -15,7 +15,7 @@ enum StoreItemType: String, CaseIterable {
     }
 }
 
-enum ColorTheme: String, CaseIterable {
+enum ColorTheme: String, CaseIterable, Equatable {
     case defaultTheme = "Default"
     case neonPink = "Neon Pink"
     case oceanBlue = "Ocean Blue"
@@ -123,6 +123,7 @@ enum PowerUp: String, CaseIterable {
     case slowMotion = "Slow Motion"
     case perfectStacker = "Perfect Stacker"
     case doubleCoins = "Double Coins"
+    case extraLife = "Extra Life"
     
     var id: String { rawValue }
     
@@ -131,6 +132,7 @@ enum PowerUp: String, CaseIterable {
         case .slowMotion: return 25
         case .perfectStacker: return 50
         case .doubleCoins: return 35
+        case .extraLife: return 75
         }
     }
     
@@ -139,6 +141,7 @@ enum PowerUp: String, CaseIterable {
         case .slowMotion: return "Slows down block movement"
         case .perfectStacker: return "Easier perfect stacks"
         case .doubleCoins: return "Double coin rewards"
+        case .extraLife: return "Continue after missing once"
         }
     }
     
@@ -147,6 +150,7 @@ enum PowerUp: String, CaseIterable {
         case .slowMotion: return "tortoise.fill"
         case .perfectStacker: return "target"
         case .doubleCoins: return "dollarsign.circle.fill"
+        case .extraLife: return "heart.fill"
         }
     }
 }
@@ -242,6 +246,12 @@ class StoreManager: ObservableObject {
     }
     
     func purchaseItem(_ item: StoreItem) -> Bool {
+        // Handle power-ups differently - they go to inventory
+        if item.type == .powerUp {
+            return purchasePowerUp(item)
+        }
+        
+        // Handle themes and sound packs as before
         guard !isOwned(item.itemId) else { return false }
         guard CoinsManager.shared.spendCoins(item.price) else { return false }
         
@@ -262,20 +272,55 @@ class StoreManager: ObservableObject {
         return true
     }
     
+    private func purchasePowerUp(_ item: StoreItem) -> Bool {
+        guard CoinsManager.shared.spendCoins(item.price) else { return false }
+        
+        // Add power-up to inventory
+        if let powerUp = PowerUp.allCases.first(where: { $0.id == item.itemId }) {
+            InventoryManager.shared.addPowerUp(powerUp, quantity: 1)
+        }
+        
+        return true
+    }
+    
     func isOwned(_ itemId: String) -> Bool {
+        // For power-ups, check if they have any in inventory
+        if let powerUp = PowerUp.allCases.first(where: { $0.id == itemId }) {
+            return InventoryManager.shared.getPowerUpCount(powerUp) > 0
+        }
+        
+        // For themes and sound packs, check ownership as before
         return ownedItems.contains(itemId)
+    }
+    
+    func canPurchase(_ item: StoreItem) -> Bool {
+        // Power-ups can always be purchased if you have coins
+        if item.type == .powerUp {
+            return CoinsManager.shared.canAfford(item.price)
+        }
+        
+        // Themes and sound packs can only be purchased once
+        return !isOwned(item.itemId) && CoinsManager.shared.canAfford(item.price)
     }
     
     func setSelectedColorTheme(_ theme: ColorTheme) {
         guard isOwned(theme.id) else { return }
+        let previousTheme = selectedColorTheme
         selectedColorTheme = theme
         saveSelectedItems()
+        
+        // Notify about theme change if it's different
+        if previousTheme != theme {
+            NotificationCenter.default.post(name: NSNotification.Name("ColorThemeChanged"), object: nil)
+        }
     }
     
     func setSelectedSoundPack(_ pack: SoundPack) {
         guard isOwned(pack.id) else { return }
         selectedSoundPack = pack
         saveSelectedItems()
+        // Notify SoundManager of the change
+        NotificationCenter.default.post(name: NSNotification.Name("SoundPackChanged"), object: nil)
     }
     
     private func loadOwnedItems() {
