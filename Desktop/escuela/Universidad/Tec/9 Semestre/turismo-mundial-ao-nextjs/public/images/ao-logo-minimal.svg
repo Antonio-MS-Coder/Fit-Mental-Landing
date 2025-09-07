@@ -1,0 +1,25 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ultra-Minimal AO Logo - Concept 2 -->
+  <defs>
+    <style>
+      .ao-primary { fill: #1e40af; }
+      .ao-white { fill: #ffffff; }
+      .ao-accent { fill: #eab308; }
+    </style>
+  </defs>
+  
+  <!-- Simple circle background -->
+  <circle cx="60" cy="60" r="54" class="ao-primary"/>
+  
+  <!-- Minimalist A with crown dot -->
+  <g class="ao-white">
+    <!-- Crown represented as a simple golden dot -->
+    <circle cx="60" cy="35" r="3" class="ao-accent"/>
+    
+    <!-- Ultra-clean A letterform -->
+    <path d="M45 85 V75 L60 40 L75 75 V85 H70 V78 L68 72 H52 L50 78 V85 Z M55 62 H65 L60 50 Z"/>
+  </g>
+  
+  <!-- Clean O as perfect circle -->
+  <circle cx="60" cy="60" r="15" fill="none" stroke="#ffffff" stroke-width="6"/>
+</svg>
