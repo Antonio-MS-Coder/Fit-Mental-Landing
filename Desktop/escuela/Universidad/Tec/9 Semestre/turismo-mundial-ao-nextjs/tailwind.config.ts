@@ -74,20 +74,20 @@ const config: Config = {
           'red-light': '#f87171',
           'red-dark': '#991b1b',
         },
-        // Minimalist semantic colors based on AO burgundy
+        // Minimalist semantic colors based on emerald theme 
         primary: {
-          DEFAULT: '#722F37', // AO burgundy as primary
-          50: '#faf8f8',
-          100: '#f4efef',
-          200: '#e6d9da',
-          300: '#d4bcc0',
-          400: '#b8959c',
-          500: '#9d7078',
-          600: '#875a62',
-          700: '#722F37', // Main brand color
-          800: '#5a252a',
-          900: '#471d21',
-          950: '#2d1114',
+          DEFAULT: '#059669', // Emerald-600 as primary
+          50: '#ecfdf5',
+          100: '#d1fae5',
+          200: '#a7f3d0',
+          300: '#6ee7b7',
+          400: '#34d399',
+          500: '#10b981',
+          600: '#059669',
+          700: '#047857',
+          800: '#065f46',
+          900: '#064e3b',
+          950: '#022c22',
         },
         secondary: {
           DEFAULT: '#64748b', // Neutral slate for minimal approach

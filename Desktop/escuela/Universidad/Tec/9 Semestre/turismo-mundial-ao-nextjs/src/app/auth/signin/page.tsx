@@ -7,12 +7,15 @@ import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Card, CardContent } from '@/components/ui/Card'
+import { Logo } from '@/components/ui/Logo'
+import { PhoneAuth } from '@/components/auth/PhoneAuth'
 import { MailIcon, LockIcon, EyeIcon, EyeOffIcon } from 'lucide-react'
 
 export default function SignInPage() {
   const { signIn, signInWithGoogle, user, userProfile, needsRoleSelection, loading } = useAuth()
   const router = useRouter()
   
+  const [authMode, setAuthMode] = useState<'email' | 'phone'>('email')
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -100,12 +103,9 @@ export default function SignInPage() {
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
-          <Link href="/" className="inline-flex items-center gap-2 mb-8">
-            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-              <span className="text-white font-bold">AO</span>
-            </div>
-            <span className="text-xl font-bold text-primary">Turismo Mundial AO</span>
-          </Link>
+          <div className="mb-8">
+            <Logo size="lg" />
+          </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
             Iniciar Sesión
           </h2>
@@ -117,12 +117,44 @@ export default function SignInPage() {
         {/* Sign In Form */}
         <Card className="bg-white shadow-lg">
           <CardContent className="p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {error && (
-                <div className="bg-error-50 border border-error-200 text-error-700 px-4 py-3 rounded-lg text-sm">
-                  {error}
-                </div>
-              )}
+            {/* Authentication Mode Tabs */}
+            <div className="flex bg-white rounded-lg p-1 shadow-sm border mb-4">
+              <button
+                type="button"
+                onClick={() => setAuthMode('email')}
+                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                  authMode === 'email'
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Email
+              </button>
+              <button
+                type="button"
+                onClick={() => setAuthMode('phone')}
+                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                  authMode === 'phone'
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Teléfono
+              </button>
+            </div>
+
+            {authMode === 'phone' ? (
+              <div className="text-center py-8">
+                <p className="text-gray-600">Autenticación por teléfono próximamente...</p>
+                <p className="text-sm text-gray-500 mt-2">Por ahora, usa Email o Google para iniciar sesión</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {error && (
+                  <div className="bg-error-50 border border-error-200 text-error-700 px-4 py-3 rounded-lg text-sm">
+                    {error}
+                  </div>
+                )}
 
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
@@ -169,15 +201,16 @@ export default function SignInPage() {
                 </div>
               </div>
 
-              <Button
-                type="submit"
-                className="w-full"
-                size="lg"
-                loading={isSubmitting}
-              >
-                {isSubmitting ? 'Iniciando sesión...' : 'Iniciar Sesión'}
-              </Button>
-            </form>
+                <Button
+                  type="submit"
+                  className="w-full"
+                  size="lg"
+                  loading={isSubmitting}
+                >
+                  {isSubmitting ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+                </Button>
+              </form>
+            )}
 
             <div className="mt-6">
               <div className="relative">

@@ -7,6 +7,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  signInWithPhoneNumber,
+  RecaptchaVerifier,
+  ConfirmationResult,
   signOut,
   onAuthStateChanged,
   updateProfile
@@ -42,6 +45,9 @@ interface AuthContextType {
   needsRoleSelection: boolean
   signIn: (email: string, password: string) => Promise<void>
   signInWithGoogle: () => Promise<void>
+  signInWithPhone: (phoneNumber: string, recaptchaVerifier: RecaptchaVerifier) => Promise<ConfirmationResult>
+  verifyPhoneCode: (confirmationResult: ConfirmationResult, code: string) => Promise<void>
+  signUpWithPhone: (phoneNumber: string, displayName: string, role: UserRole, additionalData?: Partial<UserProfile>) => Promise<void>
   signUp: (email: string, password: string, displayName: string, role: UserRole, additionalData?: Partial<UserProfile>) => Promise<void>
   selectUserRole: (role: UserRole) => Promise<void>
   logout: () => Promise<void>
@@ -147,6 +153,64 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  // Phone authentication
+  const signInWithPhone = async (phoneNumber: string, recaptchaVerifier: RecaptchaVerifier) => {
+    setLoading(true)
+    try {
+      const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier)
+      setLoading(false)
+      return confirmationResult
+    } catch (error) {
+      setLoading(false)
+      throw error
+    }
+  }
+
+  const verifyPhoneCode = async (confirmationResult: ConfirmationResult, code: string) => {
+    setLoading(true)
+    try {
+      await confirmationResult.confirm(code)
+    } catch (error) {
+      setLoading(false)
+      throw error
+    }
+  }
+
+  const signUpWithPhone = async (
+    phoneNumber: string,
+    displayName: string,
+    role: UserRole,
+    additionalData: Partial<UserProfile> = {}
+  ) => {
+    if (!user) return
+    
+    setLoading(true)
+    try {
+      // Update user profile
+      await updateProfile(user, { displayName })
+      
+      // Create user document in Firestore
+      const userProfile: UserProfile = {
+        uid: user.uid,
+        email: user.email || '',
+        displayName,
+        role,
+        phone: phoneNumber,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        ...additionalData
+      }
+      
+      await setDoc(doc(db, 'users', user.uid), userProfile)
+      setUserProfile(userProfile)
+      setNeedsRoleSelection(false)
+      
+    } catch (error) {
+      setLoading(false)
+      throw error
+    }
+  }
+
   // Select user role after Google sign in
   const selectUserRole = async (role: UserRole) => {
     if (!user) return
@@ -227,6 +291,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     needsRoleSelection,
     signIn,
     signInWithGoogle,
+    signInWithPhone,
+    verifyPhoneCode,
+    signUpWithPhone,
     signUp,
     selectUserRole,
     logout,
