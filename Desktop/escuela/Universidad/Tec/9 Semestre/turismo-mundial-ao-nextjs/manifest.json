@@ -1,0 +1,56 @@
+{
+  "name": "Turismo Mundial AO",
+  "short_name": "AO Turismo",
+  "description": "Plataforma oficial del Gobierno de México que conecta profesionales del turismo con oportunidades laborales, certificaciones y experiencias turísticas verificadas.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e40af",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "es",
+  "dir": "ltr",
+  "categories": ["government", "business", "education", "travel"],
+  "icons": [
+    {
+      "src": "/images/ao-logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/ao-logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Buscar Empleos",
+      "short_name": "Empleos",
+      "description": "Encuentra oportunidades laborales en turismo",
+      "url": "/trabaja",
+      "icons": [{ "src": "/images/briefcase-icon.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Certificaciones",
+      "short_name": "Aprende",
+      "description": "Accede a cursos y certificaciones",
+      "url": "/aprende",
+      "icons": [{ "src": "/images/graduation-icon.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Seguridad",
+      "short_name": "Explora Seguro",
+      "description": "Guías de seguridad para viajar",
+      "url": "/explora-seguro",
+      "icons": [{ "src": "/images/shield-icon.png", "sizes": "96x96" }]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Modern Minimalist AO Logo - Concept 1 -->
+  <!-- Outer circle with subtle gradient -->
+  <defs>
+    <linearGradient id="aoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e40af;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e3a8a;stop-opacity:1" />
+    </linearGradient>
+    <filter id="softShadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+  
+  <!-- Main circle container -->
+  <circle cx="60" cy="60" r="56" fill="url(#aoGradient)" filter="url(#softShadow)" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- Letter A with integrated crown -->
+  <g fill="#ffffff">
+    <!-- Crown element - simplified geometric shape -->
+    <path d="M45 35 L52 28 L60 32 L68 28 L75 35 L70 40 L50 40 Z" opacity="0.9"/>
+    <circle cx="60" cy="30" r="2"/>
+    
+    <!-- Letter A -->
+    <path d="M45 85 L45 75 L52 45 L68 45 L75 75 L75 85 L70 85 L70 75 L68 65 L52 65 L50 75 L50 85 Z M55 55 L65 55 L62 50 L58 50 Z" fill-rule="evenodd"/>
+  </g>
+  
+  <!-- Letter O with clean geometry -->
+  <circle cx="60" cy="75" r="12" fill="none" stroke="#ffffff" stroke-width="4"/>
+  <circle cx="60" cy="75" r="6" fill="#ffffff"/>
+</svg>
