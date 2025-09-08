@@ -29,6 +29,94 @@ export interface JobOpportunity {
   featured: boolean
 }
 
+// Extended job types for Firebase integration
+export interface Job {
+  id: string
+  title: string
+  company: string
+  employerId: string
+  location: string
+  state?: string
+  type: 'tiempo-completo' | 'medio-tiempo' | 'contrato' | 'practicas'
+  category: string
+  salary?: {
+    min: number
+    max: number
+    currency: string
+    period: 'hora' | 'dia' | 'semana' | 'mes' | 'año'
+  }
+  description: string
+  requirements: string[]
+  responsibilities: string[]
+  benefits: string[]
+  skills: string[]
+  experience: string
+  education: string
+  languages?: string[]
+  tags: string[]
+  remote: boolean
+  urgent: boolean
+  featured: boolean
+  verified: boolean
+  status: 'active' | 'paused' | 'closed'
+  views: number
+  applications: number
+  createdAt: Date
+  updatedAt: Date
+  expiresAt: Date
+}
+
+export interface Employer {
+  id: string
+  name: string
+  description: string
+  website?: string
+  email: string
+  phone?: string
+  logo?: string
+  banner?: string
+  industry: string
+  size: '1-10' | '11-50' | '51-200' | '201-1000' | '1000+'
+  location: string
+  state?: string
+  founded?: number
+  benefits: string[]
+  culture: string
+  mission?: string
+  vision?: string
+  values?: string[]
+  socialMedia?: {
+    linkedin?: string
+    facebook?: string
+    twitter?: string
+    instagram?: string
+  }
+  verified: boolean
+  featured: boolean
+  premium: boolean
+  rating?: number
+  reviewsCount?: number
+  jobsCount: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface JobApplication {
+  id: string
+  jobId: string
+  userId: string
+  employerId: string
+  status: 'pending' | 'reviewing' | 'shortlisted' | 'interview' | 'offered' | 'hired' | 'rejected'
+  coverLetter?: string
+  resume?: string
+  expectedSalary?: number
+  availableFrom?: Date
+  notes?: string
+  appliedAt: Date
+  updatedAt: Date
+  createdAt: Date
+}
+
 export interface Course {
   id: string
   title: string

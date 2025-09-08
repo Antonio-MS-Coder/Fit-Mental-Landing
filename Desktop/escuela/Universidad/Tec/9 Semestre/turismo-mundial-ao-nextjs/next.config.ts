@@ -13,6 +13,21 @@ const nextConfig: NextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true,
+  },
+  generateBuildId: async () => {
+    return 'build-' + Date.now()
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/jobs/:id',
+        destination: '/jobs/[id]'
+      },
+      {
+        source: '/employers/:id',
+        destination: '/employers/[id]'
+      }
+    ]
   }
 };
 

@@ -5,6 +5,7 @@ import {
   ShieldCheckIcon, 
   CalendarIcon, 
   BarChart3Icon,
+  BuildingIcon,
   FacebookIcon,
   InstagramIcon,
   TwitterIcon,
@@ -40,10 +41,16 @@ export const SITE_CONFIG = {
 
 export const NAVIGATION_ITEMS = [
   {
-    title: 'Trabaja',
-    href: '/trabaja',
+    title: 'Empleos',
+    href: '/jobs',
     icon: BriefcaseIcon,
     description: 'Encuentra oportunidades laborales en el sector turístico'
+  },
+  {
+    title: 'Empresas',
+    href: '/employers',
+    icon: BuildingIcon,
+    description: 'Descubre las mejores empresas del sector turístico'
   },
   {
     title: 'Aprende',
@@ -68,12 +75,6 @@ export const NAVIGATION_ITEMS = [
     href: '/eventos',
     icon: CalendarIcon,
     description: 'Conferencias, talleres y eventos del sector turístico'
-  },
-  {
-    title: 'Impacto AO',
-    href: '/impacto',
-    icon: BarChart3Icon,
-    description: 'Métricas e impacto de la plataforma en el turismo mexicano'
   },
 ] as const
 
