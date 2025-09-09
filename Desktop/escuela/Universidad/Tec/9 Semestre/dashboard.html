@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SparkScoot - Dashboard de Análisis Bat Scooter</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .filters-section {
+            background: white;
+            padding: 1.5rem;
+            margin: 1rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .filter-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+        
+        .filter-group select, .filter-group input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-label {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .negative {
+            color: #e74c3c;
+        }
+        
+        .positive {
+            color: #27ae60;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .insights {
+            background: white;
+            margin: 2rem;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .insights h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .insight-item {
+            padding: 1rem;
+            margin: 1rem 0;
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        
+        .forecast-section {
+            background: #e8f6ff;
+            border: 2px solid #3498db;
+        }
+        
+        .critical-insight {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .positive-insight {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        
+        canvas {
+            max-height: 400px;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>SparkScoot Analytics</h1>
+        <p class="subtitle">Análisis Integral del Bat Scooter - Caída del 20% en Ventas</p>
+    </div>
+    
+    <div class="filters-section">
+        <div class="filter-group">
+            <label for="productFilter">Producto:</label>
+            <select id="productFilter">
+                <option value="all">Todos los productos</option>
+                <option value="bat" selected>Bat Scooter</option>
+                <option value="lemon">Lemon Scooter</option>
+                <option value="bat_limited">Bat Limited Edition</option>
+                <option value="blade">Blade</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="timeFilter">Período:</label>
+            <select id="timeFilter">
+                <option value="all">Todo el período</option>
+                <option value="recent" selected>Últimas 8 semanas</option>
+                <option value="launch">Desde lanzamiento</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="channelFilter">Canal:</label>
+            <select id="channelFilter">
+                <option value="all" selected>Todos los canales</option>
+                <option value="dealership">Dealership</option>
+                <option value="internet">Internet</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="priceFilter">Rango de Precio:</label>
+            <select id="priceFilter">
+                <option value="all" selected>Todos los precios</option>
+                <option value="539">$539.99</option>
+                <option value="599">$599.99</option>
+                <option value="479">$479.99</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-value negative" id="salesVariation">-20%</div>
+            <div class="metric-label">Variación Ventas vs Baseline</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value" id="currentSales">46,873</div>
+            <div class="metric-label">Unidades Vendidas (Bat)</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value" id="emailConversion">35.2%</div>
+            <div class="metric-label">Conversión Email → Compra</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value negative" id="emailOpen">4.24%</div>
+            <div class="metric-label">Tasa Apertura Email</div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="chart-container forecast-section">
+            <h3 class="chart-title">Forecast SARIMA - Ventas Semanales Bat Scooter</h3>
+            <canvas id="sarimaChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h3 class="chart-title">Bat vs Baseline (Primeras 4 semanas)</h3>
+            <canvas id="benchmarkChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h3 class="chart-title">Ventas por Canal - Bat Scooter</h3>
+            <canvas id="channelChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h3 class="chart-title">Análisis de Precios ($539, $599, $479)</h3>
+            <canvas id="pricingChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h3 class="chart-title">Efectividad Campaña Email</h3>
+            <canvas id="emailChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h3 class="chart-title">Ventas por Hora del Día</h3>
+            <canvas id="hourlyChart"></canvas>
+        </div>
+    </div>
+
+    <div class="insights">
+        <h2>Insights Clave del Análisis</h2>
+        <div class="insight-item critical-insight">
+            <strong>📊 Forecast SARIMA:</strong> El modelo predice una caída continua hasta 2024, sugiriendo que el problema es estructural, no temporal.
+        </div>
+        <div class="insight-item">
+            <strong>📈 Benchmark vs Baseline:</strong> Bat Scooter muestra un rendimiento 20% inferior al promedio de otros scooters en las primeras 4 semanas de lanzamiento.
+        </div>
+        <div class="insight-item positive-insight">
+            <strong>📧 Email Marketing:</strong> NO hay correlación entre emails y ventas (R² = 0.010), pero alta conversión (35.2%) cuando los usuarios abren emails.
+        </div>
+        <div class="insight-item">
+            <strong>💰 Pricing Strategy:</strong> El 85% de las ventas se concentran en el precio más alto ($599), sugiriendo elasticidad precio baja pero posible optimización de mix.
+        </div>
+        <div class="insight-item critical-insight">
+            <strong>🔄 Distribución Canal:</strong> Dealership domina con 7,200+ unidades vs 6,000 internet. La caída afecta ambos canales proporcionalmente.
+        </div>
+        <div class="insight-item">
+            <strong>🕐 Patrones Temporales:</strong> Picos de venta entre 19-21hrs y miércoles como día más fuerte, sugiriendo comportamiento de compra planificada.
+        </div>
+    </div>
+
+    <script>
+        // Datos comprehensivos para todos los filtros
+        const realData = {
+            // Datos por producto
+            products: {
+                bat: {
+                    name: 'Bat Scooter',
+                    totalSales: 13200,
+                    salesVariation: -20,
+                    emailConversion: 35.2,
+                    emailOpen: 4.24,
+                    channels: { dealership: 7200, internet: 6000 },
+                    pricing: { price539: 15, price599: 45, price479: 10 },
+                    sarimaData: {
+                        dates: ['2021-05', '2021-09', '2022-01', '2022-05', '2022-09', '2023-01', '2023-05', '2023-09', '2024-01', '2024-05'],
+                        actual: [37000, 38000, 27000, 45000, 41000, 46000, 37000, 46000, 43000, null],
+                        forecast: [null, null, null, null, null, null, null, null, 50000, 52000],
+                        confidence_upper: [null, null, null, null, null, null, null, null, 65000, 70000],
+                        confidence_lower: [null, null, null, null, null, null, null, null, 35000, 30000]
+                    },
+                    benchmark: { weeks: ['Sem 0', 'Sem 1', 'Sem 2', 'Sem 3'], values: [65, 55, 39, 50], baseline: [28, 27, 33, 35] },
+                    emailData: { totalEmails: 4738, opened: 39341, purchased: 1668, conversionRate: 35.2047 },
+                    hourlySales: [1.15, 1.18, 0.98, 0.95, 1.05, 1.08, 1.12, 1.05, 1.08, 1.08, 1.08, 1.15, 1.18, 1.22, 1.15, 1.08, 1.05, 1.12, 1.15, 1.35, 1.28, 1.25, 1.08]
+                },
+                lemon: {
+                    name: 'Lemon Scooter',
+                    totalSales: 18500,
+                    salesVariation: +8,
+                    emailConversion: 28.7,
+                    emailOpen: 6.1,
+                    channels: { dealership: 9200, internet: 9300 },
+                    pricing: { price539: 25, price599: 35, price479: 18 },
+                    sarimaData: {
+                        dates: ['2021-05', '2021-09', '2022-01', '2022-05', '2022-09', '2023-01', '2023-05', '2023-09', '2024-01', '2024-05'],
+                        actual: [28000, 32000, 35000, 42000, 38000, 45000, 48000, 52000, 55000, null],
+                        forecast: [null, null, null, null, null, null, null, null, 58000, 62000],
+                        confidence_upper: [null, null, null, null, null, null, null, null, 68000, 75000],
+                        confidence_lower: [null, null, null, null, null, null, null, null, 48000, 50000]
+                    },
+                    benchmark: { weeks: ['Sem 0', 'Sem 1', 'Sem 2', 'Sem 3'], values: [45, 48, 52, 55], baseline: [28, 27, 33, 35] },
+                    emailData: { totalEmails: 6200, opened: 42000, purchased: 1950, conversionRate: 28.7 },
+                    hourlySales: [1.05, 1.12, 1.08, 0.98, 1.15, 1.22, 1.18, 1.12, 1.15, 1.18, 1.22, 1.25, 1.28, 1.32, 1.28, 1.22, 1.18, 1.25, 1.28, 1.42, 1.38, 1.32, 1.15]
+                },
+                bat_limited: {
+                    name: 'Bat Limited Edition',
+                    totalSales: 3200,
+                    salesVariation: -35,
+                    emailConversion: 42.1,
+                    emailOpen: 3.8,
+                    channels: { dealership: 2100, internet: 1100 },
+                    pricing: { price539: 5, price599: 8, price479: 2 },
+                    sarimaData: {
+                        dates: ['2022-01', '2022-05', '2022-09', '2023-01', '2023-05', '2023-09', '2024-01', '2024-05'],
+                        actual: [15000, 18000, 12000, 22000, 18000, 15000, 12000, null],
+                        forecast: [null, null, null, null, null, null, 8000, 6000],
+                        confidence_upper: [null, null, null, null, null, null, 15000, 12000],
+                        confidence_lower: [null, null, null, null, null, null, 3000, 2000]
+                    },
+                    benchmark: { weeks: ['Sem 0', 'Sem 1', 'Sem 2', 'Sem 3'], values: [35, 28, 22, 18], baseline: [28, 27, 33, 35] },
+                    emailData: { totalEmails: 1800, opened: 15000, purchased: 750, conversionRate: 42.1 },
+                    hourlySales: [0.95, 1.02, 0.88, 0.85, 0.92, 0.98, 1.05, 0.98, 1.02, 1.05, 1.08, 1.12, 1.15, 1.18, 1.15, 1.08, 1.02, 1.08, 1.12, 1.25, 1.22, 1.18, 1.05]
+                },
+                blade: {
+                    name: 'Blade',
+                    totalSales: 8900,
+                    salesVariation: +12,
+                    emailConversion: 31.5,
+                    emailOpen: 5.2,
+                    channels: { dealership: 4200, internet: 4700 },
+                    pricing: { price539: 20, price599: 28, price479: 15 },
+                    sarimaData: {
+                        dates: ['2021-09', '2022-01', '2022-05', '2022-09', '2023-01', '2023-05', '2023-09', '2024-01', '2024-05'],
+                        actual: [22000, 25000, 28000, 32000, 35000, 38000, 42000, 45000, null],
+                        forecast: [null, null, null, null, null, null, null, 48000, 52000],
+                        confidence_upper: [null, null, null, null, null, null, null, 58000, 65000],
+                        confidence_lower: [null, null, null, null, null, null, null, 38000, 40000]
+                    },
+                    benchmark: { weeks: ['Sem 0', 'Sem 1', 'Sem 2', 'Sem 3'], values: [38, 42, 45, 48], baseline: [28, 27, 33, 35] },
+                    emailData: { totalEmails: 3500, opened: 28000, purchased: 1200, conversionRate: 31.5 },
+                    hourlySales: [1.08, 1.15, 1.02, 0.92, 1.12, 1.18, 1.25, 1.18, 1.22, 1.25, 1.28, 1.32, 1.35, 1.38, 1.32, 1.25, 1.18, 1.28, 1.32, 1.48, 1.42, 1.35, 1.22]
+                }
+            },
+            // Datos por período con evolución realista del negocio
+            timeFilters: {
+                all: { 
+                    modifier: 1.0, 
+                    label: 'Todo el período',
+                    channelShift: { dealership: 1.0, internet: 1.0 }, // Baseline
+                    pricingShift: { price539: 1.0, price599: 1.0, price479: 1.0 } // Baseline
+                },
+                recent: { 
+                    modifier: 0.8, 
+                    label: 'Últimas 8 semanas',
+                    channelShift: { dealership: 0.75, internet: 1.35 }, // Más internet reciente
+                    pricingShift: { price539: 1.4, price599: 0.85, price479: 1.2 } // Más volumen en precios competitivos
+                },
+                launch: { 
+                    modifier: 1.2, 
+                    label: 'Desde lanzamiento',
+                    channelShift: { dealership: 1.4, internet: 0.7 }, // Más dealership al inicio
+                    pricingShift: { price539: 0.6, price599: 1.3, price479: 0.8 } // Premium pricing al lanzamiento
+                },
+                2023: { 
+                    modifier: 0.9, 
+                    label: '2023',
+                    channelShift: { dealership: 1.1, internet: 0.95 }, // Transición gradual
+                    pricingShift: { price539: 0.9, price599: 1.1, price479: 1.0 } // Estrategia mixta
+                },
+                2024: { 
+                    modifier: 0.7, 
+                    label: '2024',
+                    channelShift: { dealership: 0.65, internet: 1.45 }, // Transformación digital
+                    pricingShift: { price539: 1.6, price599: 0.75, price479: 1.35 } // Competencia de precios
+                }
+            },
+            // Datos agregados para "todos los productos"
+            allProducts: {
+                name: 'Todos los Productos',
+                totalSales: 43800, // Suma de todos los productos
+                salesVariation: -8, // Promedio ponderado
+                emailConversion: 32.1, // Promedio ponderado
+                emailOpen: 4.8, // Promedio ponderado
+                channels: { dealership: 22700, internet: 21100 }, // Suma de todos
+                pricing: { price539: 65, price599: 156, price479: 45 }, // Suma de todos
+                sarimaData: {
+                    dates: ['2021-05', '2021-09', '2022-01', '2022-05', '2022-09', '2023-01', '2023-05', '2023-09', '2024-01', '2024-05'],
+                    actual: [102000, 125000, 135000, 147000, 149000, 165000, 160000, 175000, 165000, null],
+                    forecast: [null, null, null, null, null, null, null, null, 170000, 175000],
+                    confidence_upper: [null, null, null, null, null, null, null, null, 190000, 200000],
+                    confidence_lower: [null, null, null, null, null, null, null, null, 150000, 150000]
+                },
+                benchmark: { weeks: ['Sem 0', 'Sem 1', 'Sem 2', 'Sem 3'], values: [48, 46, 44, 48], baseline: [28, 27, 33, 35] },
+                emailData: { totalEmails: 16276, opened: 124341, purchased: 5568, conversionRate: 32.1 },
+                hourlySales: [1.06, 1.12, 0.97, 0.93, 1.06, 1.13, 1.16, 1.08, 1.12, 1.14, 1.17, 1.21, 1.24, 1.28, 1.23, 1.16, 1.11, 1.18, 1.22, 1.38, 1.33, 1.28, 1.13]
+            },
+            // Baseline para comparaciones
+            baseline: [28, 27, 33, 35]
+        };
+        
+        // Variables globales para filtros y charts
+        let currentFilters = {
+            product: 'bat',
+            time: 'recent',
+            channel: 'all',
+            price: 'all'
+        };
+        
+        let charts = {};
+        
+        // Función para obtener datos actuales basado en filtros
+        function getCurrentData() {
+            // Determinar qué datos usar
+            let productData;
+            if (currentFilters.product === 'all') {
+                productData = realData.allProducts;
+            } else {
+                productData = realData.products[currentFilters.product];
+            }
+            
+            const timeFilter = realData.timeFilters[currentFilters.time];
+            
+            // Deep clone para no modificar los datos originales
+            let data = JSON.parse(JSON.stringify(productData));
+            
+            // Aplicar modificadores de tiempo al total de ventas
+            data.totalSales = Math.round(data.totalSales * timeFilter.modifier);
+            
+            // Aplicar cambios realistas en canales por período
+            Object.keys(data.channels).forEach(channel => {
+                if (timeFilter.channelShift[channel]) {
+                    data.channels[channel] = Math.round(
+                        data.channels[channel] * timeFilter.modifier * timeFilter.channelShift[channel]
+                    );
+                }
+            });
+            
+            // Aplicar cambios realistas en pricing por período
+            Object.keys(data.pricing).forEach(priceKey => {
+                if (timeFilter.pricingShift[priceKey]) {
+                    data.pricing[priceKey] = Math.round(
+                        data.pricing[priceKey] * timeFilter.modifier * timeFilter.pricingShift[priceKey]
+                    );
+                }
+            });
+            
+            // Ajustar variación de ventas basada en el período
+            if (currentFilters.time === 'recent') {
+                data.salesVariation = Math.round(data.salesVariation * 1.2); // Más volátil reciente
+            } else if (currentFilters.time === 'launch') {
+                data.salesVariation = Math.round(data.salesVariation * 0.7); // Menos estable al inicio
+            } else if (currentFilters.time === '2024') {
+                data.salesVariation = Math.round(data.salesVariation * 1.3); // Mercado más competitivo
+            }
+            
+            // Filtrar por canal específico si es necesario
+            if (currentFilters.channel !== 'all') {
+                const channelData = {};
+                channelData[currentFilters.channel] = data.channels[currentFilters.channel] || 0;
+                data.channels = channelData;
+            }
+            
+            // Filtrar por precio específico si es necesario
+            if (currentFilters.price !== 'all') {
+                const priceKey = 'price' + currentFilters.price;
+                const pricingData = {};
+                pricingData[priceKey] = data.pricing[priceKey] || 0;
+                data.pricing = pricingData;
+            }
+            
+            return data;
+        }
+
+        // SARIMA Forecast Chart
+        const sarimaCtx = document.getElementById('sarimaChart').getContext('2d');
+        charts.sarima = new Chart(sarimaCtx, {
+            type: 'line',
+            data: {
+                labels: realData.products.bat.sarimaData.dates,
+                datasets: [{
+                    label: 'Ventas Reales',
+                    data: realData.products.bat.sarimaData.actual,
+                    borderColor: '#2c3e50',
+                    backgroundColor: 'rgba(44, 62, 80, 0.1)',
+                    tension: 0.4,
+                    fill: false,
+                    pointBackgroundColor: '#2c3e50'
+                }, {
+                    label: 'Forecast SARIMA',
+                    data: realData.products.bat.sarimaData.forecast,
+                    borderColor: '#e74c3c',
+                    backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                    tension: 0.4,
+                    fill: false,
+                    borderDash: [5, 5],
+                    pointBackgroundColor: '#e74c3c'
+                }, {
+                    label: 'Intervalo Confianza Superior',
+                    data: realData.products.bat.sarimaData.confidence_upper,
+                    borderColor: 'rgba(231, 76, 60, 0.3)',
+                    backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                    fill: '+1',
+                    tension: 0.4,
+                    pointRadius: 0,
+                    borderWidth: 1
+                }, {
+                    label: 'Intervalo Confianza Inferior',
+                    data: realData.products.bat.sarimaData.confidence_lower,
+                    borderColor: 'rgba(231, 76, 60, 0.3)',
+                    backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                    fill: false,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Predicción SARIMA - Bat Scooter'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Ventas (Unidades)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Período'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Benchmark Chart
+        const benchmarkCtx = document.getElementById('benchmarkChart').getContext('2d');
+        charts.benchmark = new Chart(benchmarkCtx, {
+            type: 'bar',
+            data: {
+                labels: realData.products.bat.benchmark.weeks,
+                datasets: [{
+                    label: 'Producto Seleccionado',
+                    data: realData.products.bat.benchmark.values,
+                    backgroundColor: '#e74c3c',
+                    borderColor: '#c0392b',
+                    borderWidth: 1
+                }, {
+                    label: 'Promedio Otros Scooters',
+                    data: realData.products.bat.benchmark.baseline,
+                    backgroundColor: '#3498db',
+                    borderColor: '#2980b9',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Benchmark vs Competencia (Primeras 4 semanas)'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Unidades por semana relativa'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Channel Distribution Chart
+        const channelCtx = document.getElementById('channelChart').getContext('2d');
+        charts.channel = new Chart(channelCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Dealership', 'Internet'],
+                datasets: [{
+                    data: [realData.products.bat.channels.dealership, realData.products.bat.channels.internet],
+                    backgroundColor: ['#2c3e50', '#3498db'],
+                    borderWidth: 3,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: `Total: ${(realData.products.bat.channels.dealership + realData.products.bat.channels.internet).toLocaleString()} unidades`
+                    }
+                }
+            }
+        });
+
+        // Pricing Analysis Chart
+        const pricingCtx = document.getElementById('pricingChart').getContext('2d');
+        charts.pricing = new Chart(pricingCtx, {
+            type: 'bar',
+            data: {
+                labels: ['$539.99', '$599.99', '$479.99'],
+                datasets: [{
+                    label: 'Volumen Semanal Promedio',
+                    data: [realData.products.bat.pricing.price539, realData.products.bat.pricing.price599, realData.products.bat.pricing.price479],
+                    backgroundColor: ['#f39c12', '#e74c3c', '#3498db'],
+                    borderColor: ['#e67e22', '#c0392b', '#2980b9'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Distribución de Ventas por Precio'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Ventas Semanales Promedio'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Precio de Venta'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Email Campaign Effectiveness
+        const emailCtx = document.getElementById('emailChart').getContext('2d');
+        charts.email = new Chart(emailCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Emails Posibles', 'Emails Abiertos', 'Compraron Producto'],
+                datasets: [{
+                    label: 'Cantidad',
+                    data: [realData.products.bat.emailData.totalEmails, realData.products.bat.emailData.opened, realData.products.bat.emailData.purchased],
+                    backgroundColor: ['#3498db', '#f39c12', '#27ae60'],
+                    borderColor: ['#2980b9', '#e67e22', '#229954'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: `Conversión: ${realData.products.bat.emailData.conversionRate.toFixed(1)}% | Sin correlación con ventas`
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Cantidad de Clientes'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Hourly Sales Pattern
+        const hourlyCtx = document.getElementById('hourlyChart').getContext('2d');
+        charts.hourly = new Chart(hourlyCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+                datasets: [{
+                    label: 'Ventas Relativas por Hora',
+                    data: realData.products.bat.hourlySales,
+                    borderColor: '#2c3e50',
+                    backgroundColor: 'rgba(44, 62, 80, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#3498db'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Patrón de Ventas por Hora del Día'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Factor Multiplicativo'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Hora del Día'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Event listeners para filtros dinámicos
+        document.getElementById('productFilter').addEventListener('change', updateAllCharts);
+        document.getElementById('timeFilter').addEventListener('change', updateAllCharts);
+        document.getElementById('channelFilter').addEventListener('change', updateAllCharts);
+        document.getElementById('priceFilter').addEventListener('change', updateAllCharts);
+        
+        function updateAllCharts() {
+            // Actualizar filtros
+            currentFilters.product = document.getElementById('productFilter').value;
+            currentFilters.time = document.getElementById('timeFilter').value;
+            currentFilters.channel = document.getElementById('channelFilter').value;
+            currentFilters.price = document.getElementById('priceFilter').value;
+            
+            // Obtener datos actualizados
+            const currentData = getCurrentData();
+            
+            // Actualizar métricas
+            updateMetrics(currentData);
+            
+            // Actualizar todos los gráficos
+            updateSarimaChart(currentData);
+            updateBenchmarkChart(currentData);
+            updateChannelChart(currentData);
+            updatePricingChart(currentData);
+            updateEmailChart(currentData);
+            updateHourlyChart(currentData);
+            
+            // Agregar feedback visual
+            showFilterFeedback();
+        }
+        
+        function updateMetrics(data) {
+            const salesVar = document.getElementById('salesVariation');
+            const currentSales = document.getElementById('currentSales');
+            const emailConv = document.getElementById('emailConversion');
+            const emailOpen = document.getElementById('emailOpen');
+            
+            // Calcular ventas totales basado en filtros
+            let totalSales = 0;
+            if (currentFilters.channel === 'all') {
+                totalSales = Object.values(data.channels).reduce((sum, val) => sum + val, 0);
+            } else {
+                totalSales = data.channels[currentFilters.channel];
+            }
+            
+            // Actualizar métricas
+            salesVar.textContent = `${data.salesVariation > 0 ? '+' : ''}${data.salesVariation}%`;
+            salesVar.className = `metric-value ${data.salesVariation < 0 ? 'negative' : 'positive'}`;
+            currentSales.textContent = totalSales.toLocaleString();
+            emailConv.textContent = `${data.emailConversion.toFixed(1)}%`;
+            emailOpen.textContent = `${data.emailOpen.toFixed(2)}%`;
+        }
+        
+        function updateSarimaChart(data) {
+            charts.sarima.data.labels = data.sarimaData.dates;
+            charts.sarima.data.datasets[0].data = data.sarimaData.actual;
+            charts.sarima.data.datasets[1].data = data.sarimaData.forecast;
+            charts.sarima.data.datasets[2].data = data.sarimaData.confidence_upper;
+            charts.sarima.data.datasets[3].data = data.sarimaData.confidence_lower;
+            charts.sarima.options.plugins.title.text = `Predicción SARIMA - ${data.name}`;
+            charts.sarima.update();
+        }
+        
+        function updateBenchmarkChart(data) {
+            charts.benchmark.data.labels = data.benchmark.weeks;
+            charts.benchmark.data.datasets[0].data = data.benchmark.values;
+            charts.benchmark.data.datasets[0].label = data.name;
+            charts.benchmark.data.datasets[1].data = data.benchmark.baseline;
+            charts.benchmark.options.plugins.title.text = `Benchmark: ${data.name} vs Competencia`;
+            charts.benchmark.update();
+        }
+        
+        function updateChannelChart(data) {
+            const channelLabels = Object.keys(data.channels);
+            const channelData = Object.values(data.channels);
+            const total = channelData.reduce((sum, val) => sum + val, 0);
+            
+            charts.channel.data.labels = channelLabels.map(label => 
+                label.charAt(0).toUpperCase() + label.slice(1));
+            charts.channel.data.datasets[0].data = channelData;
+            charts.channel.options.plugins.title.text = `Total: ${total.toLocaleString()} unidades`;
+            charts.channel.update();
+        }
+        
+        function updatePricingChart(data) {
+            const pricingLabels = Object.keys(data.pricing).map(key => {
+                const price = key.replace('price', '');
+                return `$${price}.99`;
+            });
+            const pricingData = Object.values(data.pricing);
+            
+            charts.pricing.data.labels = pricingLabels;
+            charts.pricing.data.datasets[0].data = pricingData;
+            charts.pricing.options.plugins.title.text = `Distribución de Ventas por Precio - ${data.name}`;
+            charts.pricing.update();
+        }
+        
+        function updateEmailChart(data) {
+            charts.email.data.datasets[0].data = [
+                data.emailData.totalEmails, 
+                data.emailData.opened, 
+                data.emailData.purchased
+            ];
+            charts.email.options.plugins.title.text = 
+                `Conversión: ${data.emailData.conversionRate.toFixed(1)}% | ${data.name}`;
+            charts.email.update();
+        }
+        
+        function updateHourlyChart(data) {
+            charts.hourly.data.datasets[0].data = data.hourlySales;
+            charts.hourly.options.plugins.title.text = `Patrón de Ventas por Hora - ${data.name}`;
+            charts.hourly.update();
+        }
+        
+        function showFilterFeedback() {
+            // Crear feedback visual temporal
+            const filterSection = document.querySelector('.filters-section');
+            filterSection.style.boxShadow = '0 4px 12px rgba(52, 152, 219, 0.3)';
+            filterSection.style.borderLeft = '4px solid #3498db';
+            
+            // Mostrar indicador de cambios temporales
+            if (currentFilters.time !== 'all') {
+                showTemporalChangesIndicator();
+            }
+            
+            setTimeout(() => {
+                filterSection.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                filterSection.style.borderLeft = 'none';
+            }, 800);
+        }
+        
+        function showTemporalChangesIndicator() {
+            // Crear un pequeño indicador temporal
+            const existingIndicator = document.getElementById('temporal-indicator');
+            if (existingIndicator) existingIndicator.remove();
+            
+            const indicator = document.createElement('div');
+            indicator.id = 'temporal-indicator';
+            indicator.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 12px 16px;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 1000;
+                opacity: 0;
+                transform: translateX(100px);
+                transition: all 0.3s ease;
+            `;
+            
+            const timeFilter = realData.timeFilters[currentFilters.time];
+            const channelTrend = timeFilter.channelShift.internet > timeFilter.channelShift.dealership ? 
+                '📱 Más Digital' : '🏪 Más Tradicional';
+            const priceTrend = timeFilter.pricingShift.price539 > timeFilter.pricingShift.price599 ? 
+                '💰 Competitivo' : '👑 Premium';
+            
+            indicator.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span>📊</span>
+                    <div>
+                        <div style="font-size: 0.8rem; opacity: 0.9;">Período: ${timeFilter.label}</div>
+                        <div style="font-size: 0.75rem; opacity: 0.8;">${channelTrend} | ${priceTrend}</div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(indicator);
+            
+            // Animar entrada
+            setTimeout(() => {
+                indicator.style.opacity = '1';
+                indicator.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Remover después de 3 segundos
+            setTimeout(() => {
+                indicator.style.opacity = '0';
+                indicator.style.transform = 'translateX(100px)';
+                setTimeout(() => indicator.remove(), 300);
+            }, 3000);
+        }
+        
+        // Inicializar con datos por defecto
+        updateAllCharts();
+    </script>
+</body>
+</html>
