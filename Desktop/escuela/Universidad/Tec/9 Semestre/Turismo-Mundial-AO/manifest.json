@@ -1,0 +1,301 @@
+{
+  "name": "Turismo Mundial AO - Plataforma Oficial de Turismo y Empleo",
+  "short_name": "Turismo AO",
+  "description": "Plataforma oficial del gobierno mexicano que conecta talento turístico con oportunidades verificadas, certificaciones reconocidas y experiencias seguras en todo México.",
+  "version": "1.2.0",
+  "manifest_version": 3,
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1B365D",
+  "background_color": "#FFFFFF",
+  "scope": "/",
+  "lang": "es",
+  
+  "icons": [
+    {
+      "src": "/images/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  
+  "screenshots": [
+    {
+      "src": "/images/screenshots/desktop-home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Página principal de Turismo Mundial AO"
+    },
+    {
+      "src": "/images/screenshots/mobile-home.png", 
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Vista móvil de la plataforma"
+    },
+    {
+      "src": "/images/screenshots/desktop-modules.png",
+      "sizes": "1280x720", 
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Módulos de la plataforma - Trabaja, Aprende, Descubre"
+    },
+    {
+      "src": "/images/screenshots/mobile-safety.png",
+      "sizes": "390x844",
+      "type": "image/png", 
+      "form_factor": "narrow",
+      "label": "Explora Seguro - Rutas con apoyo en tiempo real"
+    }
+  ],
+  
+  "categories": [
+    "government",
+    "business", 
+    "travel",
+    "education",
+    "employment",
+    "productivity",
+    "utilities"
+  ],
+  
+  "shortcuts": [
+    {
+      "name": "Buscar Empleos",
+      "short_name": "Empleos",
+      "description": "Acceder directamente a empleos verificados en turismo",
+      "url": "/trabaja",
+      "icons": [
+        {
+          "src": "/images/shortcuts/jobs-icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Certificaciones",
+      "short_name": "Aprende", 
+      "description": "Ver certificaciones oficiales y cursos disponibles",
+      "url": "/aprende",
+      "icons": [
+        {
+          "src": "/images/shortcuts/learn-icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Explorar Paquetes",
+      "short_name": "Descubre",
+      "description": "Descubrir experiencias turísticas auténticas",
+      "url": "/descubre", 
+      "icons": [
+        {
+          "src": "/images/shortcuts/discover-icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Rutas Seguras",
+      "short_name": "Seguro",
+      "description": "Acceder a rutas con puntos de apoyo C5",
+      "url": "/explora-seguro",
+      "icons": [
+        {
+          "src": "/images/shortcuts/safety-icon-96x96.png", 
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  
+  "related_applications": [
+    {
+      "platform": "web",
+      "url": "https://turismomundial.ao.gob.mx/"
+    }
+  ],
+  
+  "prefer_related_applications": false,
+  
+  "protocol_handlers": [
+    {
+      "protocol": "web+turismo-ao",
+      "url": "/%s"
+    }
+  ],
+  
+  "file_handlers": [
+    {
+      "action": "/handle-files/",
+      "accept": {
+        "application/pdf": [".pdf"],
+        "image/jpeg": [".jpg", ".jpeg"],
+        "image/png": [".png"]
+      }
+    }
+  ],
+  
+  "share_target": {
+    "action": "/share/",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text", 
+      "url": "url",
+      "files": [
+        {
+          "name": "documents",
+          "accept": ["application/pdf", "image/*"]
+        }
+      ]
+    }
+  },
+  
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  
+  "handle_links": "preferred",
+  
+  "scope_extensions": [
+    {
+      "origin": "*.ao.gob.mx"
+    }
+  ],
+  
+  "permissions": [
+    "geolocation",
+    "notifications",
+    "background-sync"
+  ],
+  
+  "feature_policy": {
+    "geolocation": ["self"],
+    "camera": ["self"],
+    "microphone": ["self"],
+    "payment": ["self"]
+  },
+  
+  "gcm_sender_id": "103953800507",
+  
+  "custom": {
+    "government_entity": "Gobierno de México",
+    "department": "Secretaría de Turismo",
+    "security_classification": "Público",
+    "accessibility_level": "WCAG 2.2 AA",
+    "supported_languages": ["es", "en", "pt"],
+    "api_version": "v1",
+    "last_updated": "2024-12-06",
+    "compliance": {
+      "gdpr": true,
+      "accessibility": "WCAG 2.2 AA",
+      "security": "SSL/TLS 1.3",
+      "performance": "Lighthouse > 90"
+    },
+    "contact": {
+      "support_email": "soporte@turismomundial.ao.gob.mx",
+      "phone": "+52-55-TURISMO",
+      "emergency": "911"
+    },
+    "integration": {
+      "c5_system": true,
+      "locatel": true,
+      "firebase": true,
+      "bigquery": true
+    },
+    "modules": [
+      {
+        "id": "trabaja",
+        "name": "Empleos en Turismo", 
+        "url": "/trabaja",
+        "description": "2,500+ empleos verificados en el sector turístico"
+      },
+      {
+        "id": "aprende",
+        "name": "Certificaciones",
+        "url": "/aprende", 
+        "description": "15,000+ certificaciones oficiales emitidas"
+      },
+      {
+        "id": "descubre", 
+        "name": "Experiencias Turísticas",
+        "url": "/descubre",
+        "description": "500+ experiencias auténticas verificadas"
+      },
+      {
+        "id": "explora-seguro",
+        "name": "Rutas Seguras",
+        "url": "/explora-seguro",
+        "description": "200+ rutas con puntos de apoyo C5"
+      },
+      {
+        "id": "eventos",
+        "name": "Eventos Culturales", 
+        "url": "/eventos",
+        "description": "1,000+ eventos mensuales verificados"
+      },
+      {
+        "id": "impacto", 
+        "name": "Dashboard Público",
+        "url": "/impacto",
+        "description": "Métricas en tiempo real de impacto social"
+      }
+    ]
+  }
+}
