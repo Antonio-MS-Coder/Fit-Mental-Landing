@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explora Seguro - Rutas Seguras de México | Turismo Mundial AO</title>
+    <meta name="description" content="Explora México con tranquilidad total. Rutas verificadas, puntos de asistencia 24/7 y alertas de seguridad en tiempo real para viajeros responsables.">
+    <meta name="keywords" content="turismo seguro México, rutas seguras México, alertas de seguridad turística, asistencia viajeros México, emergencias turísticas">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://antonio-ms-coder.github.io/AO-Turismo-Mundial/pages/explora-seguro.html">
+    <meta property="og:title" content="Explora Seguro - Turismo Seguro México">
+    <meta property="og:description" content="La tranquilidad que mereces para explorar México sin límites">
+    <meta property="og:image" content="../images/explora-seguro-og.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://antonio-ms-coder.github.io/AO-Turismo-Mundial/pages/explora-seguro.html">
+    <meta property="twitter:title" content="Explora Seguro - Turismo Seguro México">
+    <meta property="twitter:description" content="Aventúrate con la tranquilidad que mereces">
+    <meta property="twitter:image" content="../images/explora-seguro-twitter.jpg">
+
+    <!-- Critical CSS Inline -->
+    <style>
+    /* Critical Above-the-Fold Styles */
+    :root {
+      --ao-navy: #1B365D;
+      --ao-navy-light: #2E4F73;
+      --ao-gold: #D4AF37;
+      --ao-gold-light: #E6C24F;
+      --ao-green: #2E7D32;
+      --ao-green-light: #43A047;
+      --ao-red: #C62828;
+      --ao-white: #FFFFFF;
+      --ao-gray-50: #FAFAFA;
+      --ao-gray-100: #F5F5F5;
+      --ao-gray-200: #E0E0E0;
+      --ao-gray-300: #BDBDBD;
+      --ao-gray-600: #757575;
+      --ao-gray-800: #424242;
+      --ao-gray-900: #212121;
+      --ao-black: #000000;
+      
+      --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+    
+    body {
+      font-family: var(--font-inter);
+      line-height: 1.6;
+      color: var(--ao-gray-900);
+      background-color: var(--ao-white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Main Navigation */
+    .main-nav {
+      background: var(--ao-white);
+      border-bottom: 1px solid var(--ao-gray-200);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+    }
+    
+    .nav-brand img {
+      height: 50px;
+      width: auto;
+    }
+    
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    
+    .nav-link {
+      color: var(--ao-gray-800);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: var(--transition-base);
+      position: relative;
+    }
+    
+    .nav-link:hover {
+      color: var(--ao-navy);
+      background: var(--ao-gray-50);
+    }
+    
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .nav-login {
+      color: var(--ao-gray-700);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: var(--transition-base);
+    }
+    
+    .nav-login:hover {
+      color: var(--ao-navy);
+      background: var(--ao-gray-50);
+    }
+    
+    .nav-signup {
+      background: var(--ao-navy);
+      color: var(--ao-white);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      transition: var(--transition-base);
+    }
+    
+    .nav-signup:hover {
+      background: var(--ao-navy-light);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .lang-selector {
+      background: transparent;
+      border: 1px solid var(--ao-gray-300);
+      color: var(--ao-gray-700);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+    
+    .lang-selector:hover {
+      border-color: var(--ao-navy);
+      color: var(--ao-navy);
+    }
+    
+    .mobile-menu-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--ao-gray-700);
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--ao-white);
+        border-top: 1px solid var(--ao-gray-200);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.5rem;
+        box-shadow: var(--shadow-lg);
+      }
+      
+      .nav-menu.active {
+        display: flex;
+      }
+      
+      .nav-actions {
+        gap: 0.5rem;
+      }
+      
+      .nav-signup {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .mobile-menu-toggle {
+        display: block;
+      }
+    }
+    </style>
+    
+    <!-- Non-critical CSS -->
+    <link rel="stylesheet" href="../css/main.css" media="print" onload="this.media='all'; this.onload=null;">
+    <noscript><link rel="stylesheet" href="../css/main.css"></noscript>
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="explora-seguro-page">
+    <!-- Emergency Alert Bar -->
+    <div id="emergencyAlert" class="emergency-alert" style="display: none;">
+        <div class="container">
+            <div class="alert-content">
+                <span class="alert-icon">🚨</span>
+                <span class="alert-text">Alerta de seguridad activa en tu zona</span>
+                <button class="alert-action" onclick="showEmergencyDetails()">Ver Detalles</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Navegación principal">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html" aria-label="Turismo Mundial AO - Inicio">
+                    <img src="../images/ao-logo.svg" alt="AO Logo" class="nav-logo">
+                    <span class="nav-brand-text">Turismo Mundial <strong>AO</strong></span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <div class="nav-modules">
+                    <a href="trabaja.html" class="nav-link">
+                        <span class="nav-icon">💼</span>
+                        <span>Trabaja</span>
+                    </a>
+                    <a href="aprende.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        <span>Aprende</span>
+                    </a>
+                    <a href="descubre.html" class="nav-link">
+                        <span class="nav-icon">🌟</span>
+                        <span>Descubre</span>
+                    </a>
+                    <a href="explora-seguro.html" class="nav-link active" aria-current="page">
+                        <span class="nav-icon">🛡️</span>
+                        <span>Explora Seguro</span>
+                    </a>
+                    <a href="eventos.html" class="nav-link">
+                        <span class="nav-icon">🎉</span>
+                        <span>Eventos</span>
+                    </a>
+                    <a href="impacto.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        <span>Impacto AO</span>
+                    </a>
+                </div>
+                
+                <div class="nav-auth">
+                    <button class="btn btn-outline" onclick="openAuthModal('login')">Iniciar Sesión</button>
+                    <button class="btn btn-primary" onclick="openAuthModal('register')">Comenzar Ahora</button>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero hero-explora-seguro">
+        <div class="hero-background">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">🛡️</span>
+                    <span>Respaldado por Fuerzas de Seguridad Nacional</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    Aventúrate Con la <span class="text-gradient">Tranquilidad Que Mereces</span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    Rutas respaldadas por tecnología y corazón mexicano. <strong>Red de seguridad 24/7</strong> 
+                    con más de 2,800 puntos de asistencia activos en todo el país.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">2,800+</div>
+                        <div class="stat-label">Puntos de Asistencia</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Monitoreo Activo</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">< 3min</div>
+                        <div class="stat-label">Tiempo de Respuesta</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">99.7%</div>
+                        <div class="stat-label">Viajes Seguros</div>
+                    </div>
+                </div>
+                
+                <div class="hero-actions">
+                    <button class="btn btn-primary btn-large" onclick="planSafeRoute()" id="planRouteBtn">
+                        <span class="btn-icon">🗺️</span>
+                        Planear Ruta Segura
+                    </button>
+                    <button class="btn btn-emergency btn-large" onclick="triggerEmergency()" id="emergencyBtn">
+                        <span class="btn-icon">🆘</span>
+                        Emergencia
+                    </button>
+                </div>
+                
+                <div class="hero-safety-features">
+                    <div class="safety-feature">
+                        <span class="feature-icon">📍</span>
+                        <span class="feature-text">Rastreo GPS en tiempo real</span>
+                    </div>
+                    <div class="safety-feature">
+                        <span class="feature-icon">🚨</span>
+                        <span class="feature-text">Alertas automáticas</span>
+                    </div>
+                    <div class="safety-feature">
+                        <span class="feature-icon">👮‍♂️</span>
+                        <span class="feature-text">Conexión con autoridades</span>
+                    </div>
+                </div>
+                
+                <div class="hero-trust-signals">
+                    <p class="trust-text">Avalado por:</p>
+                    <div class="trust-badges">
+                        <div class="trust-badge">
+                            <img src="../images/cni-logo.svg" alt="CNI">
+                        </div>
+                        <div class="trust-badge">
+                            <img src="../images/guardia-nacional-logo.svg" alt="Guardia Nacional">
+                        </div>
+                        <div class="trust-badge">
+                            <img src="../images/cruz-roja-logo.svg" alt="Cruz Roja">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Safety Map Section -->
+    <section class="safety-map-section" id="safetyMap">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Mapa de Seguridad en Tiempo Real</h2>
+                <p class="section-subtitle">Visualiza el estado de seguridad actualizado cada 5 minutos</p>
+            </div>
+            
+            <div class="map-container">
+                <div class="map-controls">
+                    <div class="control-group">
+                        <label for="mapRegion">Región:</label>
+                        <select id="mapRegion" class="map-select" onchange="updateMapRegion()">
+                            <option value="nacional">Vista Nacional</option>
+                            <option value="norte">Norte de México</option>
+                            <option value="centro">Centro de México</option>
+                            <option value="sur">Sur de México</option>
+                            <option value="caribe">Caribe Mexicano</option>
+                            <option value="pacifico">Pacífico Mexicano</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="mapFilter">Mostrar:</label>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" onclick="toggleMapFilter('assistance')" data-filter="assistance">
+                                <span class="filter-icon">🆘</span>
+                                Puntos de Asistencia
+                            </button>
+                            <button class="filter-btn active" onclick="toggleMapFilter('alerts')" data-filter="alerts">
+                                <span class="filter-icon">⚠️</span>
+                                Alertas Activas
+                            </button>
+                            <button class="filter-btn active" onclick="toggleMapFilter('routes')" data-filter="routes">
+                                <span class="filter-icon">🛣️</span>
+                                Rutas Seguras
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="interactive-map" id="interactiveMap">
+                    <!-- Map will be rendered here -->
+                    <div class="map-placeholder">
+                        <div class="map-loading">
+                            <div class="loading-spinner"></div>
+                            <p>Cargando mapa de seguridad...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="map-legend">
+                    <h4>Leyenda</h4>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <span class="legend-dot safe"></span>
+                            <span class="legend-text">Zona Segura</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot caution"></span>
+                            <span class="legend-text">Precaución</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot alert"></span>
+                            <span class="legend-text">Alerta Activa</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot assistance"></span>
+                            <span class="legend-text">Punto de Asistencia</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="map-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">🟢</div>
+                    <div class="stat-info">
+                        <div class="stat-number">28</div>
+                        <div class="stat-label">Estados Seguros</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🟡</div>
+                    <div class="stat-info">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Zonas de Precaución</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔴</div>
+                    <div class="stat-info">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Alertas Críticas</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📍</div>
+                    <div class="stat-info">
+                        <div class="stat-number">2,847</div>
+                        <div class="stat-label">Puntos Activos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Safe Routes Section -->
+    <section class="safe-routes-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Rutas Recomendadas y Verificadas</h2>
+                <p class="section-subtitle">Itinerarios probados y monitoreados constantemente</p>
+            </div>
+            
+            <div class="routes-grid">
+                <!-- Route Card 1 -->
+                <div class="route-card featured">
+                    <div class="route-image">
+                        <img src="../images/routes/ruta-maya.jpg" alt="Ruta Maya Segura">
+                        <div class="route-badge">🏆 Más Segura</div>
+                        <div class="safety-indicator">
+                            <div class="safety-level safe">
+                                <span class="safety-icon">🛡️</span>
+                                <span class="safety-text">Muy Segura</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="route-content">
+                        <div class="route-header">
+                            <h3 class="route-title">Ruta Maya Clásica</h3>
+                            <div class="route-duration">
+                                <span class="duration-icon">📅</span>
+                                <span>7-10 días</span>
+                            </div>
+                        </div>
+                        
+                        <p class="route-description">
+                            Cancún → Chichén Itzá → Mérida → Uxmal → Palenque. 
+                            Ruta monitoreada 24/7 con 45 puntos de asistencia activos.
+                        </p>
+                        
+                        <div class="route-stops">
+                            <div class="stop-item">
+                                <span class="stop-number">1</span>
+                                <span class="stop-name">Cancún</span>
+                                <span class="stop-safety">🟢</span>
+                            </div>
+                            <div class="stop-item">
+                                <span class="stop-number">2</span>
+                                <span class="stop-name">Chichén Itzá</span>
+                                <span class="stop-safety">🟢</span>
+                            </div>
+                            <div class="stop-item">
+                                <span class="stop-number">3</span>
+                                <span class="stop-name">Mérida</span>
+                                <span class="stop-safety">🟢</span>
+                            </div>
+                            <div class="stop-item more-stops">
+                                <span class="stop-more">+3 paradas más</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-safety-features">
+                            <div class="safety-feature">
+                                <span class="feature-icon">📍</span>
+                                <span class="feature-text">45 puntos de asistencia</span>
+                            </div>
+                            <div class="safety-feature">
+                                <span class="feature-icon">🚨</span>
+                                <span class="feature-text">Monitoreo policial</span>
+                            </div>
+                            <div class="safety-feature">
+                                <span class="feature-icon">🏥</span>
+                                <span class="feature-text">8 hospitales verificados</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-actions">
+                            <button class="btn btn-primary" onclick="selectRoute('maya-clasica')">
+                                Seleccionar Ruta
+                            </button>
+                            <button class="btn btn-outline" onclick="viewRouteDetails('maya-clasica')">
+                                Ver Detalles
+                            </button>
+                        </div>
+                        
+                        <div class="route-updated">
+                            <span class="updated-icon">🔄</span>
+                            <span class="updated-text">Actualizada hace 12 min</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Route Card 2 -->
+                <div class="route-card">
+                    <div class="route-image">
+                        <img src="../images/routes/ruta-pacifico.jpg" alt="Ruta Pacífico Mexicano">
+                        <div class="route-badge">🌊 Popular</div>
+                        <div class="safety-indicator">
+                            <div class="safety-level safe">
+                                <span class="safety-icon">🛡️</span>
+                                <span class="safety-text">Segura</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="route-content">
+                        <div class="route-header">
+                            <h3 class="route-title">Pacífico Mexicano</h3>
+                            <div class="route-duration">
+                                <span class="duration-icon">📅</span>
+                                <span>5-7 días</span>
+                            </div>
+                        </div>
+                        
+                        <p class="route-description">
+                            Puerto Vallarta → Sayulita → Mazatlán → Los Cabos. 
+                            Ruta costera con patrullaje marítimo y terrestre coordinado.
+                        </p>
+                        
+                        <div class="route-stops">
+                            <div class="stop-item">
+                                <span class="stop-number">1</span>
+                                <span class="stop-name">Puerto Vallarta</span>
+                                <span class="stop-safety">🟢</span>
+                            </div>
+                            <div class="stop-item">
+                                <span class="stop-number">2</span>
+                                <span class="stop-name">Sayulita</span>
+                                <span class="stop-safety">🟢</span>
+                            </div>
+                            <div class="stop-item">
+                                <span class="stop-number">3</span>
+                                <span class="stop-name">Mazatlán</span>
+                                <span class="stop-safety">🟢</span>
+                            </div>
+                            <div class="stop-item more-stops">
+                                <span class="stop-more">+2 paradas más</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-safety-features">
+                            <div class="safety-feature">
+                                <span class="feature-icon">📍</span>
+                                <span class="feature-text">32 puntos de asistencia</span>
+                            </div>
+                            <div class="safety-feature">
+                                <span class="feature-icon">⛵</span>
+                                <span class="feature-text">Patrullaje marítimo</span>
+                            </div>
+                            <div class="safety-feature">
+                                <span class="feature-icon">🏥</span>
+                                <span class="feature-text">6 hospitales verificados</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-actions">
+                            <button class="btn btn-primary" onclick="selectRoute('pacifico')">
+                                Seleccionar Ruta
+                            </button>
+                            <button class="btn btn-outline" onclick="viewRouteDetails('pacifico')">
+                                Ver Detalles
+                            </button>
+                        </div>
+                        
+                        <div class="route-updated">
+                            <span class="updated-icon">🔄</span>
+                            <span class="updated-text">Actualizada hace 8 min</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Route Card 3 -->
+                <div class="route-card">
+                    <div class="route-image">
+                        <img src="../images/routes/ruta-colonial.jpg" alt="Ruta Colonial">
+                        <div class="route-badge">🏛️ Cultural</div>
+                        <div class="safety-indicator">
+                            <div class="safety-level safe">
+                                <span class="safety-icon">🛡️</span>
+                                <span class="safety-text">Muy Segura</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="route-content">
+                        <div class="route-header">
+                            <h3 class="route-title">Ciudades Coloniales</h3>
+                            <div class="route-duration">
+                                <span class="duration-icon">📅</span>
+                                <span>6-8 días</span>
+                            </div>
+                        </div>
+                        
+                        <p class="route-description">
+                            CDMX → Puebla → Oaxaca → Guanajuato → San Miguel de Allende. 
+                            Patrimonio UNESCO con máxima protección cultural.
+                        </p>
+                        
+                        <div class="route-stops">
+                            <div class="stop-item">
+                                <span class="stop-number">1</span>
+                                <span class="stop-name">Ciudad de México</span>
+                                <span class="stop-safety">🟢</span>
+                            </div>
+                            <div class="stop-item">
+                                <span class="stop-number">2</span>
+                                <span class="stop-name">Puebla</span>
+                                <span class="stop-safety">🟢</span>
+                            </div>
+                            <div class="stop-item">
+                                <span class="stop-number">3</span>
+                                <span class="stop-name">Oaxaca</span>
+                                <span class="stop-safety">🟡</span>
+                            </div>
+                            <div class="stop-item more-stops">
+                                <span class="stop-more">+2 paradas más</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-safety-features">
+                            <div class="safety-feature">
+                                <span class="feature-icon">📍</span>
+                                <span class="feature-text">52 puntos de asistencia</span>
+                            </div>
+                            <div class="safety-feature">
+                                <span class="feature-icon">🏛️</span>
+                                <span class="feature-text">Protección UNESCO</span>
+                            </div>
+                            <div class="safety-feature">
+                                <span class="feature-icon">🏥</span>
+                                <span class="feature-text">12 hospitales verificados</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-actions">
+                            <button class="btn btn-primary" onclick="selectRoute('colonial')">
+                                Seleccionar Ruta
+                            </button>
+                            <button class="btn btn-outline" onclick="viewRouteDetails('colonial')">
+                                Ver Detalles
+                            </button>
+                        </div>
+                        
+                        <div class="route-updated">
+                            <span class="updated-icon">🔄</span>
+                            <span class="updated-text">Actualizada hace 15 min</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency Services Section -->
+    <section class="emergency-services-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Servicios de Emergencia 24/7</h2>
+                <p class="section-subtitle">Tu línea de vida cuando más la necesites</p>
+            </div>
+            
+            <div class="emergency-grid">
+                <div class="emergency-card primary">
+                    <div class="emergency-icon">🆘</div>
+                    <h3 class="emergency-title">Botón de Pánico</h3>
+                    <p class="emergency-description">
+                        Activación inmediata de protocolo de emergencia con ubicación GPS exacta 
+                        y conexión directa con autoridades locales.
+                    </p>
+                    <div class="emergency-features">
+                        <div class="feature">
+                            <span class="feature-icon">⚡</span>
+                            <span>Respuesta < 3 minutos</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">📍</span>
+                            <span>GPS de precisión</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">👮‍♂️</span>
+                            <span>Conexión autoridades</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-emergency btn-large" onclick="activatePanicButton()">
+                        <span class="btn-icon">🚨</span>
+                        Activar Emergencia
+                    </button>
+                </div>
+                
+                <div class="emergency-card">
+                    <div class="emergency-icon">🏥</div>
+                    <h3 class="emergency-title">Asistencia Médica</h3>
+                    <p class="emergency-description">
+                        Red de hospitales y clínicas verificadas, ambulancias privadas 
+                        y telemedicina 24/7 en español e inglés.
+                    </p>
+                    <div class="emergency-contact">
+                        <a href="tel:*911" class="emergency-phone">
+                            <span class="phone-icon">📞</span>
+                            <span class="phone-number">911</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="emergency-card">
+                    <div class="emergency-icon">🚔</div>
+                    <h3 class="emergency-title">Policía Turística</h3>
+                    <p class="emergency-description">
+                        Fuerza especializada en turismo con atención multilingüe 
+                        y protocolos específicos para visitantes.
+                    </p>
+                    <div class="emergency-contact">
+                        <a href="tel:078" class="emergency-phone">
+                            <span class="phone-icon">📞</span>
+                            <span class="phone-number">078</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="emergency-card">
+                    <div class="emergency-icon">🛣️</div>
+                    <h3 class="emergency-title">Asistencia Vial</h3>
+                    <p class="emergency-description">
+                        Ángeles Verdes, grúas especializadas y mecánicos certificados 
+                        disponibles en carreteras principales.
+                    </p>
+                    <div class="emergency-contact">
+                        <a href="tel:074" class="emergency-phone">
+                            <span class="phone-icon">📞</span>
+                            <span class="phone-number">074</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="emergency-card">
+                    <div class="emergency-icon">🏛️</div>
+                    <h3 class="emergency-title">Embajadas y Consulados</h3>
+                    <p class="emergency-description">
+                        Contacto directo con representaciones diplomáticas para 
+                        asistencia consular de emergencia.
+                    </p>
+                    <div class="emergency-contact">
+                        <button class="btn btn-outline" onclick="findEmbassy()">
+                            Encontrar Consulado
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="emergency-card">
+                    <div class="emergency-icon">💼</div>
+                    <h3 class="emergency-title">Seguro de Viaje</h3>
+                    <p class="emergency-description">
+                        Cobertura médica, evacuación, pérdida de equipaje y 
+                        cancelación con aseguradoras reconocidas.
+                    </p>
+                    <div class="emergency-contact">
+                        <button class="btn btn-outline" onclick="contactInsurance()">
+                            Contactar Seguro
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Safety Tips Section -->
+    <section class="safety-tips-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Consejos de Seguridad Esenciales</h2>
+                <p class="section-subtitle">Guías prácticas para viajar de forma inteligente y segura</p>
+            </div>
+            
+            <div class="tips-categories">
+                <button class="tip-category-btn active" onclick="showTipCategory('general')">General</button>
+                <button class="tip-category-btn" onclick="showTipCategory('transport')">Transporte</button>
+                <button class="tip-category-btn" onclick="showTipCategory('accommodation')">Hospedaje</button>
+                <button class="tip-category-btn" onclick="showTipCategory('activities')">Actividades</button>
+                <button class="tip-category-btn" onclick="showTipCategory('emergency')">Emergencias</button>
+            </div>
+            
+            <div class="tips-content" id="generalTips">
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <div class="tip-icon">📱</div>
+                        <h4 class="tip-title">Mantén Comunicación</h4>
+                        <p class="tip-description">
+                            Comparte tu itinerario con familiares. Usa nuestra app para enviar 
+                            actualizaciones automáticas de ubicación.
+                        </p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">💳</div>
+                        <h4 class="tip-title">Dinero Seguro</h4>
+                        <p class="tip-description">
+                            Diversifica tu dinero: efectivo, tarjetas y apps de pago. 
+                            Notifica a tu banco sobre tus viajes.
+                        </p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">📄</div>
+                        <h4 class="tip-title">Documentos</h4>
+                        <p class="tip-description">
+                            Guarda copias digitales de pasaporte, visa y documentos importantes 
+                            en la nube y con contactos de confianza.
+                        </p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">🎒</div>
+                        <h4 class="tip-title">Equipaje Inteligente</h4>
+                        <p class="tip-description">
+                            No muestres objetos de valor. Usa candados TSA y mantén 
+                            medicamentos en equipaje de mano.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Safety Statistics Section -->
+    <section class="safety-statistics-section">
+        <div class="container">
+            <div class="statistics-content">
+                <div class="stats-header">
+                    <h2 class="section-title">México: Más Seguro de lo Que Piensas</h2>
+                    <p class="section-subtitle">Datos reales sobre la seguridad turística en México</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card highlighted">
+                        <div class="stat-number">99.7%</div>
+                        <div class="stat-label">De turistas viajan sin incidentes</div>
+                        <div class="stat-source">Fuente: SECTUR 2024</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number">45M</div>
+                        <div class="stat-label">Turistas internacionales en 2023</div>
+                        <div class="stat-source">Récord histórico</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number">#7</div>
+                        <div class="stat-label">Destino turístico mundial</div>
+                        <div class="stat-source">UNWTO 2024</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number">2,847</div>
+                        <div class="stat-label">Puntos de asistencia activos</div>
+                        <div class="stat-source">Red nacional</div>
+                    </div>
+                </div>
+                
+                <div class="safety-improvements">
+                    <h3>Inversión en Seguridad Turística</h3>
+                    <div class="improvement-items">
+                        <div class="improvement-item">
+                            <span class="improvement-icon">👮‍♂️</span>
+                            <div class="improvement-info">
+                                <h4>Policía Turística</h4>
+                                <p>+40% incremento en efectivos especializados</p>
+                            </div>
+                        </div>
+                        <div class="improvement-item">
+                            <span class="improvement-icon">📹</span>
+                            <div class="improvement-info">
+                                <h4>Videovigilancia</h4>
+                                <p>15,000 nuevas cámaras en zonas turísticas</p>
+                            </div>
+                        </div>
+                        <div class="improvement-item">
+                            <span class="improvement-icon">🛡️</span>
+                            <div class="improvement-info">
+                                <h4>Protocolos COVID</h4>
+                                <p>Certificación sanitaria internacional</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section cta-explora-seguro">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">¿Listo Para Explorar México Sin Límites?</h2>
+                <p class="cta-subtitle">
+                    Únete a más de 2 millones de viajeros que confían en nuestra red de seguridad
+                </p>
+                <div class="cta-actions">
+                    <button class="btn btn-primary btn-large" onclick="downloadSafetyApp()">
+                        <span class="btn-icon">📱</span>
+                        Descargar App de Seguridad
+                    </button>
+                    <button class="btn btn-outline btn-large" onclick="planFirstRoute()">
+                        <span class="btn-icon">🗺️</span>
+                        Planear Mi Primera Ruta
+                    </button>
+                </div>
+                
+                <div class="cta-guarantees">
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>Monitoreo 24/7</span>
+                    </div>
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>Respuesta < 3 min</span>
+                    </div>
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>Cobertura Nacional</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <img src="../images/ao-logo-white.svg" alt="AO Logo" class="footer-logo">
+                        <h3>Turismo Mundial AO</h3>
+                        <p>Transformando el turismo mexicano a través del talento y la tecnología</p>
+                    </div>
+                    
+                    <div class="footer-modules">
+                        <h4>Nuestros Módulos</h4>
+                        <ul>
+                            <li><a href="trabaja.html">💼 Trabaja</a></li>
+                            <li><a href="aprende.html">📚 Aprende</a></li>
+                            <li><a href="descubre.html">🌟 Descubre</a></li>
+                            <li><a href="explora-seguro.html">🛡️ Explora Seguro</a></li>
+                            <li><a href="eventos.html">🎉 Eventos</a></li>
+                            <li><a href="impacto.html">📊 Impacto AO</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-support">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="ayuda.html">Centro de Ayuda</a></li>
+                            <li><a href="contacto.html">Contacto</a></li>
+                            <li><a href="terminos.html">Términos y Condiciones</a></li>
+                            <li><a href="privacidad.html">Política de Privacidad</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-government">
+                        <h4>Gobierno de México</h4>
+                        <div class="government-logos">
+                            <img src="../images/gobierno-mexico.svg" alt="Gobierno de México">
+                            <img src="../images/sectur.svg" alt="SECTUR">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-legal">
+                        <p>&copy; 2024 Turismo Mundial AO. Una iniciativa del Gobierno de México.</p>
+                    </div>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><span class="social-icon">📘</span></a>
+                        <a href="#" aria-label="Instagram"><span class="social-icon">📷</span></a>
+                        <a href="#" aria-label="Twitter"><span class="social-icon">🐦</span></a>
+                        <a href="#" aria-label="LinkedIn"><span class="social-icon">💼</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Emergency Modal -->
+    <div id="emergencyModal" class="modal emergency-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="emergency-modal-header">
+                <h2>🆘 EMERGENCIA ACTIVADA</h2>
+                <p>Tu ubicación ha sido enviada a las autoridades</p>
+            </div>
+            <div class="emergency-modal-body">
+                <div class="emergency-status">
+                    <div class="status-indicator active"></div>
+                    <span>Conectando con asistencia...</span>
+                </div>
+                <div class="emergency-actions">
+                    <button class="btn btn-emergency" onclick="callEmergency()">
+                        📞 Llamar 911
+                    </button>
+                    <button class="btn btn-outline" onclick="cancelEmergency()">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeAuthModal()">&times;</span>
+            <div id="authModalContent">
+                <!-- Auth form will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // Explora Seguro-specific JavaScript
+        function planSafeRoute() {
+            // Check if user is authenticated
+            if (!isUserLoggedIn()) {
+                openAuthModal('register');
+                return;
+            }
+            console.log('Planning safe route');
+            // Implement route planning logic
+        }
+
+        function triggerEmergency() {
+            // Show emergency confirmation
+            const confirmEmergency = confirm('¿Estás en una situación de emergencia real? Esto alertará a las autoridades locales.');
+            if (confirmEmergency) {
+                activateEmergencyProtocol();
+            }
+        }
+
+        function activateEmergencyProtocol() {
+            // Get user location
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    
+                    // Show emergency modal
+                    document.getElementById('emergencyModal').style.display = 'block';
+                    
+                    // Send location to emergency services (simulation)
+                    console.log('Emergency activated at:', lat, lng);
+                    
+                    // In real implementation, this would:
+                    // - Send GPS coordinates to emergency services
+                    // - Activate panic button protocol
+                    // - Connect with local authorities
+                    // - Notify emergency contacts
+                });
+            }
+        }
+
+        function cancelEmergency() {
+            document.getElementById('emergencyModal').style.display = 'none';
+        }
+
+        function callEmergency() {
+            window.open('tel:911');
+        }
+
+        function updateMapRegion() {
+            const region = document.getElementById('mapRegion').value;
+            console.log('Updating map to region:', region);
+            // Implement map region update
+        }
+
+        function toggleMapFilter(filter) {
+            const button = event.target.closest('button');
+            button.classList.toggle('active');
+            console.log('Toggling map filter:', filter);
+            // Implement filter toggle
+        }
+
+        function selectRoute(routeId) {
+            console.log('Selecting route:', routeId);
+            // Implement route selection
+        }
+
+        function viewRouteDetails(routeId) {
+            console.log('Viewing route details:', routeId);
+            // Implement route details view
+        }
+
+        function activatePanicButton() {
+            triggerEmergency();
+        }
+
+        function findEmbassy() {
+            console.log('Finding nearest embassy');
+            // Implement embassy finder
+        }
+
+        function contactInsurance() {
+            console.log('Contacting insurance');
+            // Implement insurance contact
+        }
+
+        function showTipCategory(category) {
+            // Update active category button
+            document.querySelectorAll('.tip-category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            console.log('Showing tips for category:', category);
+            // Implement category switching
+        }
+
+        function downloadSafetyApp() {
+            console.log('Downloading safety app');
+            // Implement app download
+        }
+
+        function planFirstRoute() {
+            planSafeRoute();
+        }
+
+        // Initialize safety features on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate loading map
+            setTimeout(function() {
+                const mapPlaceholder = document.querySelector('.map-placeholder');
+                if (mapPlaceholder) {
+                    mapPlaceholder.innerHTML = '<div class="map-loaded">Mapa de seguridad cargado ✓</div>';
+                }
+            }, 2000);
+            
+            // Check for emergency alerts (simulation)
+            checkForEmergencyAlerts();
+        });
+
+        function checkForEmergencyAlerts() {
+            // Simulate checking for alerts
+            // In real implementation, this would check API for current alerts
+        }
+
+        function showEmergencyDetails() {
+            alert('Detalles de la alerta de seguridad aparecerían aquí');
+        }
+    </script>
+</body>
+</html>

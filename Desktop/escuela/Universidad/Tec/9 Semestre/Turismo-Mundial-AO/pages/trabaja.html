@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabaja - Tu Futuro Profesional en Turismo | Turismo Mundial AO</title>
+    <meta name="description" content="Encuentra empleos verificados en el sector turístico mexicano. Conecta tu talento con oportunidades reales que respetan tu tiempo y reconocen tu valor.">
+    <meta name="keywords" content="empleos turismo México, trabajo hotelería, guía turístico empleos, turismo empleo, trabajos turísticos">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://antonio-ms-coder.github.io/AO-Turismo-Mundial/pages/trabaja.html">
+    <meta property="og:title" content="Trabaja - Empleos Turísticos México">
+    <meta property="og:description" content="Plataforma oficial para encontrar empleo en el sector turístico mexicano">
+    <meta property="og:image" content="../images/trabaja-og.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://antonio-ms-coder.github.io/AO-Turismo-Mundial/pages/trabaja.html">
+    <meta property="twitter:title" content="Trabaja - Empleos Turísticos México">
+    <meta property="twitter:description" content="Conecta tu talento con oportunidades reales en turismo">
+    <meta property="twitter:image" content="../images/trabaja-twitter.jpg">
+
+    <!-- Critical CSS Inline -->
+    <style>
+    /* Critical Above-the-Fold Styles */
+    :root {
+      --ao-navy: #1B365D;
+      --ao-navy-light: #2E4F73;
+      --ao-gold: #D4AF37;
+      --ao-gold-light: #E6C24F;
+      --ao-green: #2E7D32;
+      --ao-green-light: #43A047;
+      --ao-red: #C62828;
+      --ao-white: #FFFFFF;
+      --ao-gray-50: #FAFAFA;
+      --ao-gray-100: #F5F5F5;
+      --ao-gray-200: #E0E0E0;
+      --ao-gray-300: #BDBDBD;
+      --ao-gray-600: #757575;
+      --ao-gray-800: #424242;
+      --ao-gray-900: #212121;
+      --ao-black: #000000;
+      
+      --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+    
+    body {
+      font-family: var(--font-inter);
+      line-height: 1.6;
+      color: var(--ao-gray-900);
+      background-color: var(--ao-white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Main Navigation */
+    .main-nav {
+      background: var(--ao-white);
+      border-bottom: 1px solid var(--ao-gray-200);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+    }
+    
+    .nav-brand img {
+      height: 50px;
+      width: auto;
+    }
+    
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    
+    .nav-link {
+      color: var(--ao-gray-800);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: var(--transition-base);
+      position: relative;
+    }
+    
+    .nav-link:hover {
+      color: var(--ao-navy);
+      background: var(--ao-gray-50);
+    }
+    
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .nav-login {
+      color: var(--ao-gray-700);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: var(--transition-base);
+    }
+    
+    .nav-login:hover {
+      color: var(--ao-navy);
+      background: var(--ao-gray-50);
+    }
+    
+    .nav-signup {
+      background: var(--ao-navy);
+      color: var(--ao-white);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      transition: var(--transition-base);
+    }
+    
+    .nav-signup:hover {
+      background: var(--ao-navy-light);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .lang-selector {
+      background: transparent;
+      border: 1px solid var(--ao-gray-300);
+      color: var(--ao-gray-700);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+    
+    .lang-selector:hover {
+      border-color: var(--ao-navy);
+      color: var(--ao-navy);
+    }
+    
+    .mobile-menu-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--ao-gray-700);
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--ao-white);
+        border-top: 1px solid var(--ao-gray-200);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.5rem;
+        box-shadow: var(--shadow-lg);
+      }
+      
+      .nav-menu.active {
+        display: flex;
+      }
+      
+      .nav-actions {
+        gap: 0.5rem;
+      }
+      
+      .nav-signup {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .mobile-menu-toggle {
+        display: block;
+      }
+    }
+    </style>
+    
+    <!-- Non-critical CSS -->
+    <link rel="stylesheet" href="../css/main.css" media="print" onload="this.media='all'; this.onload=null;">
+    <noscript><link rel="stylesheet" href="../css/main.css"></noscript>
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="trabaja-page">
+    <!-- Main Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Navegación principal">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html" aria-label="Turismo Mundial AO - Inicio">
+                    <img src="../images/ao-logo-official.svg" alt="Turismo Mundial AO" width="180" height="50">
+                </a>
+            </div>
+            
+            <ul class="nav-menu" id="main-menu">
+                <li><a href="trabaja.html" class="nav-link">Trabaja</a></li>
+                <li><a href="aprende.html" class="nav-link">Aprende</a></li>
+                <li><a href="descubre.html" class="nav-link">Descubre</a></li>
+                <li><a href="explora-seguro.html" class="nav-link">Explora Seguro</a></li>
+                <li><a href="eventos.html" class="nav-link">Eventos</a></li>
+                <li><a href="impacto.html" class="nav-link">Impacto AO</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <a href="/login" class="nav-login">Iniciar Sesión</a>
+                <a href="/registro" class="nav-signup">Registrarse</a>
+                <button class="lang-selector" aria-label="Cambiar idioma" aria-expanded="false">ES</button>
+                <button class="mobile-menu-toggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="main-menu">☰</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero hero-trabaja">
+        <div class="hero-background">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">🇲🇽</span>
+                    <span>Plataforma Oficial del Gobierno de México</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    Tu Próximo Capítulo Profesional <span class="text-gradient">Comienza Aquí</span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    Empleos verificados que respetan tu tiempo y reconocen tu talento. 
+                    Conecta con más de <strong>2,500+ oportunidades</strong> en el sector turístico más vibrante de América Latina.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">2,500+</div>
+                        <div class="stat-label">Empleos Activos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">850+</div>
+                        <div class="stat-label">Empresas Verificadas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">15,000+</div>
+                        <div class="stat-label">Profesionales Conectados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">92%</div>
+                        <div class="stat-label">Tasa de Éxito</div>
+                    </div>
+                </div>
+                
+                <div class="hero-actions">
+                    <button class="btn btn-primary btn-large" onclick="scrollToJobSearch()">
+                        <span class="btn-icon">🔍</span>
+                        Encuentra Tu Empleo Ideal
+                    </button>
+                    <button class="btn btn-outline btn-large" onclick="openProfileBuilder()">
+                        <span class="btn-icon">👤</span>
+                        Construye Tu Perfil
+                    </button>
+                </div>
+                
+                <div class="hero-trust-signals">
+                    <p class="trust-text">Verificado por:</p>
+                    <div class="trust-badges">
+                        <div class="trust-badge">
+                            <img src="../images/sectur-logo.svg" alt="SECTUR">
+                        </div>
+                        <div class="trust-badge">
+                            <img src="../images/stps-logo.svg" alt="STPS">
+                        </div>
+                        <div class="trust-badge">
+                            <img src="../images/canacintra-logo.svg" alt="CANACINTRA">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Job Search Section -->
+    <section class="job-search-section" id="jobSearch">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Descubre Oportunidades Extraordinarias</h2>
+                <p class="section-subtitle">
+                    Filtra por ubicación, salario, experiencia y tipo de empleo para encontrar exactamente lo que buscas
+                </p>
+            </div>
+            
+            <div class="job-search-form">
+                <div class="search-form-row">
+                    <div class="search-field search-field-main">
+                        <label for="jobQuery" class="sr-only">¿Qué trabajo buscas?</label>
+                        <div class="search-input-wrapper">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="jobQuery" class="search-input" placeholder="¿Qué trabajo buscas? Ej: Recepcionista, Guía turístico, Chef...">
+                        </div>
+                    </div>
+                    
+                    <div class="search-field">
+                        <label for="location" class="sr-only">Ubicación</label>
+                        <div class="search-input-wrapper">
+                            <span class="search-icon">📍</span>
+                            <select id="location" class="search-select">
+                                <option value="">Toda la República</option>
+                                <option value="cdmx">Ciudad de México</option>
+                                <option value="cancun">Cancún, Q. Roo</option>
+                                <option value="playa-del-carmen">Playa del Carmen, Q. Roo</option>
+                                <option value="puerto-vallarta">Puerto Vallarta, Jal.</option>
+                                <option value="los-cabos">Los Cabos, BCS</option>
+                                <option value="mazatlan">Mazatlán, Sin.</option>
+                                <option value="acapulco">Acapulco, Gro.</option>
+                                <option value="merida">Mérida, Yuc.</option>
+                                <option value="guadalajara">Guadalajara, Jal.</option>
+                                <option value="oaxaca">Oaxaca, Oax.</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary search-btn" onclick="searchJobs()">
+                        <span class="btn-icon">🚀</span>
+                        Buscar
+                    </button>
+                </div>
+                
+                <div class="search-filters">
+                    <button class="filter-btn" onclick="toggleFilter('salary')">
+                        <span class="filter-icon">💰</span>
+                        Salario
+                        <span class="filter-arrow">▾</span>
+                    </button>
+                    <button class="filter-btn" onclick="toggleFilter('experience')">
+                        <span class="filter-icon">⭐</span>
+                        Experiencia
+                        <span class="filter-arrow">▾</span>
+                    </button>
+                    <button class="filter-btn" onclick="toggleFilter('type')">
+                        <span class="filter-icon">⏰</span>
+                        Tipo de Empleo
+                        <span class="filter-arrow">▾</span>
+                    </button>
+                    <button class="filter-btn" onclick="toggleFilter('benefits')">
+                        <span class="filter-icon">🎁</span>
+                        Beneficios
+                        <span class="filter-arrow">▾</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Jobs Section -->
+    <section class="featured-jobs-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Empleos Destacados de Esta Semana</h2>
+                <p class="section-subtitle">Oportunidades seleccionadas especialmente para ti</p>
+            </div>
+            
+            <div class="jobs-grid" id="featuredJobs">
+                <!-- Featured Job Card 1 -->
+                <div class="job-card featured">
+                    <div class="job-card-header">
+                        <div class="company-info">
+                            <div class="company-logo">
+                                <img src="../images/companies/hotel-rosewood.jpg" alt="Hotel Rosewood">
+                            </div>
+                            <div class="company-details">
+                                <h3 class="job-title">Concierge de Lujo</h3>
+                                <p class="company-name">Hotel Rosewood San Miguel</p>
+                                <p class="job-location">📍 San Miguel de Allende, Gto.</p>
+                            </div>
+                        </div>
+                        <div class="job-actions">
+                            <button class="btn-icon-small" onclick="saveJob('job-1')" aria-label="Guardar empleo">
+                                <span class="icon">❤️</span>
+                            </button>
+                            <div class="job-badge urgente">Urgente</div>
+                        </div>
+                    </div>
+                    
+                    <div class="job-card-content">
+                        <div class="job-highlights">
+                            <div class="highlight">
+                                <span class="highlight-icon">💰</span>
+                                <span class="highlight-text">$25,000 - $35,000</span>
+                            </div>
+                            <div class="highlight">
+                                <span class="highlight-icon">⭐</span>
+                                <span class="highlight-text">2+ años experiencia</span>
+                            </div>
+                            <div class="highlight">
+                                <span class="highlight-icon">⏰</span>
+                                <span class="highlight-text">Tiempo completo</span>
+                            </div>
+                        </div>
+                        
+                        <p class="job-description">
+                            Buscamos un Concierge excepcional para brindar experiencias únicas a nuestros huéspedes VIP. 
+                            Dominio de inglés requerido. Excelente oportunidad de crecimiento en cadena hotelera de lujo.
+                        </p>
+                        
+                        <div class="job-benefits">
+                            <span class="benefit-tag">🏥 Seguro médico premium</span>
+                            <span class="benefit-tag">🎓 Capacitación continua</span>
+                            <span class="benefit-tag">✈️ Viajes internacionales</span>
+                        </div>
+                        
+                        <div class="job-card-footer">
+                            <div class="job-meta">
+                                <span class="posted-time">Publicado hace 2 horas</span>
+                                <span class="applicants">15 aplicantes</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="applyToJob('job-1')">
+                                Aplicar Ahora
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Job Card 2 -->
+                <div class="job-card featured">
+                    <div class="job-card-header">
+                        <div class="company-info">
+                            <div class="company-logo">
+                                <img src="../images/companies/xcaret.jpg" alt="Xcaret">
+                            </div>
+                            <div class="company-details">
+                                <h3 class="job-title">Guía Especializado en Cultura Maya</h3>
+                                <p class="company-name">Xcaret Experiencias</p>
+                                <p class="job-location">📍 Playa del Carmen, Q. Roo</p>
+                            </div>
+                        </div>
+                        <div class="job-actions">
+                            <button class="btn-icon-small" onclick="saveJob('job-2')" aria-label="Guardar empleo">
+                                <span class="icon">❤️</span>
+                            </button>
+                            <div class="job-badge nuevo">Nuevo</div>
+                        </div>
+                    </div>
+                    
+                    <div class="job-card-content">
+                        <div class="job-highlights">
+                            <div class="highlight">
+                                <span class="highlight-icon">💰</span>
+                                <span class="highlight-text">$22,000 - $28,000</span>
+                            </div>
+                            <div class="highlight">
+                                <span class="highlight-icon">⭐</span>
+                                <span class="highlight-text">1+ años experiencia</span>
+                            </div>
+                            <div class="highlight">
+                                <span class="highlight-icon">⏰</span>
+                                <span class="highlight-text">Tiempo completo</span>
+                            </div>
+                        </div>
+                        
+                        <p class="job-description">
+                            Únete al equipo más apasionado de la Riviera Maya. Comparte la riqueza de la cultura maya 
+                            con visitantes de todo el mundo. Conocimientos en historia prehispánica valorados.
+                        </p>
+                        
+                        <div class="job-benefits">
+                            <span class="benefit-tag">🎭 Eventos culturales</span>
+                            <span class="benefit-tag">🌊 Acceso a parques</span>
+                            <span class="benefit-tag">📚 Formación especializada</span>
+                        </div>
+                        
+                        <div class="job-card-footer">
+                            <div class="job-meta">
+                                <span class="posted-time">Publicado hace 5 horas</span>
+                                <span class="applicants">8 aplicantes</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="applyToJob('job-2')">
+                                Aplicar Ahora
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Job Card 3 -->
+                <div class="job-card">
+                    <div class="job-card-header">
+                        <div class="company-info">
+                            <div class="company-logo">
+                                <img src="../images/companies/grupo-vidanta.jpg" alt="Grupo Vidanta">
+                            </div>
+                            <div class="company-details">
+                                <h3 class="job-title">Sommelier Junior</h3>
+                                <p class="company-name">Grupo Vidanta</p>
+                                <p class="job-location">📍 Puerto Vallarta, Jal.</p>
+                            </div>
+                        </div>
+                        <div class="job-actions">
+                            <button class="btn-icon-small" onclick="saveJob('job-3')" aria-label="Guardar empleo">
+                                <span class="icon">🤍</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="job-card-content">
+                        <div class="job-highlights">
+                            <div class="highlight">
+                                <span class="highlight-icon">💰</span>
+                                <span class="highlight-text">$18,000 - $24,000</span>
+                            </div>
+                            <div class="highlight">
+                                <span class="highlight-icon">⭐</span>
+                                <span class="highlight-text">Entrada</span>
+                            </div>
+                            <div class="highlight">
+                                <span class="highlight-icon">⏰</span>
+                                <span class="highlight-text">Tiempo completo</span>
+                            </div>
+                        </div>
+                        
+                        <p class="job-description">
+                            Excelente oportunidad para comenzar tu carrera como sommelier en uno de los complejos 
+                            turísticos más importantes de México. Capacitación completa incluida.
+                        </p>
+                        
+                        <div class="job-benefits">
+                            <span class="benefit-tag">🍷 Certificaciones internacionales</span>
+                            <span class="benefit-tag">🏨 Hospedaje incluido</span>
+                            <span class="benefit-tag">🎯 Plan de carrera</span>
+                        </div>
+                        
+                        <div class="job-card-footer">
+                            <div class="job-meta">
+                                <span class="posted-time">Publicado hace 1 día</span>
+                                <span class="applicants">23 aplicantes</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="applyToJob('job-3')">
+                                Aplicar Ahora
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- More job cards would be loaded dynamically -->
+            </div>
+            
+            <div class="section-actions">
+                <button class="btn btn-outline btn-large" onclick="loadMoreJobs()">
+                    Ver Todas las Oportunidades
+                    <span class="btn-icon">→</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Job Categories Section -->
+    <section class="job-categories-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Explora por Categorías</h2>
+                <p class="section-subtitle">Encuentra tu especialidad en el turismo mexicano</p>
+            </div>
+            
+            <div class="categories-grid">
+                <div class="category-card" onclick="filterByCategory('hoteleria')">
+                    <div class="category-icon">🏨</div>
+                    <h3 class="category-title">Hotelería</h3>
+                    <p class="category-count">850+ empleos</p>
+                    <p class="category-description">Hoteles, resorts y hospedaje</p>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('gastronomia')">
+                    <div class="category-icon">🍽️</div>
+                    <h3 class="category-title">Gastronomía</h3>
+                    <p class="category-count">420+ empleos</p>
+                    <p class="category-description">Restaurantes y servicios culinarios</p>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('turismo-aventura')">
+                    <div class="category-icon">🏔️</div>
+                    <h3 class="category-title">Turismo de Aventura</h3>
+                    <p class="category-count">180+ empleos</p>
+                    <p class="category-description">Ecoturismo y deportes extremos</p>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('transporte')">
+                    <div class="category-icon">🚌</div>
+                    <h3 class="category-title">Transporte Turístico</h3>
+                    <p class="category-count">320+ empleos</p>
+                    <p class="category-description">Tours y traslados</p>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('eventos')">
+                    <div class="category-icon">🎪</div>
+                    <h3 class="category-title">Eventos y Entretenimiento</h3>
+                    <p class="category-count">280+ empleos</p>
+                    <p class="category-description">Shows, bodas y eventos corporativos</p>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('spa-wellness')">
+                    <div class="category-icon">🧘‍♀️</div>
+                    <h3 class="category-title">Spa & Wellness</h3>
+                    <p class="category-count">150+ empleos</p>
+                    <p class="category-description">Bienestar y relajación</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stories Section -->
+    <section class="success-stories-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Historias de Éxito Reales</h2>
+                <p class="section-subtitle">Profesionales que transformaron su carrera a través de nuestra plataforma</p>
+            </div>
+            
+            <div class="stories-carousel">
+                <div class="story-card">
+                    <div class="story-content">
+                        <div class="story-quote">
+                            "Gracias a Turismo Mundial AO encontré mi trabajo ideal como gerente de hotel en Tulum. 
+                            El proceso fue transparente y profesional desde el primer día."
+                        </div>
+                        <div class="story-author">
+                            <div class="author-avatar">
+                                <img src="../images/testimonials/maria-santos.jpg" alt="María Santos">
+                            </div>
+                            <div class="author-info">
+                                <h4 class="author-name">María Santos</h4>
+                                <p class="author-position">Gerente de Hotel - Tulum, Q. Roo</p>
+                                <div class="story-outcome">
+                                    <span class="outcome-badge">+40% aumento salarial</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="story-card">
+                    <div class="story-content">
+                        <div class="story-quote">
+                            "De mesero a sommelier certificado en solo 8 meses. La plataforma no solo me conectó 
+                            con el empleo, sino con las certificaciones que necesitaba."
+                        </div>
+                        <div class="story-author">
+                            <div class="author-avatar">
+                                <img src="../images/testimonials/carlos-mendez.jpg" alt="Carlos Méndez">
+                            </div>
+                            <div class="author-info">
+                                <h4 class="author-name">Carlos Méndez</h4>
+                                <p class="author-position">Sommelier Certificado - Los Cabos, BCS</p>
+                                <div class="story-outcome">
+                                    <span class="outcome-badge">Certificación internacional</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="story-card">
+                    <div class="story-content">
+                        <div class="story-quote">
+                            "Como guía bilingüe, encontré oportunidades en las mejores agencias de Cancún. 
+                            La verificación de credenciales me dio ventaja competitiva."
+                        </div>
+                        <div class="story-author">
+                            <div class="author-avatar">
+                                <img src="../images/testimonials/ana-rodriguez.jpg" alt="Ana Rodríguez">
+                            </div>
+                            <div class="author-info">
+                                <h4 class="author-name">Ana Rodríguez</h4>
+                                <p class="author-position">Guía Turística Premium - Cancún, Q. Roo</p>
+                                <div class="story-outcome">
+                                    <span class="outcome-badge">3 ofertas simultáneas</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section cta-trabaja">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">¿Listo Para Cambiar Tu Futuro Profesional?</h2>
+                <p class="cta-subtitle">
+                    Únete a más de 15,000 profesionales que ya encontraron su lugar en el turismo mexicano
+                </p>
+                <div class="cta-actions">
+                    <button class="btn btn-primary btn-large" onclick="startRegistration()">
+                        <span class="btn-icon">🚀</span>
+                        Crear Mi Perfil Profesional
+                    </button>
+                    <button class="btn btn-outline btn-large" onclick="showJobAlerts()">
+                        <span class="btn-icon">🔔</span>
+                        Configurar Alertas de Empleo
+                    </button>
+                </div>
+                
+                <div class="cta-guarantees">
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>100% Gratuito</span>
+                    </div>
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>Empleos Verificados</span>
+                    </div>
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>Soporte 24/7</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <img src="../images/ao-logo-white.svg" alt="AO Logo" class="footer-logo">
+                        <h3>Turismo Mundial AO</h3>
+                        <p>Transformando el turismo mexicano a través del talento y la tecnología</p>
+                    </div>
+                    
+                    <div class="footer-modules">
+                        <h4>Nuestros Módulos</h4>
+                        <ul>
+                            <li><a href="trabaja.html">💼 Trabaja</a></li>
+                            <li><a href="aprende.html">📚 Aprende</a></li>
+                            <li><a href="descubre.html">🌟 Descubre</a></li>
+                            <li><a href="explora-seguro.html">🛡️ Explora Seguro</a></li>
+                            <li><a href="eventos.html">🎉 Eventos</a></li>
+                            <li><a href="impacto.html">📊 Impacto AO</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-support">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="ayuda.html">Centro de Ayuda</a></li>
+                            <li><a href="contacto.html">Contacto</a></li>
+                            <li><a href="terminos.html">Términos y Condiciones</a></li>
+                            <li><a href="privacidad.html">Política de Privacidad</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-government">
+                        <h4>Gobierno de México</h4>
+                        <div class="government-logos">
+                            <img src="../images/gobierno-mexico.svg" alt="Gobierno de México">
+                            <img src="../images/sectur.svg" alt="SECTUR">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-legal">
+                        <p>&copy; 2024 Turismo Mundial AO. Una iniciativa del Gobierno de México.</p>
+                    </div>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><span class="social-icon">📘</span></a>
+                        <a href="#" aria-label="Instagram"><span class="social-icon">📷</span></a>
+                        <a href="#" aria-label="Twitter"><span class="social-icon">🐦</span></a>
+                        <a href="#" aria-label="LinkedIn"><span class="social-icon">💼</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeAuthModal()">&times;</span>
+            <div id="authModalContent">
+                <!-- Auth form will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // Trabaja-specific JavaScript
+        function scrollToJobSearch() {
+            document.getElementById('jobSearch').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function searchJobs() {
+            const query = document.getElementById('jobQuery').value;
+            const location = document.getElementById('location').value;
+            // Implement job search logic
+            console.log('Searching for:', query, 'in', location);
+        }
+
+        function applyToJob(jobId) {
+            // Check if user is authenticated
+            if (!isUserLoggedIn()) {
+                openAuthModal('register');
+                return;
+            }
+            // Implement job application logic
+            console.log('Applying to job:', jobId);
+        }
+
+        function saveJob(jobId) {
+            // Toggle save state
+            const button = event.target.closest('button');
+            const icon = button.querySelector('.icon');
+            icon.textContent = icon.textContent === '🤍' ? '❤️' : '🤍';
+            // Implement save job logic
+        }
+
+        function filterByCategory(category) {
+            // Implement category filtering
+            console.log('Filtering by category:', category);
+        }
+
+        function startRegistration() {
+            openAuthModal('register');
+        }
+    </script>
+</body>
+</html>

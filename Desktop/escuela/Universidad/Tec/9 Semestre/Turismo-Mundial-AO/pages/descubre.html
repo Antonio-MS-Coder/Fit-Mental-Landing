@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descubre - Experiencias Auténticas de México | Turismo Mundial AO</title>
+    <meta name="description" content="Descubre México a través de experiencias auténticas creadas por locales. Turismo responsable, sustentable y memorable en todos los rincones del país.">
+    <meta name="keywords" content="turismo México, experiencias auténticas, tours locales, turismo sustentable, paquetes turísticos México, guías locales">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://antonio-ms-coder.github.io/AO-Turismo-Mundial/pages/descubre.html">
+    <meta property="og:title" content="Descubre - México Auténtico">
+    <meta property="og:description" content="Experiencias únicas creadas por quienes conocen el alma de cada lugar">
+    <meta property="og:image" content="../images/descubre-og.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://antonio-ms-coder.github.io/AO-Turismo-Mundial/pages/descubre.html">
+    <meta property="twitter:title" content="Descubre - México Auténtico">
+    <meta property="twitter:description" content="México te invita a vivir sus secretos mejor guardados">
+    <meta property="twitter:image" content="../images/descubre-twitter.jpg">
+
+    <!-- Critical CSS Inline -->
+    <style>
+    /* Critical Above-the-Fold Styles */
+    :root {
+      --ao-navy: #1B365D;
+      --ao-navy-light: #2E4F73;
+      --ao-gold: #D4AF37;
+      --ao-gold-light: #E6C24F;
+      --ao-green: #2E7D32;
+      --ao-green-light: #43A047;
+      --ao-red: #C62828;
+      --ao-white: #FFFFFF;
+      --ao-gray-50: #FAFAFA;
+      --ao-gray-100: #F5F5F5;
+      --ao-gray-200: #E0E0E0;
+      --ao-gray-300: #BDBDBD;
+      --ao-gray-600: #757575;
+      --ao-gray-800: #424242;
+      --ao-gray-900: #212121;
+      --ao-black: #000000;
+      
+      --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+    
+    body {
+      font-family: var(--font-inter);
+      line-height: 1.6;
+      color: var(--ao-gray-900);
+      background-color: var(--ao-white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Main Navigation */
+    .main-nav {
+      background: var(--ao-white);
+      border-bottom: 1px solid var(--ao-gray-200);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+    }
+    
+    .nav-brand img {
+      height: 50px;
+      width: auto;
+    }
+    
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    
+    .nav-link {
+      color: var(--ao-gray-800);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: var(--transition-base);
+      position: relative;
+    }
+    
+    .nav-link:hover {
+      color: var(--ao-navy);
+      background: var(--ao-gray-50);
+    }
+    
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .nav-login {
+      color: var(--ao-gray-700);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: var(--transition-base);
+    }
+    
+    .nav-login:hover {
+      color: var(--ao-navy);
+      background: var(--ao-gray-50);
+    }
+    
+    .nav-signup {
+      background: var(--ao-navy);
+      color: var(--ao-white);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      transition: var(--transition-base);
+    }
+    
+    .nav-signup:hover {
+      background: var(--ao-navy-light);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .lang-selector {
+      background: transparent;
+      border: 1px solid var(--ao-gray-300);
+      color: var(--ao-gray-700);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+    
+    .lang-selector:hover {
+      border-color: var(--ao-navy);
+      color: var(--ao-navy);
+    }
+    
+    .mobile-menu-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--ao-gray-700);
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--ao-white);
+        border-top: 1px solid var(--ao-gray-200);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.5rem;
+        box-shadow: var(--shadow-lg);
+      }
+      
+      .nav-menu.active {
+        display: flex;
+      }
+      
+      .nav-actions {
+        gap: 0.5rem;
+      }
+      
+      .nav-signup {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .mobile-menu-toggle {
+        display: block;
+      }
+    }
+    </style>
+    
+    <!-- Non-critical CSS -->
+    <link rel="stylesheet" href="../css/main.css" media="print" onload="this.media='all'; this.onload=null;">
+    <noscript><link rel="stylesheet" href="../css/main.css"></noscript>
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="descubre-page">
+    <!-- Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Navegación principal">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html" aria-label="Turismo Mundial AO - Inicio">
+                    <img src="../images/ao-logo.svg" alt="AO Logo" class="nav-logo">
+                    <span class="nav-brand-text">Turismo Mundial <strong>AO</strong></span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <div class="nav-modules">
+                    <a href="trabaja.html" class="nav-link">
+                        <span class="nav-icon">💼</span>
+                        <span>Trabaja</span>
+                    </a>
+                    <a href="aprende.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        <span>Aprende</span>
+                    </a>
+                    <a href="descubre.html" class="nav-link active" aria-current="page">
+                        <span class="nav-icon">🌟</span>
+                        <span>Descubre</span>
+                    </a>
+                    <a href="explora-seguro.html" class="nav-link">
+                        <span class="nav-icon">🛡️</span>
+                        <span>Explora Seguro</span>
+                    </a>
+                    <a href="eventos.html" class="nav-link">
+                        <span class="nav-icon">🎉</span>
+                        <span>Eventos</span>
+                    </a>
+                    <a href="impacto.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        <span>Impacto AO</span>
+                    </a>
+                </div>
+                
+                <div class="nav-auth">
+                    <button class="btn btn-outline" onclick="openAuthModal('login')">Iniciar Sesión</button>
+                    <button class="btn btn-primary" onclick="openAuthModal('register')">Comenzar Ahora</button>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero hero-descubre">
+        <div class="hero-background">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">🇲🇽</span>
+                    <span>Experiencias Verificadas por Expertos Locales</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    México Te Invita a Vivir Sus <span class="text-gradient">Secretos Mejor Guardados</span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    Experiencias auténticas creadas por quienes conocen el alma de cada lugar. 
+                    <strong>+1,200 experiencias únicas</strong> en todos los rincones de México esperan por ti.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">1,200+</div>
+                        <div class="stat-label">Experiencias Únicas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">450+</div>
+                        <div class="stat-label">Guías Locales</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">32</div>
+                        <div class="stat-label">Estados de México</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Satisfacción</div>
+                    </div>
+                </div>
+                
+                <div class="hero-search">
+                    <div class="search-form">
+                        <div class="search-field search-field-main">
+                            <label for="experienceQuery" class="sr-only">¿Qué quieres descubrir?</label>
+                            <div class="search-input-wrapper">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="experienceQuery" class="search-input" placeholder="¿Qué quieres descubrir? Ej: Cenotes, Cocina maya, Artesanías...">
+                            </div>
+                        </div>
+                        
+                        <div class="search-field">
+                            <label for="destination" class="sr-only">Destino</label>
+                            <div class="search-input-wrapper">
+                                <span class="search-icon">📍</span>
+                                <select id="destination" class="search-select">
+                                    <option value="">¿Dónde quieres ir?</option>
+                                    <option value="yucatan">Yucatán - Mundo Maya</option>
+                                    <option value="oaxaca">Oaxaca - Cultura Viva</option>
+                                    <option value="chiapas">Chiapas - Naturaleza Pura</option>
+                                    <option value="quintana-roo">Quintana Roo - Caribe Mexicano</option>
+                                    <option value="jalisco">Jalisco - Tradiciones</option>
+                                    <option value="cdmx">Ciudad de México</option>
+                                    <option value="puebla">Puebla - Gastronomía</option>
+                                    <option value="guanajuato">Guanajuato - Colonial</option>
+                                    <option value="michoacan">Michoacán - Artesanías</option>
+                                    <option value="baja-california">Baja California - Vinos</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary search-btn" onclick="searchExperiences()">
+                            <span class="btn-icon">🚀</span>
+                            Explorar
+                        </button>
+                    </div>
+                    
+                    <div class="search-suggestions">
+                        <span class="suggestion-label">Populares:</span>
+                        <button class="suggestion-tag" onclick="searchSuggestion('cenotes')">Cenotes Secretos</button>
+                        <button class="suggestion-tag" onclick="searchSuggestion('cocina-maya')">Cocina Maya</button>
+                        <button class="suggestion-tag" onclick="searchSuggestion('artesanias')">Artesanías</button>
+                        <button class="suggestion-tag" onclick="searchSuggestion('mezcal')">Ruta del Mezcal</button>
+                    </div>
+                </div>
+                
+                <div class="hero-trust-signals">
+                    <p class="trust-text">Experiencias verificadas por:</p>
+                    <div class="trust-badges">
+                        <div class="trust-badge">
+                            <img src="../images/sectur-logo.svg" alt="SECTUR">
+                        </div>
+                        <div class="trust-badge">
+                            <img src="../images/fonatur-logo.svg" alt="FONATUR">
+                        </div>
+                        <div class="trust-badge">
+                            <img src="../images/inah-logo.svg" alt="INAH">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Experiences Section -->
+    <section class="featured-experiences-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Experiencias Extraordinarias de Esta Semana</h2>
+                <p class="section-subtitle">Seleccionadas por nuestros expertos en turismo auténtico</p>
+            </div>
+            
+            <div class="experiences-grid">
+                <!-- Featured Experience 1 -->
+                <div class="experience-card featured">
+                    <div class="experience-image">
+                        <img src="../images/experiences/cenote-secreto.jpg" alt="Cenote Secreto Maya">
+                        <div class="experience-badge">🔥 Imperdible</div>
+                        <div class="experience-favorite">
+                            <button class="btn-icon-small" onclick="toggleFavorite('exp-1')" aria-label="Agregar a favoritos">
+                                <span class="icon">🤍</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="experience-content">
+                        <div class="experience-header">
+                            <div class="experience-category">Naturaleza Sagrada</div>
+                            <div class="experience-rating">
+                                <div class="stars">★★★★★</div>
+                                <span class="rating-text">4.9 (347 reseñas)</span>
+                            </div>
+                        </div>
+                        
+                        <h3 class="experience-title">Cenote Secreto Maya: Ceremonia de Purificación</h3>
+                        <p class="experience-description">
+                            Descubre un cenote sagrado conocido solo por la comunidad maya local. 
+                            Incluye ceremonia tradicional de purificación y almuerzo con familia maya.
+                        </p>
+                        
+                        <div class="experience-highlights">
+                            <div class="highlight-item">
+                                <span class="highlight-icon">⏱️</span>
+                                <span>6 horas</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">👥</span>
+                                <span>Max. 8 personas</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🌱</span>
+                                <span>100% Sustentable</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">💧</span>
+                                <span>Acceso exclusivo</span>
+                            </div>
+                        </div>
+                        
+                        <div class="experience-guide">
+                            <div class="guide-avatar">
+                                <img src="../images/guides/ixchel-maya.jpg" alt="Guía Ixchel">
+                            </div>
+                            <div class="guide-info">
+                                <h4 class="guide-name">Ixchel Can</h4>
+                                <p class="guide-heritage">Guardiana Maya - 3ra Generación</p>
+                                <div class="guide-badges">
+                                    <span class="guide-badge">Certificada SECTUR</span>
+                                    <span class="guide-badge">Especialista Cultural</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="experience-footer">
+                            <div class="experience-price">
+                                <span class="price-label">Desde</span>
+                                <span class="price-amount">$1,850</span>
+                                <span class="price-person">por persona</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="bookExperience('exp-1')">
+                                Reservar Ahora
+                            </button>
+                        </div>
+                        
+                        <div class="experience-location">
+                            <span class="location-icon">📍</span>
+                            <span class="location-text">Valladolid, Yucatán</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Experience 2 -->
+                <div class="experience-card featured">
+                    <div class="experience-image">
+                        <img src="../images/experiences/cocina-oaxaca.jpg" alt="Cocina Tradicional Oaxaqueña">
+                        <div class="experience-badge">👨‍🍳 Chef Local</div>
+                        <div class="experience-favorite">
+                            <button class="btn-icon-small" onclick="toggleFavorite('exp-2')" aria-label="Agregar a favoritos">
+                                <span class="icon">🤍</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="experience-content">
+                        <div class="experience-header">
+                            <div class="experience-category">Gastronomía Ancestral</div>
+                            <div class="experience-rating">
+                                <div class="stars">★★★★★</div>
+                                <span class="rating-text">4.8 (892 reseñas)</span>
+                            </div>
+                        </div>
+                        
+                        <h3 class="experience-title">Cocina Zapoteca: Mole de 7 Chiles</h3>
+                        <p class="experience-description">
+                            Aprende a preparar el auténtico mole oaxaqueño en casa de una familia zapoteca. 
+                            Incluye visita al mercado tradicional y degustación completa.
+                        </p>
+                        
+                        <div class="experience-highlights">
+                            <div class="highlight-item">
+                                <span class="highlight-icon">⏱️</span>
+                                <span>5 horas</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">👥</span>
+                                <span>Max. 6 personas</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🌶️</span>
+                                <span>7 chiles únicos</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🏠</span>
+                                <span>Casa familiar</span>
+                            </div>
+                        </div>
+                        
+                        <div class="experience-guide">
+                            <div class="guide-avatar">
+                                <img src="../images/guides/esperanza-zapoteca.jpg" alt="Guía Esperanza">
+                            </div>
+                            <div class="guide-info">
+                                <h4 class="guide-name">Esperanza Martínez</h4>
+                                <p class="guide-heritage">Maestra Cocinera Zapoteca</p>
+                                <div class="guide-badges">
+                                    <span class="guide-badge">UNESCO Patrimonio</span>
+                                    <span class="guide-badge">20+ años experiencia</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="experience-footer">
+                            <div class="experience-price">
+                                <span class="price-label">Desde</span>
+                                <span class="price-amount">$2,200</span>
+                                <span class="price-person">por persona</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="bookExperience('exp-2')">
+                                Reservar Ahora
+                            </button>
+                        </div>
+                        
+                        <div class="experience-location">
+                            <span class="location-icon">📍</span>
+                            <span class="location-text">Oaxaca de Juárez, Oaxaca</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Experience 3 -->
+                <div class="experience-card">
+                    <div class="experience-image">
+                        <img src="../images/experiences/mezcal-artesanal.jpg" alt="Ruta del Mezcal">
+                        <div class="experience-badge">🥃 Artesanal</div>
+                        <div class="experience-favorite">
+                            <button class="btn-icon-small" onclick="toggleFavorite('exp-3')" aria-label="Agregar a favoritos">
+                                <span class="icon">🤍</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="experience-content">
+                        <div class="experience-header">
+                            <div class="experience-category">Tradiciones Vivas</div>
+                            <div class="experience-rating">
+                                <div class="stars">★★★★★</div>
+                                <span class="rating-text">4.7 (523 reseñas)</span>
+                            </div>
+                        </div>
+                        
+                        <h3 class="experience-title">Ruta del Mezcal: Maestro Mezcalero</h3>
+                        <p class="experience-description">
+                            Vive el proceso completo del mezcal artesanal con un maestro mezcalero de 4ta generación. 
+                            Incluye degustación de 8 variedades únicas.
+                        </p>
+                        
+                        <div class="experience-highlights">
+                            <div class="highlight-item">
+                                <span class="highlight-icon">⏱️</span>
+                                <span>4 horas</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">👥</span>
+                                <span>Max. 10 personas</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🌵</span>
+                                <span>8 variedades</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🏆</span>
+                                <span>Premiado internacionalmente</span>
+                            </div>
+                        </div>
+                        
+                        <div class="experience-guide">
+                            <div class="guide-avatar">
+                                <img src="../images/guides/don-aurelio.jpg" alt="Don Aurelio">
+                            </div>
+                            <div class="guide-info">
+                                <h4 class="guide-name">Don Aurelio Ángeles</h4>
+                                <p class="guide-heritage">Maestro Mezcalero - 4ta Generación</p>
+                                <div class="guide-badges">
+                                    <span class="guide-badge">Denominación de Origen</span>
+                                    <span class="guide-badge">40+ años tradición</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="experience-footer">
+                            <div class="experience-price">
+                                <span class="price-label">Desde</span>
+                                <span class="price-amount">$1,650</span>
+                                <span class="price-person">por persona</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="bookExperience('exp-3')">
+                                Reservar Ahora
+                            </button>
+                        </div>
+                        
+                        <div class="experience-location">
+                            <span class="location-icon">📍</span>
+                            <span class="location-text">Santiago Matatlán, Oaxaca</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Experience 4 -->
+                <div class="experience-card">
+                    <div class="experience-image">
+                        <img src="../images/experiences/artesanias-michoacan.jpg" alt="Artesanías Purépecha">
+                        <div class="experience-badge">🎨 UNESCO</div>
+                        <div class="experience-favorite">
+                            <button class="btn-icon-small" onclick="toggleFavorite('exp-4')" aria-label="Agregar a favoritos">
+                                <span class="icon">🤍</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="experience-content">
+                        <div class="experience-header">
+                            <div class="experience-category">Arte Purépecha</div>
+                            <div class="experience-rating">
+                                <div class="stars">★★★★★</div>
+                                <span class="rating-text">4.6 (284 reseñas)</span>
+                            </div>
+                        </div>
+                        
+                        <h3 class="experience-title">Artesanías Purépecha: Laca de Olinalá</h3>
+                        <p class="experience-description">
+                            Aprende la técnica ancestral de la laca purépecha con artesanos reconocidos por UNESCO. 
+                            Crea tu propia pieza de arte tradicional.
+                        </p>
+                        
+                        <div class="experience-highlights">
+                            <div class="highlight-item">
+                                <span class="highlight-icon">⏱️</span>
+                                <span>3 horas</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">👥</span>
+                                <span>Max. 4 personas</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🎨</span>
+                                <span>Arte ancestral</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🎁</span>
+                                <span>Tu creación incluida</span>
+                            </div>
+                        </div>
+                        
+                        <div class="experience-guide">
+                            <div class="guide-avatar">
+                                <img src="../images/guides/maestra-carmen.jpg" alt="Maestra Carmen">
+                            </div>
+                            <div class="guide-info">
+                                <h4 class="guide-name">Carmen Lemus</h4>
+                                <p class="guide-heritage">Maestra Artesana Purépecha</p>
+                                <div class="guide-badges">
+                                    <span class="guide-badge">Patrimonio UNESCO</span>
+                                    <span class="guide-badge">Gran Maestra Nacional</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="experience-footer">
+                            <div class="experience-price">
+                                <span class="price-label">Desde</span>
+                                <span class="price-amount">$980</span>
+                                <span class="price-person">por persona</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="bookExperience('exp-4')">
+                                Reservar Ahora
+                            </button>
+                        </div>
+                        
+                        <div class="experience-location">
+                            <span class="location-icon">📍</span>
+                            <span class="location-text">Pátzcuaro, Michoacán</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Explora México Por Categorías</h2>
+                <p class="section-subtitle">Encuentra exactamente el tipo de experiencia que buscas</p>
+            </div>
+            
+            <div class="categories-grid">
+                <div class="category-card" onclick="filterByCategory('gastronomia')">
+                    <div class="category-image">
+                        <img src="../images/categories/gastronomia.jpg" alt="Gastronomía Mexicana">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-icon">🍽️</div>
+                        <h3 class="category-title">Gastronomía</h3>
+                        <p class="category-count">280+ experiencias</p>
+                        <p class="category-description">Cocina tradicional y fusión moderna</p>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('naturaleza')">
+                    <div class="category-image">
+                        <img src="../images/categories/naturaleza.jpg" alt="Naturaleza y Aventura">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-icon">🏔️</div>
+                        <h3 class="category-title">Naturaleza</h3>
+                        <p class="category-count">340+ experiencias</p>
+                        <p class="category-description">Ecoturismo y aventura</p>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('cultura')">
+                    <div class="category-image">
+                        <img src="../images/categories/cultura.jpg" alt="Cultura y Tradiciones">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-icon">🎭</div>
+                        <h3 class="category-title">Cultura</h3>
+                        <p class="category-count">210+ experiencias</p>
+                        <p class="category-description">Historia y tradiciones vivas</p>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('artesanias')">
+                    <div class="category-image">
+                        <img src="../images/categories/artesanias.jpg" alt="Artesanías Mexicanas">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-icon">🎨</div>
+                        <h3 class="category-title">Artesanías</h3>
+                        <p class="category-count">150+ experiencias</p>
+                        <p class="category-description">Técnicas ancestrales</p>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('bienestar')">
+                    <div class="category-image">
+                        <img src="../images/categories/bienestar.jpg" alt="Bienestar y Relajación">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-icon">🧘‍♀️</div>
+                        <h3 class="category-title">Bienestar</h3>
+                        <p class="category-count">90+ experiencias</p>
+                        <p class="category-description">Spa y medicina tradicional</p>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('festivales')">
+                    <div class="category-image">
+                        <img src="../images/categories/festivales.jpg" alt="Festivales y Celebraciones">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-icon">🎉</div>
+                        <h3 class="category-title">Festivales</h3>
+                        <p class="category-count">130+ experiencias</p>
+                        <p class="category-description">Celebraciones auténticas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Local Guides Section -->
+    <section class="local-guides-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Conoce a Nuestros Guías Extraordinarios</h2>
+                <p class="section-subtitle">Expertos locales que comparten su amor por México</p>
+            </div>
+            
+            <div class="guides-carousel">
+                <div class="guide-card">
+                    <div class="guide-image">
+                        <img src="../images/guides/carlos-maya.jpg" alt="Carlos Tun - Guía Maya">
+                        <div class="guide-certifications">
+                            <span class="cert-badge">INAH Certificado</span>
+                        </div>
+                    </div>
+                    <div class="guide-info">
+                        <h3 class="guide-name">Carlos Tun</h3>
+                        <p class="guide-heritage">Guardián del Patrimonio Maya</p>
+                        <p class="guide-location">📍 Chichén Itzá, Yucatán</p>
+                        <div class="guide-stats">
+                            <div class="stat">
+                                <span class="stat-number">5.0</span>
+                                <span class="stat-label">★ Rating</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">1,200+</span>
+                                <span class="stat-label">Tours</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">8</span>
+                                <span class="stat-label">Años exp.</span>
+                            </div>
+                        </div>
+                        <p class="guide-specialty">
+                            "Comparto los secretos de mi cultura maya a través de ceremonias 
+                            auténticas y conocimiento ancestral."
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="guide-card">
+                    <div class="guide-image">
+                        <img src="../images/guides/maria-chef.jpg" alt="María Gonzalez - Chef">
+                        <div class="guide-certifications">
+                            <span class="cert-badge">Chef Certificada</span>
+                        </div>
+                    </div>
+                    <div class="guide-info">
+                        <h3 class="guide-name">María González</h3>
+                        <p class="guide-heritage">Maestra de Cocina Poblana</p>
+                        <p class="guide-location">📍 Puebla de Zaragoza, Puebla</p>
+                        <div class="guide-stats">
+                            <div class="stat">
+                                <span class="stat-number">4.9</span>
+                                <span class="stat-label">★ Rating</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">800+</span>
+                                <span class="stat-label">Clases</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">15</span>
+                                <span class="stat-label">Años exp.</span>
+                            </div>
+                        </div>
+                        <p class="guide-specialty">
+                            "Enseño los secretos del mole poblano y chiles en nogada 
+                            que aprendí de mi abuela."
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="guide-card">
+                    <div class="guide-image">
+                        <img src="../images/guides/fernando-artesano.jpg" alt="Fernando Vázquez - Artesano">
+                        <div class="guide-certifications">
+                            <span class="cert-badge">Gran Maestro</span>
+                        </div>
+                    </div>
+                    <div class="guide-info">
+                        <h3 class="guide-name">Fernando Vázquez</h3>
+                        <p class="guide-heritage">Maestro Alfarero de Tonalá</p>
+                        <p class="guide-location">📍 Tonalá, Jalisco</p>
+                        <div class="guide-stats">
+                            <div class="stat">
+                                <span class="stat-number">4.8</span>
+                                <span class="stat-label">★ Rating</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">500+</span>
+                                <span class="stat-label">Talleres</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">25</span>
+                                <span class="stat-label">Años exp.</span>
+                            </div>
+                        </div>
+                        <p class="guide-specialty">
+                            "Creo piezas únicas con técnicas prehispánicas 
+                            y comparto este arte milenario."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sustainability Section -->
+    <section class="sustainability-section">
+        <div class="container">
+            <div class="sustainability-content">
+                <div class="sustainability-text">
+                    <div class="section-badge">
+                        <span class="badge-icon">🌱</span>
+                        <span>Turismo Responsable</span>
+                    </div>
+                    
+                    <h2 class="section-title">Viaja Con Propósito, Impacta Positivamente</h2>
+                    <p class="section-subtitle">
+                        Cada experiencia que reservas contribuye directamente al bienestar 
+                        de las comunidades locales y la conservación del patrimonio mexicano.
+                    </p>
+                    
+                    <div class="impact-stats">
+                        <div class="impact-item">
+                            <div class="impact-number">$2.5M</div>
+                            <div class="impact-label">Generados para comunidades</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-number">450</div>
+                            <div class="impact-label">Familias beneficiadas</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-number">15</div>
+                            <div class="impact-label">Proyectos de conservación</div>
+                        </div>
+                    </div>
+                    
+                    <div class="sustainability-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">💚</span>
+                            <span class="feature-text">100% de las ganancias van a guías locales</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🌍</span>
+                            <span class="feature-text">Prácticas sustentables certificadas</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🏛️</span>
+                            <span class="feature-text">Conservación del patrimonio cultural</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sustainability-visual">
+                    <img src="../images/sustainability-impact.jpg" alt="Impacto Sustentable">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section cta-descubre">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">¿Listo Para Descubrir el México Auténtico?</h2>
+                <p class="cta-subtitle">
+                    Únete a más de 50,000 viajeros que ya viven experiencias únicas y transformadoras
+                </p>
+                <div class="cta-actions">
+                    <button class="btn btn-primary btn-large" onclick="startExploring()">
+                        <span class="btn-icon">🌟</span>
+                        Explorar Experiencias
+                    </button>
+                    <button class="btn btn-outline btn-large" onclick="becomeGuide()">
+                        <span class="btn-icon">👥</span>
+                        Ser Guía Local
+                    </button>
+                </div>
+                
+                <div class="cta-guarantees">
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>Experiencias Verificadas</span>
+                    </div>
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>Garantía de Satisfacción</span>
+                    </div>
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>Impacto Positivo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <img src="../images/ao-logo-white.svg" alt="AO Logo" class="footer-logo">
+                        <h3>Turismo Mundial AO</h3>
+                        <p>Transformando el turismo mexicano a través del talento y la tecnología</p>
+                    </div>
+                    
+                    <div class="footer-modules">
+                        <h4>Nuestros Módulos</h4>
+                        <ul>
+                            <li><a href="trabaja.html">💼 Trabaja</a></li>
+                            <li><a href="aprende.html">📚 Aprende</a></li>
+                            <li><a href="descubre.html">🌟 Descubre</a></li>
+                            <li><a href="explora-seguro.html">🛡️ Explora Seguro</a></li>
+                            <li><a href="eventos.html">🎉 Eventos</a></li>
+                            <li><a href="impacto.html">📊 Impacto AO</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-support">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="ayuda.html">Centro de Ayuda</a></li>
+                            <li><a href="contacto.html">Contacto</a></li>
+                            <li><a href="terminos.html">Términos y Condiciones</a></li>
+                            <li><a href="privacidad.html">Política de Privacidad</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-government">
+                        <h4>Gobierno de México</h4>
+                        <div class="government-logos">
+                            <img src="../images/gobierno-mexico.svg" alt="Gobierno de México">
+                            <img src="../images/sectur.svg" alt="SECTUR">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-legal">
+                        <p>&copy; 2024 Turismo Mundial AO. Una iniciativa del Gobierno de México.</p>
+                    </div>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><span class="social-icon">📘</span></a>
+                        <a href="#" aria-label="Instagram"><span class="social-icon">📷</span></a>
+                        <a href="#" aria-label="Twitter"><span class="social-icon">🐦</span></a>
+                        <a href="#" aria-label="LinkedIn"><span class="social-icon">💼</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeAuthModal()">&times;</span>
+            <div id="authModalContent">
+                <!-- Auth form will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // Descubre-specific JavaScript
+        function searchExperiences() {
+            const query = document.getElementById('experienceQuery').value;
+            const destination = document.getElementById('destination').value;
+            console.log('Searching experiences:', query, 'in', destination);
+            // Implement experience search logic
+        }
+
+        function searchSuggestion(suggestion) {
+            document.getElementById('experienceQuery').value = suggestion;
+            searchExperiences();
+        }
+
+        function bookExperience(experienceId) {
+            // Check if user is authenticated
+            if (!isUserLoggedIn()) {
+                openAuthModal('register');
+                return;
+            }
+            console.log('Booking experience:', experienceId);
+            // Implement booking logic
+        }
+
+        function toggleFavorite(experienceId) {
+            const button = event.target.closest('button');
+            const icon = button.querySelector('.icon');
+            icon.textContent = icon.textContent === '🤍' ? '❤️' : '🤍';
+            // Implement favorite toggle logic
+        }
+
+        function filterByCategory(category) {
+            console.log('Filtering by category:', category);
+            // Implement category filtering logic
+        }
+
+        function startExploring() {
+            document.getElementById('experienceQuery').focus();
+        }
+
+        function becomeGuide() {
+            // Redirect to guide application
+            console.log('Starting guide application');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Ayuda - Turismo Mundial AO</title>
+    <meta name="description" content="Encuentra respuestas a tus preguntas sobre la plataforma Turismo Mundial AO. Guías, tutoriales y soporte para usuarios.">
+    
+    <!-- Critical CSS Inline -->
+    <style>
+    :root {
+      --ao-navy: #1B365D;
+      --ao-navy-light: #2E4F73;
+      --ao-gold: #D4AF37;
+      --ao-white: #FFFFFF;
+      --ao-gray-50: #FAFAFA;
+      --ao-gray-200: #E0E0E0;
+      --ao-gray-300: #BDBDBD;
+      --ao-gray-700: #757575;
+      --ao-gray-800: #424242;
+      --ao-gray-900: #212121;
+      --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-inter); line-height: 1.6; color: var(--ao-gray-900); background-color: var(--ao-white); }
+    
+    .main-nav { background: var(--ao-white); border-bottom: 1px solid var(--ao-gray-200); position: sticky; top: 0; z-index: 50; box-shadow: var(--shadow-sm); }
+    .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; display: flex; align-items: center; justify-content: space-between; height: 80px; }
+    .nav-brand img { height: 50px; width: auto; }
+    .nav-menu { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-link { color: var(--ao-gray-800); text-decoration: none; font-weight: 500; font-size: 0.95rem; padding: 0.5rem 1rem; border-radius: 6px; transition: var(--transition-base); }
+    .nav-link:hover { color: var(--ao-navy); background: var(--ao-gray-50); }
+    .nav-actions { display: flex; align-items: center; gap: 1rem; }
+    .nav-login { color: var(--ao-gray-700); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; border-radius: 6px; transition: var(--transition-base); }
+    .nav-login:hover { color: var(--ao-navy); background: var(--ao-gray-50); }
+    .nav-signup { background: var(--ao-navy); color: var(--ao-white); text-decoration: none; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 8px; transition: var(--transition-base); }
+    .nav-signup:hover { background: var(--ao-navy-light); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .lang-selector { background: transparent; border: 1px solid var(--ao-gray-300); color: var(--ao-gray-700); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.875rem; cursor: pointer; transition: var(--transition-base); }
+    .lang-selector:hover { border-color: var(--ao-navy); color: var(--ao-navy); }
+    .mobile-menu-toggle { display: none; background: transparent; border: none; font-size: 1.5rem; color: var(--ao-gray-700); cursor: pointer; padding: 0.5rem; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+    </style>
+    
+    <!-- Non-critical CSS -->
+    <link rel="stylesheet" href="../css/main.css" media="print" onload="this.media='all'; this.onload=null;">
+    <noscript><link rel="stylesheet" href="../css/main.css"></noscript>
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="ayuda-page">
+    <!-- Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Navegación principal">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html" aria-label="Turismo Mundial AO - Inicio">
+                    <img src="../images/ao-logo.svg" alt="AO Logo" class="nav-logo">
+                    <span class="nav-brand-text">Turismo Mundial <strong>AO</strong></span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <div class="nav-modules">
+                    <a href="trabaja.html" class="nav-link">
+                        <span class="nav-icon">💼</span>
+                        <span>Trabaja</span>
+                    </a>
+                    <a href="aprende.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        <span>Aprende</span>
+                    </a>
+                    <a href="descubre.html" class="nav-link">
+                        <span class="nav-icon">🌟</span>
+                        <span>Descubre</span>
+                    </a>
+                    <a href="explora-seguro.html" class="nav-link">
+                        <span class="nav-icon">🛡️</span>
+                        <span>Explora Seguro</span>
+                    </a>
+                    <a href="eventos.html" class="nav-link">
+                        <span class="nav-icon">🎉</span>
+                        <span>Eventos</span>
+                    </a>
+                    <a href="impacto.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        <span>Impacto AO</span>
+                    </a>
+                </div>
+                
+                <div class="nav-auth">
+                    <button class="btn btn-outline" onclick="openAuthModal('login')">Iniciar Sesión</button>
+                    <button class="btn btn-primary" onclick="openAuthModal('register')">Comenzar Ahora</button>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="help-header">
+                <h1>Centro de Ayuda</h1>
+                <p>Encuentra respuestas rápidas a todas tus preguntas sobre Turismo Mundial AO</p>
+            </div>
+
+            <div class="help-search">
+                <input type="text" placeholder="¿Qué necesitas saber?" class="search-input">
+                <button class="search-btn">Buscar</button>
+            </div>
+
+            <div class="help-categories">
+                <div class="category-card">
+                    <h3>💼 Trabaja</h3>
+                    <p>Preguntas sobre empleos, aplicaciones y contrataciones</p>
+                </div>
+                <div class="category-card">
+                    <h3>📚 Aprende</h3>
+                    <p>Ayuda con certificaciones, cursos y evaluaciones</p>
+                </div>
+                <div class="category-card">
+                    <h3>🌟 Descubre</h3>
+                    <p>Información sobre destinos y experiencias</p>
+                </div>
+                <div class="category-card">
+                    <h3>🛡️ Explora Seguro</h3>
+                    <p>Preguntas sobre seguridad y rutas verificadas</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <img src="../images/ao-logo-white.svg" alt="AO Logo" class="footer-logo">
+                        <h3>Turismo Mundial AO</h3>
+                        <p>Transformando el turismo mexicano a través del talento y la tecnología</p>
+                    </div>
+                    
+                    <div class="footer-modules">
+                        <h4>Nuestros Módulos</h4>
+                        <ul>
+                            <li><a href="trabaja.html">💼 Trabaja</a></li>
+                            <li><a href="aprende.html">📚 Aprende</a></li>
+                            <li><a href="descubre.html">🌟 Descubre</a></li>
+                            <li><a href="explora-seguro.html">🛡️ Explora Seguro</a></li>
+                            <li><a href="eventos.html">🎉 Eventos</a></li>
+                            <li><a href="impacto.html">📊 Impacto AO</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-support">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="ayuda.html">Centro de Ayuda</a></li>
+                            <li><a href="contacto.html">Contacto</a></li>
+                            <li><a href="terminos.html">Términos y Condiciones</a></li>
+                            <li><a href="privacidad.html">Política de Privacidad</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-government">
+                        <h4>Gobierno de México</h4>
+                        <div class="government-logos">
+                            <img src="../images/gobierno-mexico.svg" alt="Gobierno de México">
+                            <img src="../images/sectur.svg" alt="SECTUR">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-legal">
+                        <p>&copy; 2024 Turismo Mundial AO. Una iniciativa del Gobierno de México.</p>
+                    </div>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><span class="social-icon">📘</span></a>
+                        <a href="#" aria-label="Instagram"><span class="social-icon">📷</span></a>
+                        <a href="#" aria-label="Twitter"><span class="social-icon">🐦</span></a>
+                        <a href="#" aria-label="LinkedIn"><span class="social-icon">💼</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>

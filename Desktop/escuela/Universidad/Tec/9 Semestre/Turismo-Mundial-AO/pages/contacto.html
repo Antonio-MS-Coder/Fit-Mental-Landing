@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Turismo Mundial AO</title>
+    <meta name="description" content="Contacta con el equipo de Turismo Mundial AO. Soporte técnico, consultas comerciales y atención al usuario.">
+    
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="contacto-page">
+    <!-- Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Navegación principal">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html" aria-label="Turismo Mundial AO - Inicio">
+                    <img src="../images/ao-logo.svg" alt="AO Logo" class="nav-logo">
+                    <span class="nav-brand-text">Turismo Mundial <strong>AO</strong></span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <div class="nav-modules">
+                    <a href="trabaja.html" class="nav-link">
+                        <span class="nav-icon">💼</span>
+                        <span>Trabaja</span>
+                    </a>
+                    <a href="aprende.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        <span>Aprende</span>
+                    </a>
+                    <a href="descubre.html" class="nav-link">
+                        <span class="nav-icon">🌟</span>
+                        <span>Descubre</span>
+                    </a>
+                    <a href="explora-seguro.html" class="nav-link">
+                        <span class="nav-icon">🛡️</span>
+                        <span>Explora Seguro</span>
+                    </a>
+                    <a href="eventos.html" class="nav-link">
+                        <span class="nav-icon">🎉</span>
+                        <span>Eventos</span>
+                    </a>
+                    <a href="impacto.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        <span>Impacto AO</span>
+                    </a>
+                </div>
+                
+                <div class="nav-auth">
+                    <button class="btn btn-outline" onclick="openAuthModal('login')">Iniciar Sesión</button>
+                    <button class="btn btn-primary" onclick="openAuthModal('register')">Comenzar Ahora</button>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="contact-header">
+                <h1>Contacto</h1>
+                <p>Estamos aquí para ayudarte. Ponte en contacto con nosotros a través de cualquiera de estos canales.</p>
+            </div>
+
+            <div class="contact-options">
+                <div class="contact-card">
+                    <div class="contact-icon">📞</div>
+                    <h3>Soporte Telefónico</h3>
+                    <p>Lunes a Viernes: 9:00 AM - 6:00 PM</p>
+                    <a href="tel:+525512345678" class="contact-link">+52 55 1234 5678</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <h3>Correo Electrónico</h3>
+                    <p>Respuesta en menos de 24 horas</p>
+                    <a href="mailto:soporte@turismomundial.ao.gob.mx" class="contact-link">soporte@turismomundial.ao.gob.mx</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">💬</div>
+                    <h3>Chat en Vivo</h3>
+                    <p>Disponible 24/7</p>
+                    <button class="btn btn-primary" onclick="openLiveChat()">Iniciar Chat</button>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <h2>Envíanos un Mensaje</h2>
+                <form>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre">Nombre completo</label>
+                            <input type="text" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo electrónico</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="asunto">Asunto</label>
+                        <select id="asunto" name="asunto" required>
+                            <option value="">Selecciona un tema</option>
+                            <option value="soporte-tecnico">Soporte Técnico</option>
+                            <option value="consulta-empleo">Consulta sobre Empleos</option>
+                            <option value="certificacion">Certificaciones</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensaje">Mensaje</label>
+                        <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <img src="../images/ao-logo-white.svg" alt="AO Logo" class="footer-logo">
+                        <h3>Turismo Mundial AO</h3>
+                        <p>Transformando el turismo mexicano a través del talento y la tecnología</p>
+                    </div>
+                    
+                    <div class="footer-modules">
+                        <h4>Nuestros Módulos</h4>
+                        <ul>
+                            <li><a href="trabaja.html">💼 Trabaja</a></li>
+                            <li><a href="aprende.html">📚 Aprende</a></li>
+                            <li><a href="descubre.html">🌟 Descubre</a></li>
+                            <li><a href="explora-seguro.html">🛡️ Explora Seguro</a></li>
+                            <li><a href="eventos.html">🎉 Eventos</a></li>
+                            <li><a href="impacto.html">📊 Impacto AO</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-support">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="ayuda.html">Centro de Ayuda</a></li>
+                            <li><a href="contacto.html">Contacto</a></li>
+                            <li><a href="terminos.html">Términos y Condiciones</a></li>
+                            <li><a href="privacidad.html">Política de Privacidad</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-government">
+                        <h4>Gobierno de México</h4>
+                        <div class="government-logos">
+                            <img src="../images/gobierno-mexico.svg" alt="Gobierno de México">
+                            <img src="../images/sectur.svg" alt="SECTUR">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-legal">
+                        <p>&copy; 2024 Turismo Mundial AO. Una iniciativa del Gobierno de México.</p>
+                    </div>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><span class="social-icon">📘</span></a>
+                        <a href="#" aria-label="Instagram"><span class="social-icon">📷</span></a>
+                        <a href="#" aria-label="Twitter"><span class="social-icon">🐦</span></a>
+                        <a href="#" aria-label="LinkedIn"><span class="social-icon">💼</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        function openLiveChat() {
+            console.log('Opening live chat...');
+        }
+    </script>
+</body>
+</html>
