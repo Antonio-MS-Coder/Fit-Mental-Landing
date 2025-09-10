@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impacto AO - Transformando el Turismo Mexicano | Turismo Mundial AO</title>
+    <meta name="description" content="Conoce el impacto real de AO en el turismo mexicano. Datos, métricas y historias de transformación del sector turístico más importante de América Latina.">
+    <meta name="keywords" content="impacto turismo México, datos turismo México, transformación sector turístico, estadísticas turismo AO">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://antonio-ms-coder.github.io/AO-Turismo-Mundial/pages/impacto.html">
+    <meta property="og:title" content="Impacto AO - Transformación del Turismo Mexicano">
+    <meta property="og:description" content="Descubre cómo AO está revolucionando el sector turístico mexicano con datos reales">
+    <meta property="og:image" content="../images/impacto-og.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://antonio-ms-coder.github.io/AO-Turismo-Mundial/pages/impacto.html">
+    <meta property="twitter:title" content="Impacto AO - Transformación del Turismo Mexicano">
+    <meta property="twitter:description" content="Datos reales sobre la transformación del turismo mexicano a través de AO">
+    <meta property="twitter:image" content="../images/impacto-twitter.jpg">
+
+    <!-- Critical CSS Inline -->
+    <style>
+    /* Critical Above-the-Fold Styles */
+    :root {
+      --ao-navy: #1B365D;
+      --ao-navy-light: #2E4F73;
+      --ao-gold: #D4AF37;
+      --ao-gold-light: #E6C24F;
+      --ao-green: #2E7D32;
+      --ao-green-light: #43A047;
+      --ao-red: #C62828;
+      --ao-white: #FFFFFF;
+      --ao-gray-50: #FAFAFA;
+      --ao-gray-100: #F5F5F5;
+      --ao-gray-200: #E0E0E0;
+      --ao-gray-300: #BDBDBD;
+      --ao-gray-600: #757575;
+      --ao-gray-800: #424242;
+      --ao-gray-900: #212121;
+      --ao-black: #000000;
+      
+      --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+    
+    body {
+      font-family: var(--font-inter);
+      line-height: 1.6;
+      color: var(--ao-gray-900);
+      background-color: var(--ao-white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Main Navigation */
+    .main-nav {
+      background: var(--ao-white);
+      border-bottom: 1px solid var(--ao-gray-200);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+    }
+    
+    .nav-brand img {
+      height: 50px;
+      width: auto;
+    }
+    
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    
+    .nav-link {
+      color: var(--ao-gray-800);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: var(--transition-base);
+      position: relative;
+    }
+    
+    .nav-link:hover {
+      color: var(--ao-navy);
+      background: var(--ao-gray-50);
+    }
+    
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .nav-login {
+      color: var(--ao-gray-700);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: var(--transition-base);
+    }
+    
+    .nav-login:hover {
+      color: var(--ao-navy);
+      background: var(--ao-gray-50);
+    }
+    
+    .nav-signup {
+      background: var(--ao-navy);
+      color: var(--ao-white);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      transition: var(--transition-base);
+    }
+    
+    .nav-signup:hover {
+      background: var(--ao-navy-light);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .lang-selector {
+      background: transparent;
+      border: 1px solid var(--ao-gray-300);
+      color: var(--ao-gray-700);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+    
+    .lang-selector:hover {
+      border-color: var(--ao-navy);
+      color: var(--ao-navy);
+    }
+    
+    .mobile-menu-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--ao-gray-700);
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--ao-white);
+        border-top: 1px solid var(--ao-gray-200);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.5rem;
+        box-shadow: var(--shadow-lg);
+      }
+      
+      .nav-menu.active {
+        display: flex;
+      }
+      
+      .nav-actions {
+        gap: 0.5rem;
+      }
+      
+      .nav-signup {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .mobile-menu-toggle {
+        display: block;
+      }
+    }
+    </style>
+    
+    <!-- Non-critical CSS -->
+    <link rel="stylesheet" href="../css/main.css" media="print" onload="this.media='all'; this.onload=null;">
+    <noscript><link rel="stylesheet" href="../css/main.css"></noscript>
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="impacto-page">
+    <!-- Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Navegación principal">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html" aria-label="Turismo Mundial AO - Inicio">
+                    <img src="../images/ao-logo.svg" alt="AO Logo" class="nav-logo">
+                    <span class="nav-brand-text">Turismo Mundial <strong>AO</strong></span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <div class="nav-modules">
+                    <a href="trabaja.html" class="nav-link">
+                        <span class="nav-icon">💼</span>
+                        <span>Trabaja</span>
+                    </a>
+                    <a href="aprende.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        <span>Aprende</span>
+                    </a>
+                    <a href="descubre.html" class="nav-link">
+                        <span class="nav-icon">🌟</span>
+                        <span>Descubre</span>
+                    </a>
+                    <a href="explora-seguro.html" class="nav-link">
+                        <span class="nav-icon">🛡️</span>
+                        <span>Explora Seguro</span>
+                    </a>
+                    <a href="eventos.html" class="nav-link">
+                        <span class="nav-icon">🎉</span>
+                        <span>Eventos</span>
+                    </a>
+                    <a href="impacto.html" class="nav-link active" aria-current="page">
+                        <span class="nav-icon">📊</span>
+                        <span>Impacto AO</span>
+                    </a>
+                </div>
+                
+                <div class="nav-auth">
+                    <button class="btn btn-outline" onclick="openAuthModal('login')">Iniciar Sesión</button>
+                    <button class="btn btn-primary" onclick="openAuthModal('register')">Comenzar Ahora</button>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero hero-impacto">
+        <div class="hero-background">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">📈</span>
+                    <span>Reporte de Impacto 2024</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    <span class="text-gradient">Transformando</span> el Turismo Mexicano con Datos
+                </h1>
+                
+                <p class="hero-subtitle">
+                    Conoce el impacto real y medible que AO está generando en el sector turístico más vibrante de América Latina. 
+                    <strong>Datos verificados</strong> que demuestran nuestra contribución al desarrollo de México.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">$2.4B</div>
+                        <div class="stat-label">Impacto Económico Anual</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">125,000+</div>
+                        <div class="stat-label">Empleos Creados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4.2M+</div>
+                        <div class="stat-label">Turistas Impactados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">32</div>
+                        <div class="stat-label">Estados Beneficiados</div>
+                    </div>
+                </div>
+                
+                <div class="hero-actions">
+                    <button class="btn btn-primary btn-large" onclick="downloadReport()">
+                        <span class="btn-icon">📊</span>
+                        Descargar Reporte Completo
+                    </button>
+                    <button class="btn btn-outline btn-large" onclick="scrollToMetrics()">
+                        <span class="btn-icon">📈</span>
+                        Ver Métricas en Vivo
+                    </button>
+                </div>
+                
+                <div class="hero-certification">
+                    <p class="cert-text">Datos certificados por:</p>
+                    <div class="cert-logos">
+                        <img src="../images/inegi-logo.svg" alt="INEGI">
+                        <img src="../images/sectur-logo.svg" alt="SECTUR">
+                        <img src="../images/banco-mexico-logo.svg" alt="Banco de México">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Metrics Section -->
+    <section class="key-metrics-section" id="metrics">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Métricas Clave de Transformación</h2>
+                <p class="section-subtitle">Impacto medible en tiempo real del ecosistema turístico mexicano</p>
+            </div>
+            
+            <div class="metrics-dashboard">
+                <!-- Economic Impact -->
+                <div class="metric-card featured">
+                    <div class="metric-header">
+                        <div class="metric-icon">💰</div>
+                        <h3 class="metric-title">Impacto Económico</h3>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-primary">
+                            <span class="metric-value">$2.4B</span>
+                            <span class="metric-label">MXN contribución al PIB</span>
+                        </div>
+                        <div class="metric-secondary">
+                            <div class="secondary-metric">
+                                <span class="secondary-value">+18.5%</span>
+                                <span class="secondary-label">vs. año anterior</span>
+                            </div>
+                            <div class="secondary-metric">
+                                <span class="secondary-value">3.2%</span>
+                                <span class="secondary-label">del PIB turístico nacional</span>
+                            </div>
+                        </div>
+                        <div class="metric-chart">
+                            <div class="chart-bar" style="height: 60%"></div>
+                            <div class="chart-bar" style="height: 75%"></div>
+                            <div class="chart-bar" style="height: 90%"></div>
+                            <div class="chart-bar" style="height: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Employment -->
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon">👥</div>
+                        <h3 class="metric-title">Generación de Empleo</h3>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-primary">
+                            <span class="metric-value">125,000+</span>
+                            <span class="metric-label">empleos directos creados</span>
+                        </div>
+                        <div class="metric-secondary">
+                            <div class="secondary-metric">
+                                <span class="secondary-value">340,000+</span>
+                                <span class="secondary-label">empleos indirectos</span>
+                            </div>
+                            <div class="secondary-metric">
+                                <span class="secondary-value">85%</span>
+                                <span class="secondary-label">empleo formal</span>
+                            </div>
+                        </div>
+                        <div class="employment-breakdown">
+                            <div class="breakdown-item">
+                                <span class="item-label">Hotelería</span>
+                                <div class="item-bar">
+                                    <div class="bar-fill" style="width: 40%"></div>
+                                </div>
+                                <span class="item-value">40%</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="item-label">Restaurantes</span>
+                                <div class="item-bar">
+                                    <div class="bar-fill" style="width: 30%"></div>
+                                </div>
+                                <span class="item-value">30%</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="item-label">Otros</span>
+                                <div class="item-bar">
+                                    <div class="bar-fill" style="width: 30%"></div>
+                                </div>
+                                <span class="item-value">30%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tourism Growth -->
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon">✈️</div>
+                        <h3 class="metric-title">Crecimiento Turístico</h3>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-primary">
+                            <span class="metric-value">4.2M+</span>
+                            <span class="metric-label">turistas beneficiados</span>
+                        </div>
+                        <div class="metric-secondary">
+                            <div class="secondary-metric">
+                                <span class="secondary-value">+24%</span>
+                                <span class="secondary-label">crecimiento anual</span>
+                            </div>
+                            <div class="secondary-metric">
+                                <span class="secondary-value">92%</span>
+                                <span class="secondary-label">satisfacción promedio</span>
+                            </div>
+                        </div>
+                        <div class="tourism-origins">
+                            <div class="origin-item">
+                                <span class="origin-flag">🇺🇸</span>
+                                <span class="origin-label">Estados Unidos</span>
+                                <span class="origin-percentage">45%</span>
+                            </div>
+                            <div class="origin-item">
+                                <span class="origin-flag">🇨🇦</span>
+                                <span class="origin-label">Canadá</span>
+                                <span class="origin-percentage">18%</span>
+                            </div>
+                            <div class="origin-item">
+                                <span class="origin-flag">🇲🇽</span>
+                                <span class="origin-label">Nacional</span>
+                                <span class="origin-percentage">37%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Regional Development -->
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon">🗺️</div>
+                        <h3 class="metric-title">Desarrollo Regional</h3>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-primary">
+                            <span class="metric-value">32</span>
+                            <span class="metric-label">estados beneficiados</span>
+                        </div>
+                        <div class="metric-secondary">
+                            <div class="secondary-metric">
+                                <span class="secondary-value">450+</span>
+                                <span class="secondary-label">municipios participantes</span>
+                            </div>
+                            <div class="secondary-metric">
+                                <span class="secondary-value">15</span>
+                                <span class="secondary-label">rutas turísticas nuevas</span>
+                            </div>
+                        </div>
+                        <div class="regional-highlights">
+                            <div class="highlight-region">
+                                <span class="region-name">Quintana Roo</span>
+                                <span class="region-growth">+32%</span>
+                            </div>
+                            <div class="highlight-region">
+                                <span class="region-name">Jalisco</span>
+                                <span class="region-growth">+28%</span>
+                            </div>
+                            <div class="highlight-region">
+                                <span class="region-name">Oaxaca</span>
+                                <span class="region-growth">+41%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Stories Section -->
+    <section class="impact-stories-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Historias de Impacto Real</h2>
+                <p class="section-subtitle">Comunidades y empresas transformadas por AO</p>
+            </div>
+            
+            <div class="stories-grid">
+                <!-- Community Impact -->
+                <div class="impact-story-card">
+                    <div class="story-image">
+                        <img src="../images/impact/tulum-community.jpg" alt="Comunidad Tulum">
+                        <div class="story-badge">🏘️ Comunidad</div>
+                    </div>
+                    <div class="story-content">
+                        <h3 class="story-title">Tulum: De Pueblo a Destino Mundial</h3>
+                        <p class="story-description">
+                            AO ayudó a la comunidad de Tulum a desarrollar turismo sustentable, 
+                            creando 2,500 empleos locales y preservando su patrimonio cultural.
+                        </p>
+                        <div class="story-metrics">
+                            <div class="story-metric">
+                                <span class="metric-icon">👥</span>
+                                <span class="metric-text">2,500 empleos creados</span>
+                            </div>
+                            <div class="story-metric">
+                                <span class="metric-icon">💰</span>
+                                <span class="metric-text">$45M ingresos anuales</span>
+                            </div>
+                            <div class="story-metric">
+                                <span class="metric-icon">🌱</span>
+                                <span class="metric-text">100% turismo sustentable</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Transformation -->
+                <div class="impact-story-card">
+                    <div class="story-image">
+                        <img src="../images/impact/hotel-group.jpg" alt="Grupo Hotelero">
+                        <div class="story-badge">🏢 Empresa</div>
+                    </div>
+                    <div class="story-content">
+                        <h3 class="story-title">Grupo Hotelero Riviera: Expansión Nacional</h3>
+                        <p class="story-description">
+                            Con el apoyo de AO, este grupo familiar expandió de 2 a 15 hoteles, 
+                            empleando a más de 3,000 personas en 8 estados de México.
+                        </p>
+                        <div class="story-metrics">
+                            <div class="story-metric">
+                                <span class="metric-icon">🏨</span>
+                                <span class="metric-text">13 hoteles nuevos</span>
+                            </div>
+                            <div class="story-metric">
+                                <span class="metric-icon">👥</span>
+                                <span class="metric-text">3,000+ empleados</span>
+                            </div>
+                            <div class="story-metric">
+                                <span class="metric-icon">📈</span>
+                                <span class="metric-text">+450% crecimiento</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Individual Success -->
+                <div class="impact-story-card">
+                    <div class="story-image">
+                        <img src="../images/impact/maria-entrepreneur.jpg" alt="María Empresaria">
+                        <div class="story-badge">👤 Individual</div>
+                    </div>
+                    <div class="story-content">
+                        <h3 class="story-title">María González: De Guía a Empresaria</h3>
+                        <p class="story-description">
+                            A través de las certificaciones AO, María creó su empresa de turismo cultural, 
+                            empleando a 45 personas y promoviendo el arte oaxaqueño.
+                        </p>
+                        <div class="story-metrics">
+                            <div class="story-metric">
+                                <span class="metric-icon">🎨</span>
+                                <span class="metric-text">15 artistas promovidos</span>
+                            </div>
+                            <div class="story-metric">
+                                <span class="metric-icon">👥</span>
+                                <span class="metric-text">45 empleos creados</span>
+                            </div>
+                            <div class="story-metric">
+                                <span class="metric-icon">🏆</span>
+                                <span class="metric-text">Premio Nacional Turismo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sustainability Impact Section -->
+    <section class="sustainability-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Compromiso con la Sustentabilidad</h2>
+                <p class="section-subtitle">Turismo que preserva y protege nuestro patrimonio natural y cultural</p>
+            </div>
+            
+            <div class="sustainability-grid">
+                <div class="sustainability-card">
+                    <div class="sustain-icon">🌍</div>
+                    <h3 class="sustain-title">Carbono Neutral</h3>
+                    <div class="sustain-metric">85%</div>
+                    <p class="sustain-description">Reducción en emisiones de carbono en destinos certificados AO</p>
+                </div>
+                
+                <div class="sustainability-card">
+                    <div class="sustain-icon">💧</div>
+                    <h3 class="sustain-title">Conservación del Agua</h3>
+                    <div class="sustain-metric">12M</div>
+                    <p class="sustain-description">Litros de agua ahorrados anualmente por programas AO</p>
+                </div>
+                
+                <div class="sustainability-card">
+                    <div class="sustain-icon">🏛️</div>
+                    <h3 class="sustain-title">Patrimonio Cultural</h3>
+                    <div class="sustain-metric">150+</div>
+                    <p class="sustain-description">Sitios históricos preservados y promovidos</p>
+                </div>
+                
+                <div class="sustainability-card">
+                    <div class="sustain-icon">👥</div>
+                    <h3 class="sustain-title">Comunidades Locales</h3>
+                    <div class="sustain-metric">320</div>
+                    <p class="sustain-description">Comunidades beneficiadas por turismo responsable</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Projections Section -->
+    <section class="projections-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Proyecciones 2025-2030</h2>
+                <p class="section-subtitle">El futuro del turismo mexicano con AO</p>
+            </div>
+            
+            <div class="projections-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2025</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Expansión Digital</h3>
+                        <div class="timeline-goals">
+                            <div class="goal-item">📱 Plataforma móvil completa</div>
+                            <div class="goal-item">🤖 IA para recomendaciones personalizadas</div>
+                            <div class="goal-item">🔗 Blockchain para certificaciones</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2027</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Cobertura Nacional Completa</h3>
+                        <div class="timeline-goals">
+                            <div class="goal-item">🗺️ 32 estados completamente integrados</div>
+                            <div class="goal-item">👥 500,000 profesionales certificados</div>
+                            <div class="goal-item">🌟 1,000 destinos verificados</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2030</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Liderazgo Regional</h3>
+                        <div class="timeline-goals">
+                            <div class="goal-item">🌎 Expansión a América Latina</div>
+                            <div class="goal-item">💰 $10B impacto económico anual</div>
+                            <div class="goal-item">🏆 Referente mundial en turismo sustentable</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section cta-impacto">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">¿Listo Para Ser Parte de Esta Transformación?</h2>
+                <p class="cta-subtitle">
+                    Únete al movimiento que está revolucionando el turismo mexicano y contribuye al desarrollo económico y cultural de México
+                </p>
+                <div class="cta-actions">
+                    <button class="btn btn-primary btn-large" onclick="joinMovement()">
+                        <span class="btn-icon">🚀</span>
+                        Sumarme al Movimiento
+                    </button>
+                    <button class="btn btn-outline btn-large" onclick="downloadFullReport()">
+                        <span class="btn-icon">📊</span>
+                        Reporte Completo 2024
+                    </button>
+                </div>
+                
+                <div class="cta-guarantees">
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>Datos Verificados</span>
+                    </div>
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>Impacto Medible</span>
+                    </div>
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>Transparencia Total</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <img src="../images/ao-logo-white.svg" alt="AO Logo" class="footer-logo">
+                        <h3>Turismo Mundial AO</h3>
+                        <p>Transformando el turismo mexicano a través del talento y la tecnología</p>
+                    </div>
+                    
+                    <div class="footer-modules">
+                        <h4>Nuestros Módulos</h4>
+                        <ul>
+                            <li><a href="trabaja.html">💼 Trabaja</a></li>
+                            <li><a href="aprende.html">📚 Aprende</a></li>
+                            <li><a href="descubre.html">🌟 Descubre</a></li>
+                            <li><a href="explora-seguro.html">🛡️ Explora Seguro</a></li>
+                            <li><a href="eventos.html">🎉 Eventos</a></li>
+                            <li><a href="impacto.html">📊 Impacto AO</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-support">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="ayuda.html">Centro de Ayuda</a></li>
+                            <li><a href="contacto.html">Contacto</a></li>
+                            <li><a href="terminos.html">Términos y Condiciones</a></li>
+                            <li><a href="privacidad.html">Política de Privacidad</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-government">
+                        <h4>Gobierno de México</h4>
+                        <div class="government-logos">
+                            <img src="../images/gobierno-mexico.svg" alt="Gobierno de México">
+                            <img src="../images/sectur.svg" alt="SECTUR">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-legal">
+                        <p>&copy; 2024 Turismo Mundial AO. Una iniciativa del Gobierno de México.</p>
+                    </div>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><span class="social-icon">📘</span></a>
+                        <a href="#" aria-label="Instagram"><span class="social-icon">📷</span></a>
+                        <a href="#" aria-label="Twitter"><span class="social-icon">🐦</span></a>
+                        <a href="#" aria-label="LinkedIn"><span class="social-icon">💼</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeAuthModal()">&times;</span>
+            <div id="authModalContent">
+                <!-- Auth form will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // Impacto-specific JavaScript
+        function downloadReport() {
+            // Implement report download logic
+            console.log('Downloading impact report');
+        }
+
+        function scrollToMetrics() {
+            document.getElementById('metrics').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function joinMovement() {
+            openAuthModal('register');
+        }
+
+        function downloadFullReport() {
+            // Implement full report download
+            console.log('Downloading full 2024 report');
+        }
+
+        // Animate counters on scroll
+        function animateCounters() {
+            const counters = document.querySelectorAll('.metric-value, .stat-number');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        const target = parseInt(counter.textContent.replace(/[^0-9.]/g, ''));
+                        animateCounter(counter, 0, target, 2000);
+                        observer.unobserve(counter);
+                    }
+                });
+            });
+
+            counters.forEach(counter => observer.observe(counter));
+        }
+
+        function animateCounter(element, start, end, duration) {
+            let startTime = null;
+            const step = (timestamp) => {
+                if (!startTime) startTime = timestamp;
+                const progress = Math.min((timestamp - startTime) / duration, 1);
+                const current = Math.floor(progress * (end - start) + start);
+                
+                if (element.textContent.includes('$')) {
+                    element.textContent = '$' + current.toLocaleString() + (element.textContent.includes('B') ? 'B' : 'M');
+                } else if (element.textContent.includes('%')) {
+                    element.textContent = current + '%';
+                } else if (element.textContent.includes('+')) {
+                    element.textContent = current.toLocaleString() + '+';
+                } else {
+                    element.textContent = current.toLocaleString();
+                }
+                
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
+            };
+            requestAnimationFrame(step);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(animateCounters, 500);
+        });
+    </script>
+</body>
+</html>

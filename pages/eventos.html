@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos - Cultura y Entretenimiento Turístico | Turismo Mundial AO</title>
+    <meta name="description" content="Descubre eventos culturales, festivales y experiencias únicas en México. Conecta con la cultura auténtica mexicana a través de eventos oficiales.">
+    <meta name="keywords" content="eventos turísticos México, festivales culturales, entretenimiento turístico, eventos oficiales México">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://antonio-ms-coder.github.io/AO-Turismo-Mundial/pages/eventos.html">
+    <meta property="og:title" content="Eventos - Cultura y Entretenimiento México">
+    <meta property="og:description" content="Vive la cultura auténtica de México a través de eventos y festivales oficiales">
+    <meta property="og:image" content="../images/eventos-og.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://antonio-ms-coder.github.io/AO-Turismo-Mundial/pages/eventos.html">
+    <meta property="twitter:title" content="Eventos - Cultura y Entretenimiento México">
+    <meta property="twitter:description" content="Conecta con la cultura mexicana a través de eventos únicos">
+    <meta property="twitter:image" content="../images/eventos-twitter.jpg">
+
+    <!-- Critical CSS Inline -->
+    <style>
+    /* Critical Above-the-Fold Styles */
+    :root {
+      --ao-navy: #1B365D;
+      --ao-navy-light: #2E4F73;
+      --ao-gold: #D4AF37;
+      --ao-gold-light: #E6C24F;
+      --ao-green: #2E7D32;
+      --ao-green-light: #43A047;
+      --ao-red: #C62828;
+      --ao-white: #FFFFFF;
+      --ao-gray-50: #FAFAFA;
+      --ao-gray-100: #F5F5F5;
+      --ao-gray-200: #E0E0E0;
+      --ao-gray-300: #BDBDBD;
+      --ao-gray-600: #757575;
+      --ao-gray-800: #424242;
+      --ao-gray-900: #212121;
+      --ao-black: #000000;
+      
+      --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+    
+    body {
+      font-family: var(--font-inter);
+      line-height: 1.6;
+      color: var(--ao-gray-900);
+      background-color: var(--ao-white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Main Navigation */
+    .main-nav {
+      background: var(--ao-white);
+      border-bottom: 1px solid var(--ao-gray-200);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+    }
+    
+    .nav-brand img {
+      height: 50px;
+      width: auto;
+    }
+    
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    
+    .nav-link {
+      color: var(--ao-gray-800);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: var(--transition-base);
+      position: relative;
+    }
+    
+    .nav-link:hover {
+      color: var(--ao-navy);
+      background: var(--ao-gray-50);
+    }
+    
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .nav-login {
+      color: var(--ao-gray-700);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: var(--transition-base);
+    }
+    
+    .nav-login:hover {
+      color: var(--ao-navy);
+      background: var(--ao-gray-50);
+    }
+    
+    .nav-signup {
+      background: var(--ao-navy);
+      color: var(--ao-white);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      transition: var(--transition-base);
+    }
+    
+    .nav-signup:hover {
+      background: var(--ao-navy-light);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .lang-selector {
+      background: transparent;
+      border: 1px solid var(--ao-gray-300);
+      color: var(--ao-gray-700);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+    
+    .lang-selector:hover {
+      border-color: var(--ao-navy);
+      color: var(--ao-navy);
+    }
+    
+    .mobile-menu-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--ao-gray-700);
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--ao-white);
+        border-top: 1px solid var(--ao-gray-200);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.5rem;
+        box-shadow: var(--shadow-lg);
+      }
+      
+      .nav-menu.active {
+        display: flex;
+      }
+      
+      .nav-actions {
+        gap: 0.5rem;
+      }
+      
+      .nav-signup {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .mobile-menu-toggle {
+        display: block;
+      }
+    }
+    </style>
+    
+    <!-- Non-critical CSS -->
+    <link rel="stylesheet" href="../css/main.css" media="print" onload="this.media='all'; this.onload=null;">
+    <noscript><link rel="stylesheet" href="../css/main.css"></noscript>
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="eventos-page">
+    <!-- Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Navegación principal">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html" aria-label="Turismo Mundial AO - Inicio">
+                    <img src="../images/ao-logo.svg" alt="AO Logo" class="nav-logo">
+                    <span class="nav-brand-text">Turismo Mundial <strong>AO</strong></span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <div class="nav-modules">
+                    <a href="trabaja.html" class="nav-link">
+                        <span class="nav-icon">💼</span>
+                        <span>Trabaja</span>
+                    </a>
+                    <a href="aprende.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        <span>Aprende</span>
+                    </a>
+                    <a href="descubre.html" class="nav-link">
+                        <span class="nav-icon">🌟</span>
+                        <span>Descubre</span>
+                    </a>
+                    <a href="explora-seguro.html" class="nav-link">
+                        <span class="nav-icon">🛡️</span>
+                        <span>Explora Seguro</span>
+                    </a>
+                    <a href="eventos.html" class="nav-link active" aria-current="page">
+                        <span class="nav-icon">🎉</span>
+                        <span>Eventos</span>
+                    </a>
+                    <a href="impacto.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        <span>Impacto AO</span>
+                    </a>
+                </div>
+                
+                <div class="nav-auth">
+                    <button class="btn btn-outline" onclick="openAuthModal('login')">Iniciar Sesión</button>
+                    <button class="btn btn-primary" onclick="openAuthModal('register')">Comenzar Ahora</button>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero hero-eventos">
+        <div class="hero-background">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">🎭</span>
+                    <span>Eventos Oficiales del Gobierno de México</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    Vive la <span class="text-gradient">Cultura Auténtica</span> de México
+                </h1>
+                
+                <p class="hero-subtitle">
+                    Conecta con tradiciones milenarias y eventos contemporáneos que definen la identidad mexicana. 
+                    <strong>+500 eventos verificados</strong> que celebran nuestra diversidad cultural.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Eventos Anuales</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">32</div>
+                        <div class="stat-label">Estados Participantes</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2M+</div>
+                        <div class="stat-label">Visitantes Anuales</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Satisfacción</div>
+                    </div>
+                </div>
+                
+                <div class="hero-actions">
+                    <button class="btn btn-primary btn-large" onclick="scrollToEvents()">
+                        <span class="btn-icon">🎯</span>
+                        Explorar Eventos
+                    </button>
+                    <button class="btn btn-outline btn-large" onclick="createEventAlert()">
+                        <span class="btn-icon">🔔</span>
+                        Alertas Personalizadas
+                    </button>
+                </div>
+                
+                <div class="hero-partners">
+                    <p class="partners-text">En colaboración con:</p>
+                    <div class="partners-logos">
+                        <img src="../images/conaculta-logo.svg" alt="CONACULTA">
+                        <img src="../images/fonca-logo.svg" alt="FONCA">
+                        <img src="../images/inah-logo.svg" alt="INAH">
+                        <img src="../images/sectur-logo.svg" alt="SECTUR">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Events Section -->
+    <section class="featured-events-section" id="events">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Eventos Destacados de Este Mes</h2>
+                <p class="section-subtitle">Experiencias únicas que no puedes perderte</p>
+            </div>
+            
+            <div class="events-grid">
+                <!-- Featured Event 1 -->
+                <div class="event-card featured">
+                    <div class="event-image">
+                        <img src="../images/events/dia-muertos-festival.jpg" alt="Festival Día de Muertos">
+                        <div class="event-badge">🔥 Imperdible</div>
+                        <div class="event-date">
+                            <span class="date-month">NOV</span>
+                            <span class="date-day">1-2</span>
+                        </div>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-header">
+                            <div class="event-category">Festival Cultural</div>
+                            <div class="event-location">📍 Pátzcuaro, Michoacán</div>
+                        </div>
+                        
+                        <h3 class="event-title">Gran Festival del Día de Muertos</h3>
+                        <p class="event-description">
+                            Vive la tradición más emblemática de México en su lugar de origen. 
+                            Altares monumentales, procesiones nocturnas y gastronomía tradicional.
+                        </p>
+                        
+                        <div class="event-highlights">
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🎭</span>
+                                <span>Danzas ancestrales</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🕯️</span>
+                                <span>Altares monumentales</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🍲</span>
+                                <span>Gastronomía tradicional</span>
+                            </div>
+                        </div>
+                        
+                        <div class="event-footer">
+                            <div class="event-price">
+                                <span class="price-label">Desde</span>
+                                <span class="price-amount">$450</span>
+                                <span class="price-per">por persona</span>
+                            </div>
+                            <div class="event-actions">
+                                <button class="btn btn-outline btn-small" onclick="saveEvent('dia-muertos')">
+                                    <span class="btn-icon">❤️</span>
+                                </button>
+                                <button class="btn btn-primary" onclick="bookEvent('dia-muertos')">
+                                    Reservar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Event 2 -->
+                <div class="event-card">
+                    <div class="event-image">
+                        <img src="../images/events/guelaguetza-oaxaca.jpg" alt="Guelaguetza Oaxaca">
+                        <div class="event-badge">🌟 Patrimonio</div>
+                        <div class="event-date">
+                            <span class="date-month">JUL</span>
+                            <span class="date-day">15-31</span>
+                        </div>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-header">
+                            <div class="event-category">Patrimonio Cultural</div>
+                            <div class="event-location">📍 Oaxaca de Juárez, Oax.</div>
+                        </div>
+                        
+                        <h3 class="event-title">Guelaguetza - Lunes del Cerro</h3>
+                        <p class="event-description">
+                            La celebración folclórica más importante del sur de México. 
+                            Danzas regionales, música tradicional y artesanías únicas.
+                        </p>
+                        
+                        <div class="event-highlights">
+                            <div class="highlight-item">
+                                <span class="highlight-icon">💃</span>
+                                <span>8 regiones de Oaxaca</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🎵</span>
+                                <span>Música ancestral</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🎨</span>
+                                <span>Artesanías auténticas</span>
+                            </div>
+                        </div>
+                        
+                        <div class="event-footer">
+                            <div class="event-price">
+                                <span class="price-label">Desde</span>
+                                <span class="price-amount">$850</span>
+                                <span class="price-per">por persona</span>
+                            </div>
+                            <div class="event-actions">
+                                <button class="btn btn-outline btn-small" onclick="saveEvent('guelaguetza')">
+                                    <span class="btn-icon">🤍</span>
+                                </button>
+                                <button class="btn btn-primary" onclick="bookEvent('guelaguetza')">
+                                    Reservar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Event 3 -->
+                <div class="event-card">
+                    <div class="event-image">
+                        <img src="../images/events/festival-cervantino.jpg" alt="Festival Cervantino">
+                        <div class="event-badge">🎪 Internacional</div>
+                        <div class="event-date">
+                            <span class="date-month">OCT</span>
+                            <span class="date-day">10-28</span>
+                        </div>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-header">
+                            <div class="event-category">Festival Internacional</div>
+                            <div class="event-location">📍 Guanajuato, Gto.</div>
+                        </div>
+                        
+                        <h3 class="event-title">Festival Internacional Cervantino</h3>
+                        <p class="event-description">
+                            El festival artístico más importante de América Latina. 
+                            Teatro, música, danza y arte contemporáneo de clase mundial.
+                        </p>
+                        
+                        <div class="event-highlights">
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🎭</span>
+                                <span>Teatro internacional</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🎼</span>
+                                <span>Conciertos sinfónicos</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🏛️</span>
+                                <span>Patrimonio UNESCO</span>
+                            </div>
+                        </div>
+                        
+                        <div class="event-footer">
+                            <div class="event-price">
+                                <span class="price-label">Desde</span>
+                                <span class="price-amount">$1,200</span>
+                                <span class="price-per">paquete completo</span>
+                            </div>
+                            <div class="event-actions">
+                                <button class="btn btn-outline btn-small" onclick="saveEvent('cervantino')">
+                                    <span class="btn-icon">🤍</span>
+                                </button>
+                                <button class="btn btn-primary" onclick="bookEvent('cervantino')">
+                                    Reservar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Categories Section -->
+    <section class="event-categories-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Categorías de Eventos</h2>
+                <p class="section-subtitle">Encuentra eventos perfectos para cada interés</p>
+            </div>
+            
+            <div class="categories-grid">
+                <div class="category-card" onclick="filterByCategory('festivales')">
+                    <div class="category-icon">🎭</div>
+                    <h3 class="category-title">Festivales Culturales</h3>
+                    <p class="category-count">120+ eventos</p>
+                    <p class="category-description">Tradiciones y folclore mexicano</p>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('gastronomia')">
+                    <div class="category-icon">🍽️</div>
+                    <h3 class="category-title">Experiencias Gastronómicas</h3>
+                    <p class="category-count">85+ eventos</p>
+                    <p class="category-description">Sabores auténticos de México</p>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('artesanias')">
+                    <div class="category-icon">🎨</div>
+                    <h3 class="category-title">Ferias de Artesanías</h3>
+                    <p class="category-count">95+ eventos</p>
+                    <p class="category-description">Arte popular mexicano</p>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('musica')">
+                    <div class="category-icon">🎵</div>
+                    <h3 class="category-title">Conciertos y Música</h3>
+                    <p class="category-count">150+ eventos</p>
+                    <p class="category-description">Desde mariachi hasta música contemporánea</p>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('religioso')">
+                    <div class="category-icon">⛪</div>
+                    <h3 class="category-title">Festividades Religiosas</h3>
+                    <p class="category-count">200+ eventos</p>
+                    <p class="category-description">Tradiciones espirituales mexicanas</p>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('deportes')">
+                    <div class="category-icon">🏃</div>
+                    <h3 class="category-title">Eventos Deportivos</h3>
+                    <p class="category-count">75+ eventos</p>
+                    <p class="category-description">Competencias y deportes tradicionales</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Annual Calendar Section -->
+    <section class="calendar-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Calendario Anual de Eventos</h2>
+                <p class="section-subtitle">Planifica tu año cultural con los mejores eventos de México</p>
+            </div>
+            
+            <div class="calendar-months">
+                <div class="month-card" onclick="showMonth('enero')">
+                    <div class="month-header">
+                        <h3 class="month-name">Enero</h3>
+                        <div class="month-count">12 eventos</div>
+                    </div>
+                    <div class="month-highlights">
+                        <div class="highlight">Día de Reyes</div>
+                        <div class="highlight">Festival de la Candelaria</div>
+                    </div>
+                </div>
+                
+                <div class="month-card" onclick="showMonth('febrero')">
+                    <div class="month-header">
+                        <h3 class="month-name">Febrero</h3>
+                        <div class="month-count">15 eventos</div>
+                    </div>
+                    <div class="month-highlights">
+                        <div class="highlight">Carnaval</div>
+                        <div class="highlight">Día de la Bandera</div>
+                    </div>
+                </div>
+                
+                <div class="month-card featured" onclick="showMonth('marzo')">
+                    <div class="month-header">
+                        <h3 class="month-name">Marzo</h3>
+                        <div class="month-count">25 eventos</div>
+                    </div>
+                    <div class="month-highlights">
+                        <div class="highlight">Festival de México</div>
+                        <div class="highlight">Equinoccio de Primavera</div>
+                    </div>
+                </div>
+                
+                <div class="month-card" onclick="showMonth('abril')">
+                    <div class="month-header">
+                        <h3 class="month-name">Abril</h3>
+                        <div class="month-count">18 eventos</div>
+                    </div>
+                    <div class="month-highlights">
+                        <div class="highlight">Semana Santa</div>
+                        <div class="highlight">Feria de San Marcos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section cta-eventos">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">¿Listo Para Vivir la Cultura Mexicana?</h2>
+                <p class="cta-subtitle">
+                    Únete a millones de personas que celebran la diversidad cultural de México a través de nuestros eventos oficiales
+                </p>
+                <div class="cta-actions">
+                    <button class="btn btn-primary btn-large" onclick="exploreAllEvents()">
+                        <span class="btn-icon">🎉</span>
+                        Explorar Todos los Eventos
+                    </button>
+                    <button class="btn btn-outline btn-large" onclick="createEventProfile()">
+                        <span class="btn-icon">⭐</span>
+                        Personalizar Experiencia
+                    </button>
+                </div>
+                
+                <div class="cta-guarantees">
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>Eventos Oficiales</span>
+                    </div>
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>Experiencias Auténticas</span>
+                    </div>
+                    <div class="guarantee">
+                        <span class="guarantee-icon">✓</span>
+                        <span>Reservas Seguras</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <img src="../images/ao-logo-white.svg" alt="AO Logo" class="footer-logo">
+                        <h3>Turismo Mundial AO</h3>
+                        <p>Transformando el turismo mexicano a través del talento y la tecnología</p>
+                    </div>
+                    
+                    <div class="footer-modules">
+                        <h4>Nuestros Módulos</h4>
+                        <ul>
+                            <li><a href="trabaja.html">💼 Trabaja</a></li>
+                            <li><a href="aprende.html">📚 Aprende</a></li>
+                            <li><a href="descubre.html">🌟 Descubre</a></li>
+                            <li><a href="explora-seguro.html">🛡️ Explora Seguro</a></li>
+                            <li><a href="eventos.html">🎉 Eventos</a></li>
+                            <li><a href="impacto.html">📊 Impacto AO</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-support">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="ayuda.html">Centro de Ayuda</a></li>
+                            <li><a href="contacto.html">Contacto</a></li>
+                            <li><a href="terminos.html">Términos y Condiciones</a></li>
+                            <li><a href="privacidad.html">Política de Privacidad</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-government">
+                        <h4>Gobierno de México</h4>
+                        <div class="government-logos">
+                            <img src="../images/gobierno-mexico.svg" alt="Gobierno de México">
+                            <img src="../images/sectur.svg" alt="SECTUR">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-legal">
+                        <p>&copy; 2024 Turismo Mundial AO. Una iniciativa del Gobierno de México.</p>
+                    </div>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><span class="social-icon">📘</span></a>
+                        <a href="#" aria-label="Instagram"><span class="social-icon">📷</span></a>
+                        <a href="#" aria-label="Twitter"><span class="social-icon">🐦</span></a>
+                        <a href="#" aria-label="LinkedIn"><span class="social-icon">💼</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeAuthModal()">&times;</span>
+            <div id="authModalContent">
+                <!-- Auth form will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // Eventos-specific JavaScript
+        function scrollToEvents() {
+            document.getElementById('events').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function createEventAlert() {
+            // Check if user is authenticated
+            if (!isUserLoggedIn()) {
+                openAuthModal('register');
+                return;
+            }
+            // Implement event alert creation logic
+            console.log('Creating event alert');
+        }
+
+        function bookEvent(eventId) {
+            // Check if user is authenticated
+            if (!isUserLoggedIn()) {
+                openAuthModal('register');
+                return;
+            }
+            // Implement event booking logic
+            console.log('Booking event:', eventId);
+        }
+
+        function saveEvent(eventId) {
+            // Toggle save state
+            const button = event.target.closest('button');
+            const icon = button.querySelector('.btn-icon');
+            icon.textContent = icon.textContent === '🤍' ? '❤️' : '🤍';
+            // Implement save event logic
+        }
+
+        function filterByCategory(category) {
+            // Implement category filtering
+            console.log('Filtering by category:', category);
+        }
+
+        function showMonth(month) {
+            // Implement month view
+            console.log('Showing month:', month);
+        }
+
+        function exploreAllEvents() {
+            // Implement explore all events
+            console.log('Exploring all events');
+        }
+
+        function createEventProfile() {
+            openAuthModal('register');
+        }
+    </script>
+</body>
+</html>
