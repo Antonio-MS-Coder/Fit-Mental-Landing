@@ -624,99 +624,94 @@
             flex-shrink: 0;
         }
         
-        /* Course Details */
-        .course-features {
+        /* Course Details - Compact Grid */
+        .course-features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--spacing-xl);
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-lg);
             margin-top: var(--spacing-2xl);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        
-        .feature-card {
+
+        .feature-card-compact {
             background: var(--warm-white);
-            padding: var(--spacing-2xl);
-            border-radius: 25px;
-            box-shadow: 0 8px 30px rgba(139, 90, 58, 0.1);
-            text-align: center;
+            padding: var(--spacing-xl);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(139, 90, 58, 0.08);
             transition: all var(--transition-medium);
-            position: relative;
-            overflow: hidden;
             border: 1px solid var(--sand-200);
+            position: relative;
+            padding-left: calc(var(--spacing-xl) + 4px);
         }
-        
-        .feature-card::before {
+
+        .feature-card-compact::before {
             content: '';
             position: absolute;
-            top: 0;
             left: 0;
-            right: 0;
-            height: 5px;
-            background: var(--gradient-accent);
-            border-radius: 25px 25px 0 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--gradient-secondary);
+            border-radius: 15px 0 0 15px;
+        }
+
+        .feature-card-compact:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 90, 58, 0.15);
+            border-color: var(--lavender-300);
+        }
+
+        .feature-card-compact h3 {
+            color: var(--brown-800);
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-xl);
+            font-family: var(--font-family-primary);
+        }
+
+        .feature-card-compact p {
+            color: var(--brown-600);
+            font-size: var(--font-size-base);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .course-features-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
-        .feature-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(139, 90, 58, 0.18);
-            border-color: var(--accent-color);
-        }
-        
-        .feature-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto var(--spacing-lg);
-            color: var(--white);
-            font-size: var(--font-size-2xl);
-        }
-        
-        .feature-card h3 {
-            color: var(--gray-900);
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .feature-card p {
-            color: var(--gray-600);
-        }
-        
-        /* Dates & Location */
+        /* Dates & Location - Simplified */
         .dates-location {
             background: var(--gradient-primary);
             color: var(--warm-white);
             position: relative;
+            padding: var(--spacing-2xl) 0;
         }
-        
-        .dates-location::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="100" cy="100" r="2" fill="%23ffffff" opacity="0.05"/><circle cx="900" cy="200" r="3" fill="%23ffffff" opacity="0.05"/><circle cx="200" cy="800" r="2" fill="%23ffffff" opacity="0.05"/><circle cx="800" cy="900" r="2" fill="%23ffffff" opacity="0.05"/></svg>');
+
+        @media (min-width: 768px) {
+            .dates-location {
+                padding: var(--spacing-3xl) 0;
+            }
         }
-        
+
         .dates-location .section-title,
         .dates-location .section-subtitle {
-            color: #ffffff !important; /* Force white text for better contrast */
-            position: relative;
-            z-index: 2;
+            color: #ffffff !important;
+            margin-bottom: var(--spacing-lg);
         }
-        
+
+        .dates-location .section-header {
+            margin-bottom: var(--spacing-2xl);
+        }
+
         .dates-info {
-            background: rgba(255, 255, 255, 0.1);
-            padding: var(--spacing-2xl);
-            border-radius: 25px;
+            max-width: 700px;
+            margin: 0 auto;
             text-align: center;
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            z-index: 2;
-            color: #ffffff !important; /* Force white text for all content */
+            color: #ffffff !important;
         }
         
         .date-highlight {
@@ -789,62 +784,57 @@
             margin-top: var(--spacing-xs);
         }
         
-        /* Course Benefits - More organic design */
-        .benefits-grid {
-            display: flex;
-            flex-direction: column;
+        /* Course Benefits - Compact Grid Design */
+        .benefits-compact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: var(--spacing-lg);
             margin-top: var(--spacing-2xl);
-            max-width: 800px;
+            max-width: 1000px;
             margin-left: auto;
             margin-right: auto;
         }
-        
-        .benefit-card {
+
+        @media (min-width: 992px) {
+            .benefits-compact-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .benefit-item {
             background: var(--warm-white);
-            padding: var(--spacing-xl) var(--spacing-2xl);
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(139, 90, 58, 0.08);
-            transition: all var(--transition-medium);
+            padding: var(--spacing-lg);
+            border-radius: 12px;
             border: 1px solid var(--sand-200);
+            transition: all var(--transition-medium);
             position: relative;
-            overflow: hidden;
         }
-        
-        .benefit-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+
+        .benefit-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 90, 58, 0.1);
+            border-color: var(--lavender-300);
         }
-        
-        .benefit-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(139, 90, 58, 0.12);
-            border-color: var(--accent-color);
-        }
-        
-        .benefit-card h3 {
-            font-family: var(--font-family-primary);
-            color: var(--brown-800);
-            font-size: var(--font-size-xl);
-            margin-bottom: var(--spacing-md);
-            font-weight: 600;
-        }
-        
-        .benefit-card p {
-            color: var(--brown-700);
-            line-height: 1.6;
-            font-size: var(--font-size-lg);
-            margin-bottom: 0;
-        }
-        
-        .benefit-card h3 {
+
+        .benefit-item h3 {
             color: var(--secondary-color);
-            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-sm);
+            font-family: var(--font-family-primary);
+            line-height: 1.3;
+        }
+
+        .benefit-item p {
+            color: var(--brown-600);
+            font-size: var(--font-size-base);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .benefits-compact-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         /* Coming Soon App */
@@ -1268,13 +1258,6 @@
                 align-items: center;
             }
             
-            .course-features {
-                grid-template-columns: 1fr;
-            }
-            
-            .benefits-grid {
-                grid-template-columns: 1fr;
-            }
             
             .app-features {
                 grid-template-columns: 1fr;
@@ -1461,27 +1444,23 @@
                 y liderar su vida desde la consciencia.
             </p>
             
-            <div class="course-features">
-                <div class="feature-card">
-                    <div class="feature-icon">🧠</div>
+            <div class="course-features-grid">
+                <div class="feature-card-compact">
                     <h3>Nivel Inconsciente</h3>
                     <p>Hipnosis, autohipnosis y repeticiones conscientes para trabajar con tus programas automáticos</p>
                 </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
+                <div class="feature-card-compact">
                     <h3>Nivel Consciente</h3>
                     <p>PEP (Planeación Estratégica Personal), descargas emocionales, journaling y reprogramación de creencias</p>
                 </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">✨</div>
+                <div class="feature-card-compact">
                     <h3>Nivel Supraconsciente</h3>
                     <p>Mindfulness, meditación, EFT y Psych-K para acceder a tu sabiduría interna y capacidad creadora</p>
                 </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">💪</div>
+                <div class="feature-card-compact">
                     <h3>Mental Workouts Diarios</h3>
                     <p>Entrenamiento mental diario con prácticas de respiración y visualización guiada</p>
                 </div>
@@ -1590,45 +1569,35 @@
                 </p>
             </div>
 
-            <div class="benefits-grid">
-                <div class="benefit-card">
+            <div class="benefits-compact-grid">
+                <div class="benefit-item">
                     <h3>Romper patrones repetitivos</h3>
-                    <p>
-                        Identifica y libera los ciclos que te mantienen atascado, reprogramando las creencias limitantes
-                        que te sabotean para crear nuevos caminos de éxito y realización.
-                    </p>
+                    <p>Identifica y libera los ciclos que te mantienen atascado, reprogramando las creencias limitantes.</p>
                 </div>
 
-                <div class="benefit-card">
+                <div class="benefit-item">
                     <h3>Inteligencia emocional desarrollada</h3>
-                    <p>
-                        Aprende a manejar tus emociones con madurez, sin reprimirlas ni dejar que te controlen,
-                        creando equilibrio emocional y relaciones más sanas.
-                    </p>
+                    <p>Aprende a manejar tus emociones con madurez, creando equilibrio emocional y relaciones sanas.</p>
                 </div>
 
-                <div class="benefit-card">
+                <div class="benefit-item">
                     <h3>Conexión con tu propósito</h3>
-                    <p>
-                        Accede a tu sabiduría interior (supraconsciente) para tomar decisiones alineadas con tu
-                        propósito de vida y manifestar tus metas más profundas.
-                    </p>
+                    <p>Accede a tu sabiduría interior para tomar decisiones alineadas con tu propósito de vida.</p>
                 </div>
 
-                <div class="benefit-card">
+                <div class="benefit-item">
                     <h3>Vida consciente e intencional</h3>
-                    <p>
-                        Deja de vivir en automático y comienza a vivir de forma intencional, siendo el líder
-                        de tu vida emocional, mental, espiritual y energéticamente.
-                    </p>
+                    <p>Deja de vivir en automático y conviértete en el líder de tu vida emocional y mental.</p>
                 </div>
 
-                <div class="benefit-card">
+                <div class="benefit-item">
                     <h3>Transformación desde la raíz</h3>
-                    <p>
-                        No solo comprenderás tus patrones, sino que los sanarás y transformarás desde su origen,
-                        creando cambios duraderos y auténticos.
-                    </p>
+                    <p>Sana y transforma tus patrones desde su origen, creando cambios duraderos y auténticos.</p>
+                </div>
+
+                <div class="benefit-item">
+                    <h3>Herramientas prácticas para la vida</h3>
+                    <p>Recibe técnicas validadas que podrás aplicar inmediatamente en tu día a día.</p>
                 </div>
             </div>
             
@@ -1950,4 +1919,4 @@
     </script>
     -->
 </body>
-</html><!-- Last update: jueves, 18 de septiembre de 2025, 11:40:01 CST -->
+</html>
