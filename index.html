@@ -75,7 +75,7 @@
         :root {
             /* Warm, Organic Color Palette - Human Connection Theme with Lavender Accents */
             --primary-color: #8b5a3a; /* Warm earth brown - Trust & grounding */
-            --secondary-color: #a594c4; /* Soft lavender - Calm & spiritual growth */
+            --secondary-color: #8b5a3a; /* Warm brown - Trust & grounding */
             --accent-color: #d4a574; /* Warm sand - Energy & warmth */
             --success-color: #9b87b8; /* Muted purple - Achievement */
             --warning-color: #e8a87c;
@@ -112,7 +112,7 @@
             
             /* Organic Gradient Colors */
             --gradient-primary: linear-gradient(135deg, #8b5a3a 0%, #6d5a42 100%);
-            --gradient-secondary: linear-gradient(135deg, var(--secondary-color) 0%, var(--lavender-600) 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--brown-600) 0%, var(--brown-400) 100%);
             --gradient-accent: linear-gradient(135deg, #d4a574 0%, #c29660 100%);
             --gradient-warm: linear-gradient(135deg, #faf8f5 0%, #f5f0e8 100%);
             
@@ -660,7 +660,7 @@
         .feature-card-compact:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(139, 90, 58, 0.15);
-            border-color: var(--lavender-300);
+            border-color: var(--brown-300);
         }
 
         .feature-card-compact h3 {
@@ -813,11 +813,11 @@
         .benefit-item:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(139, 90, 58, 0.1);
-            border-color: var(--lavender-300);
+            border-color: var(--brown-300);
         }
 
         .benefit-item h3 {
-            color: var(--secondary-color);
+            color: var(--brown-700);
             font-size: var(--font-size-lg);
             margin-bottom: var(--spacing-sm);
             font-family: var(--font-family-primary);
@@ -1064,7 +1064,7 @@
         /* Footer */
         .footer {
             background: var(--brown-900);
-            color: var(--white);
+            color: var(--sand-100);
             padding: var(--spacing-3xl) 0 var(--spacing-2xl);
         }
         
@@ -1076,25 +1076,27 @@
         }
         
         .footer-section h3 {
-            color: var(--white);
+            color: var(--sand-50);
             margin-bottom: var(--spacing-lg);
         }
         
         .footer-section p,
         .footer-section a {
-            color: var(--gray-400);
+            color: var(--sand-200);
             margin-bottom: var(--spacing-sm);
+            text-decoration: none;
+            transition: color var(--transition-base);
         }
         
         .footer-section a:hover {
-            color: var(--white);
+            color: var(--sand-50);
         }
         
         .footer-bottom {
-            border-top: 1px solid var(--gray-800);
+            border-top: 1px solid rgba(255,255,255,0.1);
             padding-top: var(--spacing-lg);
             text-align: center;
-            color: var(--gray-400);
+            color: var(--sand-300);
             font-size: var(--font-size-sm);
         }
         
@@ -1321,7 +1323,6 @@
                     <a href="#curso">El Curso</a>
                     <a href="#cris">Sobre Cris</a>
                     <a href="#beneficios">Beneficios</a>
-                    <a href="#app">App</a>
                 </nav>
                 <a href="https://buy.stripe.com/fZufZi5Uf9uA58X5zig3601" class="btn btn-primary" target="_blank" rel="noopener">
                     Inscríbete Ahora
@@ -1485,7 +1486,7 @@
             </div>
             
             <div class="dates-info">
-                <div class="date-highlight">Mediados de Octubre 2024</div>
+                <div class="date-highlight">Mediados de Octubre 2025</div>
                 <p style="font-size: var(--font-size-lg); margin-bottom: var(--spacing-lg);">
                     <em>(Fechas sujetas a cambios - te notificaremos con anticipación)</em>
                 </p>
@@ -1609,58 +1610,6 @@
         </div>
     </section>
 
-    <!-- Coming Soon App -->
-    <section class="section app-preview" id="app">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Tu compañero digital de bienestar</h2>
-                <p class="section-subtitle">
-                    Pronto tendrás acceso a una app diseñada especialmente para acompañar tu proceso de transformación, 
-                    donde podrás continuar el trabajo que comenzamos juntos en el curso presencial
-                </p>
-            </div>
-            
-            <div class="app-features">
-                <div class="app-feature">
-                    <div class="app-feature-icon">🧠</div>
-                    <h3>Afirmaciones inteligentes</h3>
-                    <p>Recibe afirmaciones personalizadas creadas especialmente para tu momento emocional y tus objetivos de crecimiento personal</p>
-                </div>
-                
-                <div class="app-feature">
-                    <div class="app-feature-icon">🎧</div>
-                    <h3>Mi voz acompañándote</h3>
-                    <p>Escucha meditaciones guiadas y prácticas de mindfulness con mi voz, como si estuviéramos juntos en sesión</p>
-                </div>
-                
-                <div class="app-feature">
-                    <div class="app-feature-icon">🎵</div>
-                    <h3>Sonidos que sanan</h3>
-                    <p>Accede a una biblioteca de música y sonidos especialmente seleccionados para relajación, focus y bienestar emocional</p>
-                </div>
-                
-                <div class="app-feature">
-                    <div class="app-feature-icon">🌱</div>
-                    <h3>Tu progreso, celebrado</h3>
-                    <p>Observa tu crecimiento día a día con herramientas que honran tu proceso único y celebran cada pequeño avance</p>
-                </div>
-            </div>
-            
-            <div class="app-preview-footer">
-                <div class="app-badge">
-                    <span>📱</span>
-                    Disponible próximamente en iOS
-                </div>
-                
-                <div style="margin-top: var(--spacing-xl);">
-                    <button class="btn btn-secondary btn-lg" onclick="joinWaitlist()" style="background: var(--primary-color); border: none; color: var(--white);">
-                        Únete a la Lista de Espera
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Final CTA -->
     <section class="section cta-section">
         <div class="container">
@@ -1674,7 +1623,7 @@
                 
                 <div class="cta-buttons">
                     <a href="https://buy.stripe.com/fZufZi5Uf9uA58X5zig3601" class="btn btn-secondary btn-lg" target="_blank" rel="noopener">
-                        Inscribirme para Octubre 2024
+                        Inscribirme para Octubre 2025
                     </a>
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSf7ogXxb0wf28I2FVt5lbxMWdtGw1qHpTA92OrcaR4vHylW1w/viewform" class="btn btn-outline btn-lg" target="_blank" rel="noopener">
                         Avisarme de próximas fechas
