@@ -363,13 +363,14 @@
         
         /* Hero Section - Warm, inviting atmosphere */
         .hero {
-            min-height: 100vh;
+            min-height: calc(100vh - 80px);
             display: flex;
             align-items: center;
             background: var(--gradient-warm);
             position: relative;
             overflow: hidden;
             padding: var(--spacing-4xl) 0;
+            margin-top: 80px;
         }
         
         .hero::before {
@@ -507,8 +508,14 @@
         
         /* Sections - Organic, flowing feel */
         .section {
-            padding: var(--spacing-4xl) 0;
+            padding: var(--spacing-3xl) 0;
             position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .section {
+                padding: var(--spacing-4xl) 0;
+            }
         }
         
         .section-header {
@@ -1066,9 +1073,9 @@
         
         /* Footer */
         .footer {
-            background: var(--gray-900);
+            background: var(--brown-900);
             color: var(--white);
-            padding: var(--spacing-4xl) 0 var(--spacing-2xl);
+            padding: var(--spacing-3xl) 0 var(--spacing-2xl);
         }
         
         .footer-content {
@@ -1210,13 +1217,6 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Form responsive styles */
-        @media (max-width: 640px) {
-            #lista-espera iframe {
-                height: 1000px;
-            }
-        }
-
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             :root {
@@ -1234,6 +1234,12 @@
                 display: none;
             }
             
+            .hero {
+                min-height: calc(100vh - 60px);
+                padding: var(--spacing-2xl) 0;
+                margin-top: 60px;
+            }
+
             .hero-content {
                 grid-template-columns: 1fr;
                 gap: var(--spacing-2xl);
@@ -1332,7 +1338,6 @@
                     <a href="#curso">El Curso</a>
                     <a href="#cris">Sobre Cris</a>
                     <a href="#beneficios">Beneficios</a>
-                    <a href="#lista-espera">Próximas Fechas</a>
                     <a href="#app">App</a>
                 </nav>
                 <a href="https://buy.stripe.com/fZufZi5Uf9uA58X5zig3601" class="btn btn-primary" target="_blank" rel="noopener">
@@ -1513,43 +1518,10 @@
                     <a href="https://buy.stripe.com/fZufZi5Uf9uA58X5zig3601" class="btn btn-primary btn-lg" target="_blank" rel="noopener">
                         Inscribirme para Octubre
                     </a>
-                    <a href="#lista-espera" class="btn btn-outline btn-lg" style="background: rgba(255,255,255,0.1); border: 2px solid white; color: white;">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf7ogXxb0wf28I2FVt5lbxMWdtGw1qHpTA92OrcaR4vHylW1w/viewform" class="btn btn-outline btn-lg" style="background: rgba(255,255,255,0.1); border: 2px solid white; color: white;" target="_blank" rel="noopener">
                         Me interesa otra fecha
                     </a>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Waitlist Section -->
-    <section class="section" id="lista-espera" style="background: var(--sand-50);">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">¿Te interesa una fecha futura?</h2>
-                <p class="section-subtitle">
-                    Si las fechas de octubre no te funcionan, déjanos tus datos y te avisaremos
-                    cuando abramos nuevos grupos. Serás de los primeros en enterarte.
-                </p>
-            </div>
-
-            <div style="display: flex; justify-content: center; margin-top: var(--spacing-2xl);">
-                <div style="width: 100%; max-width: 800px; background: white; padding: var(--spacing-2xl); border-radius: 20px; box-shadow: 0 10px 30px rgba(139, 90, 58, 0.1);">
-                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf7ogXxb0wf28I2FVt5lbxMWdtGw1qHpTA92OrcaR4vHylW1w/viewform?embedded=true"
-                            width="100%"
-                            height="800"
-                            frameborder="0"
-                            marginheight="0"
-                            marginwidth="0"
-                            style="border: none;">
-                        Cargando…
-                    </iframe>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: var(--spacing-xl);">
-                <p style="color: var(--brown-600); font-size: var(--font-size-lg);">
-                    <em>Tu información está segura con nosotros. Solo la usaremos para comunicarte sobre Fit Mental.</em>
-                </p>
             </div>
         </div>
     </section>
@@ -1735,7 +1707,7 @@
                     <a href="https://buy.stripe.com/fZufZi5Uf9uA58X5zig3601" class="btn btn-secondary btn-lg" target="_blank" rel="noopener">
                         Inscribirme para Octubre 2024
                     </a>
-                    <a href="#lista-espera" class="btn btn-outline btn-lg">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf7ogXxb0wf28I2FVt5lbxMWdtGw1qHpTA92OrcaR4vHylW1w/viewform" class="btn btn-outline btn-lg" target="_blank" rel="noopener">
                         Avisarme de próximas fechas
                     </a>
                 </div>
