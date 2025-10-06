@@ -1209,6 +1209,22 @@
             to { transform: rotate(360deg); }
         }
         
+        /* Dates Location Grid Responsive */
+        .dates-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-3xl);
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 968px) {
+            .dates-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-2xl);
+            }
+        }
+
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             :root {
@@ -1483,30 +1499,71 @@
     <!-- Dates and Location -->
     <section class="section dates-location">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Fechas y Lugar</h2>
-                <p class="section-subtitle">
-                    Próximas fechas disponibles para transformar tu vida
-                </p>
+            <div class="section-header" style="margin-bottom: var(--spacing-2xl);">
+                <h2 class="section-title">Próximo Curso</h2>
             </div>
-            
-            <div class="dates-info">
-                <div class="date-highlight">Mediados de Octubre 2025</div>
-                <p style="font-size: var(--font-size-lg); margin-bottom: var(--spacing-lg);">
-                    <em>(Fechas sujetas a cambios - te notificaremos con anticipación)</em>
-                </p>
-                <p style="font-size: var(--font-size-xl);">
-                    El curso se impartirá en un espacio presencial especialmente diseñado 
-                    para tu comodidad y enfoque, creando el ambiente perfecto para tu transformación.
-                </p>
-                <div style="margin-top: var(--spacing-xl); display: flex; gap: var(--spacing-lg); justify-content: center; flex-wrap: wrap;">
-                    <a href="https://buy.stripe.com/fZufZi5Uf9uA58X5zig3601" class="btn btn-primary btn-lg" target="_blank" rel="noopener">
-                        Inscribirme para Octubre
+
+            <!-- Compact Info Cards -->
+            <div style="max-width: 900px; margin: 0 auto;">
+
+                <!-- Main Info Grid -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg); margin-bottom: var(--spacing-lg);">
+
+                    <!-- Date Card -->
+                    <div style="background: #ffffff; padding: var(--spacing-xl); border-radius: 15px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); text-align: center;">
+                        <div style="font-size: var(--font-size-sm); font-weight: 600; color: var(--brown-600); margin-bottom: var(--spacing-md); text-transform: uppercase; letter-spacing: 1.5px;">Fecha de Inicio</div>
+                        <div style="font-size: var(--font-size-4xl); font-weight: 700; color: var(--brown-900); font-family: var(--font-family-primary); line-height: 1.2; margin-bottom: var(--spacing-xs);">29 de Octubre</div>
+                        <div style="font-size: var(--font-size-xl); color: var(--brown-700); font-weight: 500;">2025</div>
+                    </div>
+
+                    <!-- Modalities Card -->
+                    <div style="background: #ffffff; padding: var(--spacing-xl); border-radius: 15px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);">
+                        <div style="font-size: var(--font-size-sm); font-weight: 600; color: var(--brown-600); margin-bottom: var(--spacing-md); text-transform: uppercase; letter-spacing: 1.5px; text-align: center;">Modalidades</div>
+                        <div style="display: flex; gap: var(--spacing-md); align-items: center; justify-content: space-around;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 2.5rem; margin-bottom: var(--spacing-xs);">🏢</div>
+                                <div style="font-size: var(--font-size-base); font-weight: 600; color: var(--brown-800);">Presencial</div>
+                            </div>
+                            <div style="width: 1px; height: 40px; background: var(--sand-300);"></div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 2.5rem; margin-bottom: var(--spacing-xs);">💻</div>
+                                <div style="font-size: var(--font-size-base); font-weight: 600; color: var(--brown-800);">En Línea</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location Card -->
+                <div style="background: #ffffff; padding: var(--spacing-lg) var(--spacing-xl); border-radius: 15px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); margin-bottom: var(--spacing-2xl);">
+                    <div style="display: flex; align-items: center; gap: var(--spacing-md);">
+                        <div style="font-size: 1.75rem;">📍</div>
+                        <div style="flex: 1;">
+                            <div style="font-size: var(--font-size-sm); font-weight: 600; color: var(--brown-600); margin-bottom: var(--spacing-xs); text-transform: uppercase; letter-spacing: 1px;">Ubicación Presencial</div>
+                            <div style="font-size: var(--font-size-base); color: var(--brown-800); line-height: 1.5;">
+                                Carretera México Toluca #5420, Santa Fe, Cuajimalpa de Morelos, CDMX
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div style="display: flex; gap: var(--spacing-md); justify-content: center; flex-wrap: wrap;">
+                    <a href="https://buy.stripe.com/fZufZi5Uf9uA58X5zig3601" class="btn btn-lg" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #f5d6a8 0%, #d4a574 100%); color: var(--brown-900); box-shadow: 0 8px 25px rgba(212, 165, 116, 0.5); font-weight: 700; padding: var(--spacing-lg) var(--spacing-3xl); border: none;">
+                        Inscribirme Ahora
                     </a>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf7ogXxb0wf28I2FVt5lbxMWdtGw1qHpTA92OrcaR4vHylW1w/viewform" class="btn btn-outline btn-lg" style="background: rgba(255,255,255,0.1); border: 2px solid white; color: white;" target="_blank" rel="noopener">
-                        Me interesa otra fecha
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf7ogXxb0wf28I2FVt5lbxMWdtGw1qHpTA92OrcaR4vHylW1w/viewform" class="btn btn-lg" style="background: transparent; border: 2px solid rgba(255, 255, 255, 0.9); color: #ffffff; padding: var(--spacing-lg) var(--spacing-2xl);" target="_blank" rel="noopener">
+                        Otra fecha
                     </a>
                 </div>
+
+                <!-- Responsive Grid -->
+                <style>
+                    @media (max-width: 768px) {
+                        .dates-grid > div:first-child > div {
+                            grid-template-columns: 1fr !important;
+                        }
+                    }
+                </style>
             </div>
         </div>
     </section>
@@ -1650,8 +1707,8 @@
                 
                 <div class="footer-section">
                     <h3>Contacto</h3>
-                    <p>Email: info@fitmental.com</p>
-                    <p>WhatsApp: +52 55 1234 5678</p>
+                    <p>Email: gerentecomercial@lck.com.mx</p>
+                    <p>WhatsApp: +52 1 56 1853 2322</p>
                     <p>Horario: Lun-Vie 9:00-18:00</p>
                 </div>
                 
@@ -1673,7 +1730,7 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2024 Fit Mental - LCK (Life Changing Knowledge). Todos los derechos reservados.</p>
+                <p>&copy; 2025 Fit Mental - LCK (Life Changing Knowledge). Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
