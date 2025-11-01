@@ -915,7 +915,13 @@
 
                 <div class="form-group">
                     <label class="form-label">URL del Video Vimeo</label>
-                    <input type="text" class="form-input" id="video-${week.weekNumber}" value="${week.videoUrl || ''}" placeholder="https://player.vimeo.com/video/..." onchange="updateWeekVideo(${week.weekNumber}, this.value)">
+                    <input type="text" class="form-input" id="video-input-${week.weekNumber}" value="${week.videoUrl || ''}" placeholder="Pega aquí el link de Vimeo (cualquier formato)">
+                    <div style="display: flex; gap: var(--spacing-sm); margin-top: var(--spacing-sm);">
+                        <button type="button" class="btn btn-success" onclick="updateWeekVideo(${week.weekNumber})">
+                            ${week.videoUrl ? '🔄 Cambiar Video' : '📤 Subir Video'}
+                        </button>
+                        ${week.videoUrl ? `<button type="button" class="btn btn-danger" onclick="removeWeekVideo(${week.weekNumber})">🗑️ Quitar Video</button>` : ''}
+                    </div>
                     ${week.videoUrl ? `<iframe class="video-preview" src="${week.videoUrl}" frameborder="0" allowfullscreen></iframe>` : ''}
                 </div>
 
@@ -965,15 +971,76 @@
             }
         }
 
-        async function updateWeekVideo(weekNumber, videoUrl) {
+        function convertVimeoUrl(url) {
+            if (!url) return '';
+
+            // If already in embed format, return as is
+            if (url.includes('player.vimeo.com')) {
+                return url;
+            }
+
+            // Extract video ID and hash from various Vimeo formats
+            // Format: https://vimeo.com/1132817866/b063b3f07a
+            // Format: https://vimeo.com/1132817866
+            const patterns = [
+                /vimeo\.com\/(\d+)\/([a-zA-Z0-9]+)/,  // With hash
+                /vimeo\.com\/(\d+)/                    // Without hash
+            ];
+
+            for (let pattern of patterns) {
+                const match = url.match(pattern);
+                if (match) {
+                    const videoId = match[1];
+                    const hash = match[2] || '';
+
+                    // Build embed URL
+                    let embedUrl = `https://player.vimeo.com/video/${videoId}`;
+                    if (hash) {
+                        embedUrl += `?h=${hash}`;
+                    }
+
+                    return embedUrl;
+                }
+            }
+
+            // If no pattern matches, return original
+            return url;
+        }
+
+        async function updateWeekVideo(weekNumber) {
             try {
+                const inputField = document.getElementById(`video-input-${weekNumber}`);
+                const rawUrl = inputField.value.trim();
+
+                if (!rawUrl) {
+                    showAlert('Por favor ingresa una URL de Vimeo', 'error');
+                    return;
+                }
+
+                // Convert to embed format
+                const embedUrl = convertVimeoUrl(rawUrl);
+
                 const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
-                await window.firebaseUpdateDoc(weekRef, { videoUrl });
+                await window.firebaseUpdateDoc(weekRef, { videoUrl: embedUrl });
                 showAlert(`Video de la semana ${weekNumber} actualizado`, 'success');
                 loadWeeks();
             } catch (error) {
                 console.error('Error updating video:', error);
                 showAlert('Error al actualizar el video: ' + error.message, 'error');
+            }
+        }
+
+        async function removeWeekVideo(weekNumber) {
+            if (!confirm('¿Estás seguro de quitar este video?')) return;
+
+            try {
+                const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
+                await window.firebaseUpdateDoc(weekRef, { videoUrl: '' });
+                showAlert(`Video de la semana ${weekNumber} eliminado`, 'success');
+                loadWeeks();
+            } catch (error) {
+                console.error('Error removing video:', error);
+                showAlert('Error al eliminar el video: ' + error.message, 'error');
             }
         }
 
