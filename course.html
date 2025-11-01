@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso Fit Mental - Portal del Estudiante</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Portal del estudiante para el curso Fit Mental con Cris Steinman. Accede a las grabaciones de clase y ejercicios semanales.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Warm, Organic Color Palette - Matching Landing Page */
+            --primary-color: #8b5a3a;
+            --secondary-color: #8b5a3a;
+            --accent-color: #d4a574;
+            --success-color: #9b87b8;
+            --warning-color: #e8a87c;
+            --danger-color: #c85a5a;
+
+            /* Organic Neutral Colors */
+            --cream: #faf8f5;
+            --warm-white: #fdfcfa;
+            --sand-50: #faf7f2;
+            --sand-100: #f5f0e8;
+            --sand-200: #ede4d3;
+            --sand-300: #e0d0b7;
+            --brown-100: #f4f1ec;
+            --brown-200: #e8ddd0;
+            --brown-300: #d4c4ab;
+            --brown-400: #b5a082;
+            --brown-500: #8b7355;
+            --brown-600: #5d4a35;
+            --brown-700: #3d312a;
+            --brown-800: #2b221b;
+            --brown-900: #1f1812;
+
+            /* Lavender Palette */
+            --lavender-50: #f9f7fd;
+            --lavender-100: #f3eef9;
+            --lavender-200: #e7ddf3;
+            --lavender-300: #d6c6e8;
+            --lavender-400: #c4abdb;
+            --lavender-500: #a594c4;
+            --lavender-600: #8b7aa8;
+            --lavender-700: #6f6186;
+            --lavender-800: #544965;
+            --lavender-900: #3d3348;
+
+            /* Organic Gradient Colors */
+            --gradient-primary: linear-gradient(135deg, #8b5a3a 0%, #6d5a42 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--brown-600) 0%, var(--brown-400) 100%);
+            --gradient-accent: linear-gradient(135deg, #d4a574 0%, #c29660 100%);
+            --gradient-warm: linear-gradient(135deg, #faf8f5 0%, #f5f0e8 100%);
+
+            /* Typography */
+            --font-family-primary: 'Caveat', cursive;
+            --font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --font-size-5xl: 3rem;
+            --font-size-6xl: 3.75rem;
+
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+            --spacing-4xl: 6rem;
+
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+            /* Transitions */
+            --transition-fast: 150ms ease-in-out;
+            --transition-medium: 300ms ease-in-out;
+            --transition-slow: 500ms ease-in-out;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            line-height: 1.7;
+            color: var(--brown-800);
+            background-color: var(--warm-white);
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-family-primary);
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--brown-900);
+            margin-bottom: var(--spacing-md);
+        }
+
+        h1 { font-size: var(--font-size-5xl); }
+        h2 { font-size: var(--font-size-4xl); }
+        h3 { font-size: var(--font-size-3xl); }
+        h4 { font-size: var(--font-size-2xl); }
+        h5 { font-size: var(--font-size-xl); }
+        h6 { font-size: var(--font-size-lg); }
+
+        p {
+            margin-bottom: var(--spacing-md);
+            color: var(--brown-700);
+            font-size: var(--font-size-lg);
+            font-weight: 400;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(253, 252, 250, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--sand-200);
+            z-index: 1000;
+            transition: all var(--transition-fast);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-md) 0;
+        }
+
+        .logo {
+            font-family: var(--font-family-primary);
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: 0 1px 2px rgba(139, 90, 58, 0.1);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-md) var(--spacing-xl);
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all var(--transition-medium);
+            position: relative;
+            overflow: hidden;
+            font-family: var(--font-family-body);
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--warm-white);
+            box-shadow: 0 4px 15px rgba(139, 90, 58, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 90, 58, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--warm-white);
+            transform: translateY(-2px);
+        }
+
+        .btn-sm {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: var(--spacing-3xl) 0;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* Login Page */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 200px);
+        }
+
+        .login-card {
+            background: var(--warm-white);
+            padding: var(--spacing-3xl);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(139, 90, 58, 0.15);
+            border: 1px solid var(--sand-200);
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .login-card h2 {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+            color: var(--brown-900);
+        }
+
+        .login-card p {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+            color: var(--brown-600);
+            font-size: var(--font-size-base);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--brown-800);
+            font-weight: 500;
+            font-size: var(--font-size-base);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--spacing-md);
+            border: 2px solid var(--sand-300);
+            border-radius: 12px;
+            font-size: var(--font-size-base);
+            font-family: var(--font-family-body);
+            color: var(--brown-800);
+            transition: all var(--transition-fast);
+            background: var(--sand-50);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: var(--warm-white);
+            box-shadow: 0 0 0 3px rgba(139, 90, 58, 0.1);
+        }
+
+        .btn-full {
+            width: 100%;
+            padding: var(--spacing-lg);
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+        }
+
+        .error-message {
+            background: rgba(200, 90, 90, 0.1);
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            font-size: var(--font-size-sm);
+            display: none;
+        }
+
+        /* Course Content */
+        .course-header {
+            text-align: center;
+            margin-bottom: var(--spacing-4xl);
+        }
+
+        .course-header h1 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .course-header p {
+            font-size: var(--font-size-xl);
+            color: var(--brown-600);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .week-card {
+            background: var(--warm-white);
+            border: 2px solid var(--sand-200);
+            border-radius: 20px;
+            padding: var(--spacing-2xl);
+            margin-bottom: var(--spacing-2xl);
+            box-shadow: 0 10px 30px rgba(139, 90, 58, 0.08);
+            transition: all var(--transition-medium);
+            position: relative;
+        }
+
+        .week-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(139, 90, 58, 0.15);
+            border-color: var(--accent-color);
+        }
+
+        .week-card.locked {
+            opacity: 0.6;
+            background: var(--sand-100);
+        }
+
+        .week-card.locked:hover {
+            transform: none;
+            box-shadow: 0 10px 30px rgba(139, 90, 58, 0.08);
+        }
+
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 2px solid var(--sand-200);
+        }
+
+        .week-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .week-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-secondary);
+            color: var(--warm-white);
+            border-radius: 50%;
+            font-family: var(--font-family-primary);
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(139, 90, 58, 0.2);
+        }
+
+        .week-title h3 {
+            margin: 0;
+            color: var(--brown-900);
+            font-size: var(--font-size-3xl);
+        }
+
+        .lock-icon {
+            font-size: var(--font-size-4xl);
+            color: var(--brown-400);
+        }
+
+        .unlock-date {
+            display: inline-block;
+            background: var(--lavender-100);
+            color: var(--lavender-800);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: 20px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+        }
+
+        .week-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--spacing-2xl);
+            margin-top: var(--spacing-xl);
+        }
+
+        .video-section {
+            background: var(--sand-50);
+            border-radius: 15px;
+            padding: var(--spacing-xl);
+            border: 1px solid var(--sand-200);
+        }
+
+        .video-section h4 {
+            margin-bottom: var(--spacing-lg);
+            color: var(--brown-800);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: var(--brown-200);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--brown-600);
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            border: 2px dashed var(--brown-400);
+        }
+
+        .video-iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .exercises-section {
+            background: var(--lavender-50);
+            border-radius: 15px;
+            padding: var(--spacing-xl);
+            border: 1px solid var(--lavender-200);
+        }
+
+        .exercises-section h4 {
+            margin-bottom: var(--spacing-lg);
+            color: var(--lavender-800);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .exercise-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .exercise-item {
+            background: var(--warm-white);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: 10px;
+            border: 1px solid var(--lavender-200);
+            transition: all var(--transition-fast);
+        }
+
+        .exercise-item:hover {
+            transform: translateX(5px);
+            border-color: var(--lavender-400);
+            box-shadow: 0 4px 15px rgba(165, 148, 196, 0.15);
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            color: var(--lavender-800);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: var(--font-size-base);
+        }
+
+        .download-btn:hover {
+            color: var(--lavender-600);
+        }
+
+        .locked-content {
+            padding: var(--spacing-2xl);
+            text-align: center;
+            color: var(--brown-600);
+        }
+
+        .locked-content p {
+            font-size: var(--font-size-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        /* Logout */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .user-email {
+            color: var(--brown-700);
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            :root {
+                --font-size-5xl: 2rem;
+                --font-size-4xl: 1.75rem;
+                --font-size-3xl: 1.5rem;
+            }
+
+            .main-content {
+                margin-top: 80px;
+                padding: var(--spacing-2xl) 0;
+            }
+
+            .login-card {
+                padding: var(--spacing-2xl);
+            }
+
+            .week-content {
+                grid-template-columns: 1fr;
+            }
+
+            .week-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-md);
+            }
+
+            .user-info {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: var(--spacing-sm);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Fit Mental</div>
+                <div class="user-info" id="userInfo" style="display: none;">
+                    <span class="user-email" id="userEmail"></span>
+                    <button class="btn btn-outline btn-sm" onclick="logout()">Cerrar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Login Page -->
+            <div id="loginPage" class="login-container">
+                <div class="login-card">
+                    <h2>Portal del Estudiante</h2>
+                    <p>Accede a tus clases y materiales del curso Fit Mental</p>
+
+                    <div class="error-message" id="errorMessage">
+                        Email o contraseña incorrectos
+                    </div>
+
+                    <form id="loginForm" onsubmit="login(event)">
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                class="form-input"
+                                placeholder="tu@email.com"
+                                required
+                                autocomplete="email"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="password">Contraseña</label>
+                            <input
+                                type="password"
+                                id="password"
+                                class="form-input"
+                                placeholder="••••••••"
+                                required
+                                autocomplete="current-password"
+                            >
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full">
+                            Ingresar al Curso
+                        </button>
+
+                        <div style="text-align: center; margin: var(--spacing-lg) 0; color: var(--brown-600); font-size: var(--font-size-sm);">
+                            o
+                        </div>
+
+                        <button type="button" class="btn btn-outline btn-full" onclick="loginWithGoogle()" style="width: 100%;">
+                            <svg width="18" height="18" style="margin-right: 8px;" viewBox="0 0 24 24">
+                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                            </svg>
+                            Continuar con Google
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Course Content Page -->
+            <div id="coursePage" style="display: none;">
+                <div class="course-header">
+                    <h1>Curso Fit Mental</h1>
+                    <p>Bienvenido a tu viaje de transformación personal. Aquí encontrarás todas las grabaciones de clase y ejercicios semanales.</p>
+                </div>
+
+                <!-- Week 1 -->
+                <div class="week-card" id="week1">
+                    <div class="week-header">
+                        <div class="week-title">
+                            <span class="week-number">1</span>
+                            <h3>Fundamentos del Fit Mental</h3>
+                        </div>
+                    </div>
+                    <div class="week-content">
+                        <div class="video-section">
+                            <h4>📹 Grabación de la Clase</h4>
+                            <iframe class="video-iframe" src="https://player.vimeo.com/video/1132817866?h=b063b3f07a&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" allowfullscreen title="Fit Mental - Semana 1"></iframe>
+                        </div>
+                        <div class="exercises-section">
+                            <h4>📚 Ejercicios</h4>
+                            <div class="exercise-list">
+                                <div class="exercise-item">
+                                    <a href="#" class="download-btn" onclick="downloadFile('week1-exercise1.pdf'); return false;">
+                                        <span>⬇️</span>
+                                        <span>Ejercicio 1: Autoconocimiento</span>
+                                    </a>
+                                </div>
+                                <div class="exercise-item">
+                                    <a href="#" class="download-btn" onclick="downloadFile('week1-exercise2.pdf'); return false;">
+                                        <span>⬇️</span>
+                                        <span>Ejercicio 2: Mapa Mental</span>
+                                    </a>
+                                </div>
+                                <div class="exercise-item">
+                                    <a href="#" class="download-btn" onclick="downloadFile('week1-workbook.pdf'); return false;">
+                                        <span>⬇️</span>
+                                        <span>Cuaderno de Trabajo Semana 1</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 2 -->
+                <div class="week-card locked" id="week2">
+                    <div class="week-header">
+                        <div class="week-title">
+                            <span class="week-number">2</span>
+                            <h3>Reprogramación de Creencias</h3>
+                        </div>
+                        <div>
+                            <span class="lock-icon">🔒</span>
+                            <span class="unlock-date">Se desbloquea después de la clase</span>
+                        </div>
+                    </div>
+                    <div class="locked-content">
+                        <p>Este contenido se desbloqueará después de la segunda clase.</p>
+                    </div>
+                </div>
+
+                <!-- Week 3 -->
+                <div class="week-card locked" id="week3">
+                    <div class="week-header">
+                        <div class="week-title">
+                            <span class="week-number">3</span>
+                            <h3>Inteligencia Emocional</h3>
+                        </div>
+                        <div>
+                            <span class="lock-icon">🔒</span>
+                            <span class="unlock-date">Se desbloquea después de la clase</span>
+                        </div>
+                    </div>
+                    <div class="locked-content">
+                        <p>Este contenido se desbloqueará después de la tercera clase.</p>
+                    </div>
+                </div>
+
+                <!-- Week 4 -->
+                <div class="week-card locked" id="week4">
+                    <div class="week-header">
+                        <div class="week-title">
+                            <span class="week-number">4</span>
+                            <h3>Mindfulness y Meditación</h3>
+                        </div>
+                        <div>
+                            <span class="lock-icon">🔒</span>
+                            <span class="unlock-date">Se desbloquea después de la clase</span>
+                        </div>
+                    </div>
+                    <div class="locked-content">
+                        <p>Este contenido se desbloqueará después de la cuarta clase.</p>
+                    </div>
+                </div>
+
+                <!-- Week 5 -->
+                <div class="week-card locked" id="week5">
+                    <div class="week-header">
+                        <div class="week-title">
+                            <span class="week-number">5</span>
+                            <h3>Herramientas Avanzadas</h3>
+                        </div>
+                        <div>
+                            <span class="lock-icon">🔒</span>
+                            <span class="unlock-date">Se desbloquea después de la clase</span>
+                        </div>
+                    </div>
+                    <div class="locked-content">
+                        <p>Este contenido se desbloqueará después de la quinta clase.</p>
+                    </div>
+                </div>
+
+                <!-- Week 6 -->
+                <div class="week-card locked" id="week6">
+                    <div class="week-header">
+                        <div class="week-title">
+                            <span class="week-number">6</span>
+                            <h3>Integración y Cierre</h3>
+                        </div>
+                        <div>
+                            <span class="lock-icon">🔒</span>
+                            <span class="unlock-date">Se desbloquea después de la clase</span>
+                        </div>
+                    </div>
+                    <div class="locked-content">
+                        <p>Este contenido se desbloqueará después de la sexta clase.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, getDocs, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getStorage, ref, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCg6d83-1N_ehP2cztK9rbBEOlQ42Sev_A",
+            authDomain: "fit-mental.firebaseapp.com",
+            projectId: "fit-mental",
+            storageBucket: "fit-mental.firebasestorage.app",
+            messagingSenderId: "238490497654",
+            appId: "1:238490497654:web:065ba42d23676166c7a557",
+            measurementId: "G-BHQVM0NC1N"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // Make Firebase services available globally
+        window.firebaseAuth = auth;
+        window.firebaseDb = db;
+        window.firebaseStorage = storage;
+        window.firebaseSignOut = signOut;
+        window.firebaseSignInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.firebaseSignInWithPopup = signInWithPopup;
+        window.firebaseGoogleProvider = new GoogleAuthProvider();
+        window.firebaseOnAuthStateChanged = onAuthStateChanged;
+        window.firebaseGetDocs = getDocs;
+        window.firebaseCollection = collection;
+        window.firebaseDoc = doc;
+        window.firebaseGetDoc = getDoc;
+        window.firebaseSetDoc = setDoc;
+        window.firebaseRef = ref;
+        window.firebaseGetDownloadURL = getDownloadURL;
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // Check if user has access and create user document if needed
+                const userRef = doc(db, 'users', user.uid);
+                const userDoc = await getDoc(userRef);
+
+                if (!userDoc.exists()) {
+                    // Create new user document with default access (no weeks unlocked)
+                    await setDoc(userRef, {
+                        email: user.email,
+                        displayName: user.displayName || user.email,
+                        accessibleWeeks: [],
+                        role: 'student',
+                        createdAt: Date.now()
+                    });
+                }
+
+                showCoursePage(user.email);
+                loadCourseContent(user.uid);
+            } else {
+                document.getElementById('loginPage').style.display = 'flex';
+                document.getElementById('coursePage').style.display = 'none';
+                document.getElementById('userInfo').style.display = 'none';
+            }
+        });
+    </script>
+
+    <script>
+        // Check if user is already logged in (handled by Firebase onAuthStateChanged)
+
+        async function login(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            try {
+                await window.firebaseSignInWithEmailAndPassword(window.firebaseAuth, email, password);
+                errorMessage.style.display = 'none';
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = error.message || 'Email o contraseña incorrectos';
+                errorMessage.style.display = 'block';
+            }
+        }
+
+        async function loginWithGoogle() {
+            const errorMessage = document.getElementById('errorMessage');
+
+            try {
+                await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseGoogleProvider);
+                errorMessage.style.display = 'none';
+            } catch (error) {
+                console.error('Google login error:', error);
+                errorMessage.textContent = error.message || 'Error al iniciar sesión con Google';
+                errorMessage.style.display = 'block';
+            }
+        }
+
+        function showCoursePage(email) {
+            // Hide login page
+            document.getElementById('loginPage').style.display = 'none';
+
+            // Show course page
+            document.getElementById('coursePage').style.display = 'block';
+
+            // Show user info in header
+            document.getElementById('userInfo').style.display = 'flex';
+            document.getElementById('userEmail').textContent = email;
+        }
+
+        async function logout() {
+            try {
+                await window.firebaseSignOut(window.firebaseAuth);
+                // Clear form
+                document.getElementById('loginForm').reset();
+                document.getElementById('errorMessage').style.display = 'none';
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        }
+
+        async function loadCourseContent(userId) {
+            try {
+                // Get user's accessible weeks
+                const userRef = window.firebaseDoc(window.firebaseDb, 'users', userId);
+                const userDoc = await window.firebaseGetDoc(userRef);
+                const userData = userDoc.data();
+                const accessibleWeeks = userData.accessibleWeeks || [];
+
+                // Load all weeks from Firestore
+                const weeksSnapshot = await window.firebaseGetDocs(
+                    window.firebaseCollection(window.firebaseDb, 'weeks')
+                );
+
+                weeksSnapshot.forEach((docSnapshot) => {
+                    const weekData = docSnapshot.data();
+                    const weekNumber = weekData.weekNumber;
+
+                    // Check if user has access to this week
+                    const hasAccess = accessibleWeeks.includes(weekNumber);
+                    updateWeekContent(weekNumber, weekData, hasAccess);
+                });
+            } catch (error) {
+                console.error('Error loading course content:', error);
+            }
+        }
+
+        function updateWeekContent(weekNumber, weekData, userHasAccess) {
+            const weekCard = document.getElementById(`week${weekNumber}`);
+            if (!weekCard) return;
+
+            // User must have access to see the content (regardless of global unlock status)
+            if (!userHasAccess) return;
+
+            // Remove locked class
+            weekCard.classList.remove('locked');
+
+            // Remove locked content if exists
+            const lockedContent = weekCard.querySelector('.locked-content');
+            if (lockedContent) {
+                lockedContent.remove();
+            }
+
+            // Remove lock indicators
+            const lockIcon = weekCard.querySelector('.lock-icon');
+            const unlockDate = weekCard.querySelector('.unlock-date');
+            if (lockIcon) lockIcon.parentElement.remove();
+
+            // Check if week-content already exists
+            let weekContent = weekCard.querySelector('.week-content');
+            if (!weekContent) {
+                weekContent = document.createElement('div');
+                weekContent.className = 'week-content';
+                weekCard.appendChild(weekContent);
+            }
+
+            // Update video section
+            const videoHTML = weekData.videoUrl
+                ? `<iframe class="video-iframe" src="${weekData.videoUrl}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" allowfullscreen></iframe>`
+                : '<div class="video-placeholder">Video disponible próximamente</div>';
+
+            // Build exercises HTML
+            let exercisesHTML = '';
+            if (weekData.exercises && weekData.exercises.length > 0) {
+                exercisesHTML = weekData.exercises.map((exercise, index) => `
+                    <div class="exercise-item">
+                        <a href="#" class="download-btn" onclick="downloadFile('${exercise.filename}', '${exercise.storagePath}'); return false;">
+                            <span>⬇️</span>
+                            <span>${exercise.name}</span>
+                        </a>
+                    </div>
+                `).join('');
+            } else {
+                exercisesHTML = '<p style="color: var(--brown-600); font-size: var(--font-size-sm);">No hay ejercicios disponibles aún.</p>';
+            }
+
+            weekContent.innerHTML = `
+                <div class="video-section">
+                    <h4>📹 Grabación de la Clase</h4>
+                    ${videoHTML}
+                </div>
+                <div class="exercises-section">
+                    <h4>📚 Ejercicios</h4>
+                    <div class="exercise-list">
+                        ${exercisesHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function downloadFile(filename, storagePath) {
+            try {
+                const fileRef = window.firebaseRef(window.firebaseStorage, storagePath);
+                const downloadURL = await window.firebaseGetDownloadURL(fileRef);
+
+                // Create temporary link and trigger download
+                const link = document.createElement('a');
+                link.href = downloadURL;
+                link.download = filename;
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (error) {
+                console.error('Error downloading file:', error);
+                alert('Error al descargar el archivo. Por favor, intenta de nuevo.');
+            }
+        }
+
+        // Function to unlock weeks (to be called manually or via backend)
+        function unlockWeek(weekNumber) {
+            const weekCard = document.getElementById(`week${weekNumber}`);
+            if (weekCard) {
+                weekCard.classList.remove('locked');
+
+                // Update content - this is where you would add actual video and exercises
+                const lockedContent = weekCard.querySelector('.locked-content');
+                if (lockedContent) {
+                    lockedContent.remove();
+
+                    // Add actual content structure
+                    const weekContent = document.createElement('div');
+                    weekContent.className = 'week-content';
+                    weekContent.innerHTML = `
+                        <div class="video-section">
+                            <h4>📹 Grabación de la Clase</h4>
+                            <div class="video-placeholder">
+                                Video disponible próximamente
+                            </div>
+                        </div>
+                        <div class="exercises-section">
+                            <h4>📚 Ejercicios</h4>
+                            <div class="exercise-list">
+                                <div class="exercise-item">
+                                    <a href="#" class="download-btn" onclick="downloadFile('week${weekNumber}-exercise1.pdf'); return false;">
+                                        <span>⬇️</span>
+                                        <span>Ejercicio 1</span>
+                                    </a>
+                                </div>
+                                <div class="exercise-item">
+                                    <a href="#" class="download-btn" onclick="downloadFile('week${weekNumber}-workbook.pdf'); return false;">
+                                        <span>⬇️</span>
+                                        <span>Cuaderno de Trabajo</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    weekCard.appendChild(weekContent);
+                }
+
+                // Remove lock icon and unlock date
+                const lockIcon = weekCard.querySelector('.lock-icon');
+                const unlockDate = weekCard.querySelector('.unlock-date');
+                if (lockIcon) lockIcon.remove();
+                if (unlockDate) unlockDate.remove();
+            }
+        }
+
+        // Example: To unlock week 2, call: unlockWeek(2)
+    </script>
+</body>
+</html>

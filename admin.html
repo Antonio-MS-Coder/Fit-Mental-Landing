@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Fit Mental</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Warm, Organic Color Palette */
+            --primary-color: #8b5a3a;
+            --secondary-color: #8b5a3a;
+            --accent-color: #d4a574;
+            --success-color: #9b87b8;
+            --warning-color: #e8a87c;
+            --danger-color: #c85a5a;
+
+            /* Organic Neutral Colors */
+            --cream: #faf8f5;
+            --warm-white: #fdfcfa;
+            --sand-50: #faf7f2;
+            --sand-100: #f5f0e8;
+            --sand-200: #ede4d3;
+            --sand-300: #e0d0b7;
+            --brown-100: #f4f1ec;
+            --brown-200: #e8ddd0;
+            --brown-300: #d4c4ab;
+            --brown-400: #b5a082;
+            --brown-500: #8b7355;
+            --brown-600: #5d4a35;
+            --brown-700: #3d312a;
+            --brown-800: #2b221b;
+            --brown-900: #1f1812;
+
+            /* Lavender Palette */
+            --lavender-50: #f9f7fd;
+            --lavender-100: #f3eef9;
+            --lavender-200: #e7ddf3;
+            --lavender-300: #d6c6e8;
+            --lavender-400: #c4abdb;
+            --lavender-500: #a594c4;
+            --lavender-600: #8b7aa8;
+            --lavender-700: #6f6186;
+            --lavender-800: #544965;
+            --lavender-900: #3d3348;
+
+            /* Typography */
+            --font-family-primary: 'Caveat', cursive;
+            --font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+            /* Transitions */
+            --transition-fast: 150ms ease-in-out;
+            --transition-medium: 300ms ease-in-out;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            line-height: 1.7;
+            color: var(--brown-800);
+            background-color: var(--warm-white);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-family-primary);
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--brown-900);
+            margin-bottom: var(--spacing-md);
+        }
+
+        h1 { font-size: var(--font-size-4xl); }
+        h2 { font-size: var(--font-size-3xl); }
+        h3 { font-size: var(--font-size-2xl); }
+        h4 { font-size: var(--font-size-xl); }
+
+        /* Header */
+        .header {
+            background: rgba(253, 252, 250, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--sand-200);
+            padding: var(--spacing-md) 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-family-primary);
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-2xl) var(--spacing-md);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-xl);
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all var(--transition-medium);
+            font-family: var(--font-family-body);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8b5a3a 0%, #6d5a42 100%);
+            color: var(--warm-white);
+            box-shadow: 0 4px 15px rgba(139, 90, 58, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 90, 58, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #9b87b8 0%, #8b7aa8 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(155, 135, 184, 0.2);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(155, 135, 184, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #c85a5a 0%, #a84545 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(200, 90, 90, 0.2);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(200, 90, 90, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--warm-white);
+        }
+
+        .btn-sm {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Admin Grid */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--spacing-2xl);
+            margin-top: var(--spacing-2xl);
+        }
+
+        /* Week Card */
+        .week-card {
+            background: var(--warm-white);
+            border: 2px solid var(--sand-200);
+            border-radius: 20px;
+            padding: var(--spacing-xl);
+            box-shadow: 0 10px 30px rgba(139, 90, 58, 0.08);
+            transition: all var(--transition-medium);
+        }
+
+        .week-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(139, 90, 58, 0.15);
+            border-color: var(--accent-color);
+        }
+
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 2px solid var(--sand-200);
+        }
+
+        .week-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--brown-600) 0%, var(--brown-400) 100%);
+            color: var(--warm-white);
+            border-radius: 50%;
+            font-family: var(--font-family-primary);
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--sand-300);
+            transition: var(--transition-medium);
+            border-radius: 30px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: var(--transition-medium);
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--success-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--brown-800);
+            font-weight: 500;
+            font-size: var(--font-size-sm);
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: var(--spacing-md);
+            border: 2px solid var(--sand-300);
+            border-radius: 12px;
+            font-size: var(--font-size-base);
+            font-family: var(--font-family-body);
+            color: var(--brown-800);
+            transition: all var(--transition-fast);
+            background: var(--sand-50);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: var(--warm-white);
+            box-shadow: 0 0 0 3px rgba(139, 90, 58, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload-input {
+            position: absolute;
+            font-size: 100px;
+            opacity: 0;
+            right: 0;
+            top: 0;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--sand-50);
+            border: 2px dashed var(--sand-300);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--primary-color);
+            background: var(--warm-white);
+        }
+
+        .file-list {
+            margin-top: var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--lavender-50);
+            border: 1px solid var(--lavender-200);
+            border-radius: 8px;
+            font-size: var(--font-size-sm);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: 20px;
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-locked {
+            background: rgba(200, 90, 90, 0.1);
+            color: var(--danger-color);
+        }
+
+        .status-unlocked {
+            background: rgba(155, 135, 184, 0.1);
+            color: var(--success-color);
+        }
+
+        .alert {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: 12px;
+            margin-bottom: var(--spacing-lg);
+            font-size: var(--font-size-sm);
+        }
+
+        .alert-success {
+            background: rgba(155, 135, 184, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+        }
+
+        .alert-error {
+            background: rgba(200, 90, 90, 0.1);
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: var(--spacing-2xl);
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--sand-200);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .video-preview {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            margin-top: var(--spacing-md);
+            border: 2px solid var(--sand-200);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">Admin Panel - Fit Mental</div>
+            <div>
+                <button class="btn btn-outline btn-sm" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Page -->
+    <div id="loginPage" class="container">
+        <div style="max-width: 450px; margin: 100px auto;">
+            <div style="background: var(--warm-white); padding: var(--spacing-3xl); border-radius: 20px; box-shadow: 0 20px 40px rgba(139, 90, 58, 0.15); border: 1px solid var(--sand-200);">
+                <h2 style="text-align: center; margin-bottom: var(--spacing-lg);">Admin Login</h2>
+                <p style="text-align: center; margin-bottom: var(--spacing-2xl); color: var(--brown-600);">Accede al panel de administración</p>
+
+                <div id="errorMessage" class="alert alert-error" style="display: none;">
+                    Email o contraseña incorrectos
+                </div>
+
+                <form id="loginForm" onsubmit="login(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" class="form-input" placeholder="admin@fitmental.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="password">Contraseña</label>
+                        <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        Ingresar
+                    </button>
+
+                    <div style="text-align: center; margin: var(--spacing-lg) 0; color: var(--brown-600); font-size: var(--font-size-sm);">
+                        o
+                    </div>
+
+                    <button type="button" class="btn btn-outline" style="width: 100%;" onclick="loginWithGoogle()">
+                        <svg width="18" height="18" style="margin-right: 8px;" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        Continuar con Google
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" style="display: none;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: var(--spacing-3xl);">
+                <h1>Panel de Administración del Curso</h1>
+                <p style="color: var(--brown-600); font-size: var(--font-size-lg);">Gestiona el contenido de cada semana del curso Fit Mental</p>
+            </div>
+
+            <div id="alertContainer"></div>
+            <div id="loadingIndicator" class="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: var(--spacing-md); color: var(--brown-600);">Cargando...</p>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div style="display: flex; gap: var(--spacing-md); margin-bottom: var(--spacing-2xl); border-bottom: 2px solid var(--sand-200);">
+                <button class="tab-btn active" onclick="switchTab('weeks')" id="weeksTab">
+                    Gestión de Semanas
+                </button>
+                <button class="tab-btn" onclick="switchTab('users')" id="usersTab">
+                    Gestión de Usuarios
+                </button>
+            </div>
+
+            <!-- Weeks Panel -->
+            <div id="weeksPanel">
+                <div class="admin-grid" id="weeksContainer">
+                    <!-- Weeks will be dynamically loaded here -->
+                </div>
+            </div>
+
+            <!-- Users Panel -->
+            <div id="usersPanel" style="display: none;">
+                <div style="background: var(--warm-white); border: 2px solid var(--sand-200); border-radius: 20px; padding: var(--spacing-2xl); box-shadow: 0 10px 30px rgba(139, 90, 58, 0.08);">
+                    <h2 style="margin-bottom: var(--spacing-xl);">Usuarios del Curso</h2>
+                    <div id="usersContainer">
+                        <!-- Users will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .tab-btn {
+            padding: var(--spacing-md) var(--spacing-xl);
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: var(--brown-600);
+            font-size: var(--font-size-lg);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-family: var(--font-family-body);
+        }
+
+        .tab-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .user-card {
+            background: var(--sand-50);
+            border: 1px solid var(--sand-200);
+            border-radius: 15px;
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            transition: all var(--transition-medium);
+        }
+
+        .user-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(139, 90, 58, 0.1);
+        }
+
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--brown-900);
+            font-size: var(--font-size-lg);
+        }
+
+        .user-email {
+            color: var(--brown-600);
+            font-size: var(--font-size-sm);
+        }
+
+        .user-role {
+            display: inline-block;
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: 15px;
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .role-admin {
+            background: rgba(155, 135, 184, 0.2);
+            color: var(--success-color);
+        }
+
+        .role-student {
+            background: rgba(139, 90, 58, 0.1);
+            color: var(--primary-color);
+        }
+
+        .week-checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .week-checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--warm-white);
+            border: 2px solid var(--sand-300);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: var(--font-size-sm);
+        }
+
+        .week-checkbox-label:hover {
+            border-color: var(--success-color);
+        }
+
+        .week-checkbox-label input:checked + span {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .week-checkbox-label input {
+            cursor: pointer;
+        }
+    </style>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, updateDoc, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCg6d83-1N_ehP2cztK9rbBEOlQ42Sev_A",
+            authDomain: "fit-mental.firebaseapp.com",
+            projectId: "fit-mental",
+            storageBucket: "fit-mental.firebasestorage.app",
+            messagingSenderId: "238490497654",
+            appId: "1:238490497654:web:065ba42d23676166c7a557",
+            measurementId: "G-BHQVM0NC1N"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // Make Firebase services available globally
+        window.firebaseAuth = auth;
+        window.firebaseDb = db;
+        window.firebaseStorage = storage;
+        window.firebaseSignOut = signOut;
+        window.firebaseSignInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.firebaseSignInWithPopup = signInWithPopup;
+        window.firebaseGoogleProvider = new GoogleAuthProvider();
+        window.firebaseOnAuthStateChanged = onAuthStateChanged;
+        window.firebaseGetDocs = getDocs;
+        window.firebaseCollection = collection;
+        window.firebaseDoc = doc;
+        window.firebaseSetDoc = setDoc;
+        window.firebaseGetDoc = getDoc;
+        window.firebaseUpdateDoc = updateDoc;
+        window.firebaseQuery = query;
+        window.firebaseWhere = where;
+        window.firebaseRef = ref;
+        window.firebaseUploadBytes = uploadBytes;
+        window.firebaseGetDownloadURL = getDownloadURL;
+        window.firebaseDeleteObject = deleteObject;
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // Check if user is admin
+                const userRef = doc(db, 'users', user.uid);
+                const userDoc = await getDoc(userRef);
+
+                if (!userDoc.exists()) {
+                    // Create user document if it doesn't exist
+                    await setDoc(userRef, {
+                        email: user.email,
+                        displayName: user.displayName || user.email,
+                        role: 'student',
+                        accessibleWeeks: [],
+                        createdAt: Date.now()
+                    });
+
+                    await signOut(auth);
+                    alert('No tienes permisos de administrador. Por favor, contacta al administrador.');
+                    return;
+                }
+
+                const userData = userDoc.data();
+                if (userData.role !== 'admin') {
+                    await signOut(auth);
+                    alert('No tienes permisos de administrador.');
+                    return;
+                }
+
+                // User is admin, show panel
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                loadWeeks();
+                loadUsers();
+            } else {
+                document.getElementById('loginPage').style.display = 'block';
+                document.getElementById('adminPanel').style.display = 'none';
+            }
+        });
+    </script>
+
+    <script>
+        async function login(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            try {
+                await window.firebaseSignInWithEmailAndPassword(window.firebaseAuth, email, password);
+                errorMessage.style.display = 'none';
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = error.message || 'Email o contraseña incorrectos';
+                errorMessage.style.display = 'block';
+            }
+        }
+
+        async function loginWithGoogle() {
+            const errorMessage = document.getElementById('errorMessage');
+
+            try {
+                await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseGoogleProvider);
+                errorMessage.style.display = 'none';
+            } catch (error) {
+                console.error('Google login error:', error);
+                errorMessage.textContent = error.message || 'Error al iniciar sesión con Google';
+                errorMessage.style.display = 'block';
+            }
+        }
+
+        function switchTab(tab) {
+            if (tab === 'weeks') {
+                document.getElementById('weeksPanel').style.display = 'block';
+                document.getElementById('usersPanel').style.display = 'none';
+                document.getElementById('weeksTab').classList.add('active');
+                document.getElementById('usersTab').classList.remove('active');
+            } else {
+                document.getElementById('weeksPanel').style.display = 'none';
+                document.getElementById('usersPanel').style.display = 'block';
+                document.getElementById('weeksTab').classList.remove('active');
+                document.getElementById('usersTab').classList.add('active');
+            }
+        }
+
+        async function logout() {
+            try {
+                await window.firebaseSignOut(window.firebaseAuth);
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        }
+
+        async function loadWeeks() {
+            const container = document.getElementById('weeksContainer');
+            const loading = document.getElementById('loadingIndicator');
+
+            loading.classList.add('active');
+            container.innerHTML = '';
+
+            try {
+                // Create weeks 1-6 if they don't exist
+                for (let i = 1; i <= 6; i++) {
+                    const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${i}`);
+                    const weekDoc = await window.firebaseGetDoc(weekRef);
+
+                    if (!weekDoc.exists()) {
+                        await window.firebaseSetDoc(weekRef, {
+                            weekNumber: i,
+                            title: `Semana ${i}`,
+                            videoUrl: '',
+                            unlocked: i === 1,
+                            exercises: []
+                        });
+                    }
+                }
+
+                // Load all weeks
+                const weeksSnapshot = await window.firebaseGetDocs(
+                    window.firebaseCollection(window.firebaseDb, 'weeks')
+                );
+
+                const weeks = [];
+                weeksSnapshot.forEach((doc) => {
+                    weeks.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Sort by week number
+                weeks.sort((a, b) => a.weekNumber - b.weekNumber);
+
+                // Render weeks
+                weeks.forEach(week => {
+                    renderWeekCard(week);
+                });
+
+                loading.classList.remove('active');
+            } catch (error) {
+                console.error('Error loading weeks:', error);
+                showAlert('Error al cargar las semanas: ' + error.message, 'error');
+                loading.classList.remove('active');
+            }
+        }
+
+        function renderWeekCard(week) {
+            const container = document.getElementById('weeksContainer');
+
+            const card = document.createElement('div');
+            card.className = 'week-card';
+            card.innerHTML = `
+                <div class="week-header">
+                    <div style="display: flex; align-items: center; gap: var(--spacing-md);">
+                        <span class="week-number">${week.weekNumber}</span>
+                        <div>
+                            <h3 style="margin: 0;">${week.title}</h3>
+                            <span class="status-badge ${week.unlocked ? 'status-unlocked' : 'status-locked'}">
+                                ${week.unlocked ? '🔓 Desbloqueado' : '🔒 Bloqueado'}
+                            </span>
+                        </div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" ${week.unlocked ? 'checked' : ''} onchange="toggleWeekLock(${week.weekNumber}, this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Título de la Semana</label>
+                    <input type="text" class="form-input" id="title-${week.weekNumber}" value="${week.title}" onchange="updateWeekTitle(${week.weekNumber}, this.value)">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">URL del Video Vimeo</label>
+                    <input type="text" class="form-input" id="video-${week.weekNumber}" value="${week.videoUrl || ''}" placeholder="https://player.vimeo.com/video/..." onchange="updateWeekVideo(${week.weekNumber}, this.value)">
+                    ${week.videoUrl ? `<iframe class="video-preview" src="${week.videoUrl}" frameborder="0" allowfullscreen></iframe>` : ''}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Ejercicios PDF</label>
+                    <div class="file-upload">
+                        <input type="file" class="file-upload-input" accept=".pdf" multiple onchange="uploadExercises(${week.weekNumber}, this.files)">
+                        <label class="file-upload-label">
+                            <span>📎</span>
+                            <span>Seleccionar archivos PDF</span>
+                        </label>
+                    </div>
+                    <div class="file-list" id="exercises-${week.weekNumber}">
+                        ${week.exercises && week.exercises.length > 0 ? week.exercises.map((ex, idx) => `
+                            <div class="file-item">
+                                <span>${ex.name}</span>
+                                <button class="btn btn-danger btn-sm" onclick="deleteExercise(${week.weekNumber}, ${idx}, '${ex.storagePath}')">Eliminar</button>
+                            </div>
+                        `).join('') : '<p style="color: var(--brown-600); font-size: var(--font-size-sm); margin-top: var(--spacing-sm);">No hay ejercicios cargados</p>'}
+                    </div>
+                </div>
+            `;
+
+            container.appendChild(card);
+        }
+
+        async function toggleWeekLock(weekNumber, unlocked) {
+            try {
+                const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
+                await window.firebaseUpdateDoc(weekRef, { unlocked });
+                showAlert(`Semana ${weekNumber} ${unlocked ? 'desbloqueada' : 'bloqueada'} exitosamente`, 'success');
+                loadWeeks();
+            } catch (error) {
+                console.error('Error toggling week lock:', error);
+                showAlert('Error al actualizar el estado: ' + error.message, 'error');
+            }
+        }
+
+        async function updateWeekTitle(weekNumber, title) {
+            try {
+                const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
+                await window.firebaseUpdateDoc(weekRef, { title });
+                showAlert(`Título de la semana ${weekNumber} actualizado`, 'success');
+            } catch (error) {
+                console.error('Error updating title:', error);
+                showAlert('Error al actualizar el título: ' + error.message, 'error');
+            }
+        }
+
+        async function updateWeekVideo(weekNumber, videoUrl) {
+            try {
+                const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
+                await window.firebaseUpdateDoc(weekRef, { videoUrl });
+                showAlert(`Video de la semana ${weekNumber} actualizado`, 'success');
+                loadWeeks();
+            } catch (error) {
+                console.error('Error updating video:', error);
+                showAlert('Error al actualizar el video: ' + error.message, 'error');
+            }
+        }
+
+        async function uploadExercises(weekNumber, files) {
+            if (!files || files.length === 0) return;
+
+            const loading = document.getElementById('loadingIndicator');
+            loading.classList.add('active');
+
+            try {
+                const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
+                const weekDoc = await window.firebaseGetDoc(weekRef);
+                const currentExercises = weekDoc.data().exercises || [];
+
+                for (let file of files) {
+                    // Upload file to Firebase Storage
+                    const timestamp = Date.now();
+                    const storagePath = `exercises/week${weekNumber}/${timestamp}_${file.name}`;
+                    const storageRef = window.firebaseRef(window.firebaseStorage, storagePath);
+
+                    await window.firebaseUploadBytes(storageRef, file);
+                    const downloadURL = await window.firebaseGetDownloadURL(storageRef);
+
+                    // Add to exercises array
+                    currentExercises.push({
+                        name: file.name,
+                        filename: file.name,
+                        storagePath: storagePath,
+                        downloadURL: downloadURL,
+                        uploadedAt: timestamp
+                    });
+                }
+
+                // Update Firestore
+                await window.firebaseUpdateDoc(weekRef, { exercises: currentExercises });
+
+                showAlert(`Ejercicios cargados exitosamente para la semana ${weekNumber}`, 'success');
+                loadWeeks();
+            } catch (error) {
+                console.error('Error uploading exercises:', error);
+                showAlert('Error al cargar ejercicios: ' + error.message, 'error');
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        async function deleteExercise(weekNumber, exerciseIndex, storagePath) {
+            if (!confirm('¿Estás seguro de eliminar este ejercicio?')) return;
+
+            const loading = document.getElementById('loadingIndicator');
+            loading.classList.add('active');
+
+            try {
+                // Delete from storage
+                const storageRef = window.firebaseRef(window.firebaseStorage, storagePath);
+                await window.firebaseDeleteObject(storageRef);
+
+                // Update Firestore
+                const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
+                const weekDoc = await window.firebaseGetDoc(weekRef);
+                const exercises = weekDoc.data().exercises || [];
+                exercises.splice(exerciseIndex, 1);
+                await window.firebaseUpdateDoc(weekRef, { exercises });
+
+                showAlert('Ejercicio eliminado exitosamente', 'success');
+                loadWeeks();
+            } catch (error) {
+                console.error('Error deleting exercise:', error);
+                showAlert('Error al eliminar ejercicio: ' + error.message, 'error');
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        function showAlert(message, type) {
+            const container = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+
+            container.appendChild(alert);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        // User Management Functions
+        async function loadUsers() {
+            const container = document.getElementById('usersContainer');
+            container.innerHTML = '<div class="loading active"><div class="spinner"></div><p style="margin-top: var(--spacing-md); color: var(--brown-600);">Cargando usuarios...</p></div>';
+
+            try {
+                const usersSnapshot = await window.firebaseGetDocs(
+                    window.firebaseCollection(window.firebaseDb, 'users')
+                );
+
+                const users = [];
+                usersSnapshot.forEach((doc) => {
+                    users.push({ uid: doc.id, ...doc.data() });
+                });
+
+                // Sort by role (admin first) then by email
+                users.sort((a, b) => {
+                    if (a.role === 'admin' && b.role !== 'admin') return -1;
+                    if (a.role !== 'admin' && b.role === 'admin') return 1;
+                    return (a.email || '').localeCompare(b.email || '');
+                });
+
+                container.innerHTML = '';
+
+                if (users.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: var(--brown-600); padding: var(--spacing-2xl);">No hay usuarios registrados aún.</p>';
+                    return;
+                }
+
+                users.forEach(user => {
+                    renderUserCard(user);
+                });
+            } catch (error) {
+                console.error('Error loading users:', error);
+                container.innerHTML = '<p style="text-align: center; color: var(--danger-color); padding: var(--spacing-2xl);">Error al cargar usuarios.</p>';
+            }
+        }
+
+        function renderUserCard(user) {
+            const container = document.getElementById('usersContainer');
+
+            const card = document.createElement('div');
+            card.className = 'user-card';
+            card.innerHTML = `
+                <div class="user-header">
+                    <div class="user-info">
+                        <div class="user-name">${user.displayName || user.email}</div>
+                        <div class="user-email">${user.email}</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: var(--spacing-md);">
+                        <span class="user-role ${user.role === 'admin' ? 'role-admin' : 'role-student'}">
+                            ${user.role === 'admin' ? 'Admin' : 'Estudiante'}
+                        </span>
+                        <select class="form-input" style="width: auto; padding: var(--spacing-sm) var(--spacing-md);" onchange="updateUserRole('${user.uid}', this.value)">
+                            <option value="student" ${user.role === 'student' ? 'selected' : ''}>Estudiante</option>
+                            <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Admin</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: var(--spacing-sm); color: var(--brown-700); font-weight: 500; font-size: var(--font-size-sm);">
+                        Acceso a Semanas:
+                    </label>
+                    <div class="week-checkboxes" id="weeks-${user.uid}">
+                        ${[1, 2, 3, 4, 5, 6].map(weekNum => {
+                            const hasAccess = (user.accessibleWeeks || []).includes(weekNum);
+                            return `
+                                <label class="week-checkbox-label">
+                                    <input type="checkbox" ${hasAccess ? 'checked' : ''} onchange="updateUserAccess('${user.uid}', ${weekNum}, this.checked)">
+                                    <span>Semana ${weekNum}</span>
+                                </label>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+                <div style="margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid var(--sand-200); font-size: var(--font-size-xs); color: var(--brown-500);">
+                    Registrado: ${user.createdAt ? new Date(user.createdAt).toLocaleDateString('es-ES') : 'Fecha desconocida'}
+                </div>
+            `;
+
+            container.appendChild(card);
+        }
+
+        async function updateUserRole(userId, newRole) {
+            try {
+                const userRef = window.firebaseDoc(window.firebaseDb, 'users', userId);
+                await window.firebaseUpdateDoc(userRef, { role: newRole });
+                showAlert(`Rol actualizado exitosamente`, 'success');
+                loadUsers();
+            } catch (error) {
+                console.error('Error updating user role:', error);
+                showAlert('Error al actualizar el rol: ' + error.message, 'error');
+            }
+        }
+
+        async function updateUserAccess(userId, weekNumber, hasAccess) {
+            try {
+                const userRef = window.firebaseDoc(window.firebaseDb, 'users', userId);
+                const userDoc = await window.firebaseGetDoc(userRef);
+                const userData = userDoc.data();
+                let accessibleWeeks = userData.accessibleWeeks || [];
+
+                if (hasAccess) {
+                    // Add week if not already in array
+                    if (!accessibleWeeks.includes(weekNumber)) {
+                        accessibleWeeks.push(weekNumber);
+                        accessibleWeeks.sort((a, b) => a - b);
+                    }
+                } else {
+                    // Remove week from array
+                    accessibleWeeks = accessibleWeeks.filter(w => w !== weekNumber);
+                }
+
+                await window.firebaseUpdateDoc(userRef, { accessibleWeeks });
+                showAlert(`Acceso a semana ${weekNumber} actualizado`, 'success');
+            } catch (error) {
+                console.error('Error updating user access:', error);
+                showAlert('Error al actualizar el acceso: ' + error.message, 'error');
+            }
+        }
+    </script>
+</body>
+</html>
