@@ -571,8 +571,42 @@
 
             <!-- Users Panel -->
             <div id="usersPanel" style="display: none;">
+                <!-- Pre-approved Emails Section -->
+                <div style="background: var(--lavender-50); border: 2px solid var(--lavender-200); border-radius: 20px; padding: var(--spacing-2xl); margin-bottom: var(--spacing-2xl); box-shadow: 0 10px 30px rgba(139, 90, 58, 0.08);">
+                    <h2 style="margin-bottom: var(--spacing-md); color: var(--lavender-800);">📋 Correos Pre-Aprobados</h2>
+                    <p style="color: var(--brown-600); margin-bottom: var(--spacing-lg); font-size: var(--font-size-base);">
+                        Estudiantes que ya pagaron pero aún no han creado su cuenta. Al registrarse, automáticamente recibirán acceso a las semanas actuales.
+                    </p>
+
+                    <div class="form-group">
+                        <label class="form-label">Agregar Emails Pre-Aprobados (uno por línea)</label>
+                        <textarea id="preApprovedEmails" class="form-textarea" placeholder="estudiante1@email.com&#10;estudiante2@email.com&#10;estudiante3@email.com" style="min-height: 150px;"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Semanas a otorgar automáticamente</label>
+                        <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-sm); margin-bottom: var(--spacing-md);">
+                            ${[1, 2, 3, 4, 5, 6].map(weekNum => `
+                                <label class="week-checkbox-label">
+                                    <input type="checkbox" id="auto-week-${weekNum}" value="${weekNum}">
+                                    <span>Semana ${weekNum}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-success" onclick="savePreApprovedEmails()">
+                        💾 Guardar Lista Pre-Aprobada
+                    </button>
+
+                    <div id="preApprovedList" style="margin-top: var(--spacing-xl);">
+                        <!-- Pre-approved emails will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Registered Users Section -->
                 <div style="background: var(--warm-white); border: 2px solid var(--sand-200); border-radius: 20px; padding: var(--spacing-2xl); box-shadow: 0 10px 30px rgba(139, 90, 58, 0.08);">
-                    <h2 style="margin-bottom: var(--spacing-xl);">Usuarios del Curso</h2>
+                    <h2 style="margin-bottom: var(--spacing-xl);">👥 Usuarios Registrados</h2>
                     <div id="usersContainer">
                         <!-- Users will be dynamically loaded here -->
                     </div>
@@ -657,6 +691,22 @@
         .role-student {
             background: rgba(139, 90, 58, 0.1);
             color: var(--primary-color);
+        }
+
+        .role-sin_acceso {
+            background: rgba(200, 90, 90, 0.1);
+            color: var(--danger-color);
+        }
+
+        .pre-approved-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--warm-white);
+            border: 1px solid var(--lavender-200);
+            border-radius: 8px;
+            margin-bottom: var(--spacing-sm);
         }
 
         .week-checkboxes {
@@ -754,7 +804,7 @@
                     await setDoc(userRef, {
                         email: user.email,
                         displayName: user.displayName || user.email,
-                        role: 'student',
+                        role: 'sin_acceso',
                         accessibleWeeks: [],
                         createdAt: Date.now()
                     });
@@ -1128,8 +1178,127 @@
             }, 5000);
         }
 
+        // Pre-approved Emails Management
+        async function loadPreApprovedEmails() {
+            try {
+                const configRef = window.firebaseDoc(window.firebaseDb, 'config', 'preApprovedEmails');
+                const configDoc = await window.firebaseGetDoc(configRef);
+
+                if (configDoc.exists()) {
+                    const data = configDoc.data();
+                    const emails = data.emails || [];
+                    const autoWeeks = data.autoWeeks || [];
+
+                    // Fill textarea
+                    document.getElementById('preApprovedEmails').value = emails.join('\n');
+
+                    // Check auto-weeks
+                    autoWeeks.forEach(week => {
+                        const checkbox = document.getElementById(`auto-week-${week}`);
+                        if (checkbox) checkbox.checked = true;
+                    });
+
+                    // Display list
+                    displayPreApprovedList(emails, autoWeeks);
+                }
+            } catch (error) {
+                console.error('Error loading pre-approved emails:', error);
+            }
+        }
+
+        function displayPreApprovedList(emails, autoWeeks) {
+            const container = document.getElementById('preApprovedList');
+
+            if (emails.length === 0) {
+                container.innerHTML = '<p style="color: var(--brown-600); text-align: center; padding: var(--spacing-md);">No hay correos pre-aprobados aún.</p>';
+                return;
+            }
+
+            const weeksText = autoWeeks.length > 0 ? `Semanas ${autoWeeks.join(', ')}` : 'Sin semanas asignadas';
+
+            container.innerHTML = `
+                <div style="margin-bottom: var(--spacing-md);">
+                    <strong style="color: var(--lavender-800);">Lista Actual (${emails.length} emails)</strong>
+                    <div style="color: var(--brown-600); font-size: var(--font-size-sm); margin-top: var(--spacing-xs);">
+                        Al registrarse recibirán: ${weeksText}
+                    </div>
+                </div>
+                ${emails.map(email => `
+                    <div class="pre-approved-item">
+                        <span style="color: var(--brown-800);">${email}</span>
+                        <button class="btn btn-danger btn-sm" onclick="removePreApprovedEmail('${email}')">Eliminar</button>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        async function savePreApprovedEmails() {
+            try {
+                const textarea = document.getElementById('preApprovedEmails');
+                const emailsText = textarea.value.trim();
+
+                // Parse emails (one per line)
+                const emails = emailsText
+                    .split('\n')
+                    .map(email => email.trim().toLowerCase())
+                    .filter(email => email && email.includes('@'));
+
+                // Get selected auto-weeks
+                const autoWeeks = [];
+                for (let i = 1; i <= 6; i++) {
+                    const checkbox = document.getElementById(`auto-week-${i}`);
+                    if (checkbox && checkbox.checked) {
+                        autoWeeks.push(i);
+                    }
+                }
+
+                // Save to Firestore
+                const configRef = window.firebaseDoc(window.firebaseDb, 'config', 'preApprovedEmails');
+                await window.firebaseSetDoc(configRef, {
+                    emails: emails,
+                    autoWeeks: autoWeeks,
+                    updatedAt: Date.now()
+                });
+
+                showAlert(`Lista pre-aprobada guardada con ${emails.length} emails`, 'success');
+                displayPreApprovedList(emails, autoWeeks);
+            } catch (error) {
+                console.error('Error saving pre-approved emails:', error);
+                showAlert('Error al guardar la lista: ' + error.message, 'error');
+            }
+        }
+
+        async function removePreApprovedEmail(emailToRemove) {
+            if (!confirm(`¿Eliminar "${emailToRemove}" de la lista pre-aprobada?`)) return;
+
+            try {
+                const configRef = window.firebaseDoc(window.firebaseDb, 'config', 'preApprovedEmails');
+                const configDoc = await window.firebaseGetDoc(configRef);
+
+                if (configDoc.exists()) {
+                    const data = configDoc.data();
+                    const emails = data.emails.filter(email => email !== emailToRemove);
+                    const autoWeeks = data.autoWeeks || [];
+
+                    await window.firebaseSetDoc(configRef, {
+                        emails: emails,
+                        autoWeeks: autoWeeks,
+                        updatedAt: Date.now()
+                    });
+
+                    showAlert(`Email eliminado de la lista pre-aprobada`, 'success');
+                    displayPreApprovedList(emails, autoWeeks);
+                    document.getElementById('preApprovedEmails').value = emails.join('\n');
+                }
+            } catch (error) {
+                console.error('Error removing email:', error);
+                showAlert('Error al eliminar email: ' + error.message, 'error');
+            }
+        }
+
         // User Management Functions
         async function loadUsers() {
+            loadPreApprovedEmails();
             const container = document.getElementById('usersContainer');
             container.innerHTML = '<div class="loading active"><div class="spinner"></div><p style="margin-top: var(--spacing-md); color: var(--brown-600);">Cargando usuarios...</p></div>';
 
@@ -1178,10 +1347,11 @@
                         <div class="user-email">${user.email}</div>
                     </div>
                     <div style="display: flex; align-items: center; gap: var(--spacing-md);">
-                        <span class="user-role ${user.role === 'admin' ? 'role-admin' : 'role-student'}">
-                            ${user.role === 'admin' ? 'Admin' : 'Estudiante'}
+                        <span class="user-role role-${user.role}">
+                            ${user.role === 'admin' ? 'Admin' : user.role === 'student' ? 'Estudiante' : 'Sin Acceso'}
                         </span>
                         <select class="form-input" style="width: auto; padding: var(--spacing-sm) var(--spacing-md);" onchange="updateUserRole('${user.uid}', this.value)">
+                            <option value="sin_acceso" ${user.role === 'sin_acceso' ? 'selected' : ''}>Sin Acceso</option>
                             <option value="student" ${user.role === 'student' ? 'selected' : ''}>Estudiante</option>
                             <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Admin</option>
                         </select>

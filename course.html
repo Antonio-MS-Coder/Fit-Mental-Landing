@@ -821,12 +821,31 @@
                 const userDoc = await getDoc(userRef);
 
                 if (!userDoc.exists()) {
-                    // Create new user document with default access (no weeks unlocked)
+                    // Check if email is in pre-approved list
+                    const configRef = doc(db, 'config', 'preApprovedEmails');
+                    const configDoc = await getDoc(configRef);
+
+                    let accessibleWeeks = [];
+                    let role = 'sin_acceso'; // Default: no access
+
+                    if (configDoc.exists()) {
+                        const preApprovedData = configDoc.data();
+                        const preApprovedEmails = (preApprovedData.emails || []).map(e => e.toLowerCase());
+                        const userEmail = (user.email || '').toLowerCase();
+
+                        if (preApprovedEmails.includes(userEmail)) {
+                            // User is pre-approved! Give them access to configured weeks
+                            accessibleWeeks = preApprovedData.autoWeeks || [];
+                            role = 'student';
+                        }
+                    }
+
+                    // Create new user document
                     await setDoc(userRef, {
                         email: user.email,
                         displayName: user.displayName || user.email,
-                        accessibleWeeks: [],
-                        role: 'student',
+                        accessibleWeeks: accessibleWeeks,
+                        role: role,
                         createdAt: Date.now()
                     });
                 }
