@@ -647,13 +647,13 @@
                     <div class="week-header">
                         <div class="week-title">
                             <span class="week-number">1</span>
-                            <h3>Fundamentos del Fit Mental</h3>
+                            <h3>Semana 1</h3>
                         </div>
                     </div>
                     <div class="week-content">
                         <div class="video-section">
                             <h4>📹 Grabación de la Clase</h4>
-                            <iframe class="video-iframe" src="https://player.vimeo.com/video/1132817866?h=b063b3f07a&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" allowfullscreen title="Fit Mental - Semana 1"></iframe>
+                            <iframe class="video-iframe" src="https://player.vimeo.com/video/1132817866?h=b063b3f07a&badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" allowfullscreen title="Semana 1"></iframe>
                         </div>
                         <div class="exercises-section">
                             <h4>📚 Ejercicios</h4>
@@ -686,7 +686,7 @@
                     <div class="week-header">
                         <div class="week-title">
                             <span class="week-number">2</span>
-                            <h3>Reprogramación de Creencias</h3>
+                            <h3>Semana 2</h3>
                         </div>
                         <div>
                             <span class="lock-icon">🔒</span>
@@ -703,7 +703,7 @@
                     <div class="week-header">
                         <div class="week-title">
                             <span class="week-number">3</span>
-                            <h3>Inteligencia Emocional</h3>
+                            <h3>Semana 3</h3>
                         </div>
                         <div>
                             <span class="lock-icon">🔒</span>
@@ -720,7 +720,7 @@
                     <div class="week-header">
                         <div class="week-title">
                             <span class="week-number">4</span>
-                            <h3>Mindfulness y Meditación</h3>
+                            <h3>Semana 4</h3>
                         </div>
                         <div>
                             <span class="lock-icon">🔒</span>
@@ -737,7 +737,7 @@
                     <div class="week-header">
                         <div class="week-title">
                             <span class="week-number">5</span>
-                            <h3>Herramientas Avanzadas</h3>
+                            <h3>Semana 5</h3>
                         </div>
                         <div>
                             <span class="lock-icon">🔒</span>
@@ -754,7 +754,7 @@
                     <div class="week-header">
                         <div class="week-title">
                             <span class="week-number">6</span>
-                            <h3>Integración y Cierre</h3>
+                            <h3>Semana 6</h3>
                         </div>
                         <div>
                             <span class="lock-icon">🔒</span>
@@ -930,6 +930,12 @@
             // User must have access to see the content (regardless of global unlock status)
             if (!userHasAccess) return;
 
+            // Update title from Firebase
+            const titleElement = weekCard.querySelector('h3');
+            if (titleElement && weekData.title) {
+                titleElement.textContent = weekData.title;
+            }
+
             // Remove locked class
             weekCard.classList.remove('locked');
 
@@ -953,9 +959,16 @@
             }
 
             // Update video section
-            const videoHTML = weekData.videoUrl
-                ? `<iframe class="video-iframe" src="${weekData.videoUrl}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" allowfullscreen></iframe>`
-                : '<div class="video-placeholder">Video disponible próximamente</div>';
+            let videoHTML;
+            if (weekData.videoUrl) {
+                // Add Vimeo parameters to hide title, byline, and portrait
+                const videoUrl = weekData.videoUrl.includes('?')
+                    ? `${weekData.videoUrl}&title=0&byline=0&portrait=0`
+                    : `${weekData.videoUrl}?title=0&byline=0&portrait=0`;
+                videoHTML = `<iframe class="video-iframe" src="${videoUrl}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" allowfullscreen></iframe>`;
+            } else {
+                videoHTML = '<div class="video-placeholder">Video disponible próximamente</div>';
+            }
 
             // Build exercises HTML
             let exercisesHTML = '';
