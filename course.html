@@ -412,9 +412,15 @@
 
         .week-content {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 1fr;
             gap: var(--spacing-2xl);
             margin-top: var(--spacing-xl);
+        }
+
+        @media (min-width: 1024px) {
+            .week-content {
+                grid-template-columns: 2fr 1fr;
+            }
         }
 
         .video-section {
@@ -527,6 +533,57 @@
             font-weight: 500;
         }
 
+        /* No Access Message */
+        .no-access-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 200px);
+            padding: var(--spacing-2xl);
+        }
+
+        .no-access-card {
+            background: var(--warm-white);
+            padding: var(--spacing-3xl);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(139, 90, 58, 0.15);
+            border: 1px solid var(--sand-200);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .no-access-icon {
+            font-size: 4rem;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .no-access-card h2 {
+            color: var(--brown-900);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .no-access-card p {
+            color: var(--brown-700);
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-xl);
+            line-height: 1.8;
+        }
+
+        .contact-info {
+            background: var(--lavender-50);
+            border: 2px solid var(--lavender-200);
+            border-radius: 12px;
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+        }
+
+        .contact-info p {
+            margin: 0;
+            color: var(--lavender-800);
+            font-weight: 500;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             :root {
@@ -582,14 +639,15 @@
             <!-- Login Page -->
             <div id="loginPage" class="login-container">
                 <div class="login-card">
-                    <h2>Portal del Estudiante</h2>
-                    <p>Accede a tus clases y materiales del curso Fit Mental</p>
+                    <h2 id="authTitle">Portal del Estudiante</h2>
+                    <p id="authSubtitle">Accede a tus clases y materiales del curso Fit Mental</p>
 
                     <div class="error-message" id="errorMessage">
                         Email o contraseña incorrectos
                     </div>
 
-                    <form id="loginForm" onsubmit="login(event)">
+                    <!-- Login Form -->
+                    <form id="loginForm" onsubmit="login(event)" style="display: block;">
                         <div class="form-group">
                             <label class="form-label" for="email">Email</label>
                             <input
@@ -631,7 +689,96 @@
                             </svg>
                             Continuar con Google
                         </button>
+
+                        <div style="text-align: center; margin-top: var(--spacing-lg);">
+                            <a href="#" onclick="toggleAuthMode(); return false;" style="color: var(--primary-color); text-decoration: none; font-size: var(--font-size-sm); font-weight: 500;">
+                                ¿No tienes una cuenta? Regístrate
+                            </a>
+                        </div>
                     </form>
+
+                    <!-- Sign Up Form -->
+                    <form id="signupForm" onsubmit="signup(event)" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label" for="signupEmail">Email</label>
+                            <input
+                                type="email"
+                                id="signupEmail"
+                                class="form-input"
+                                placeholder="tu@email.com"
+                                required
+                                autocomplete="email"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="signupPassword">Contraseña</label>
+                            <input
+                                type="password"
+                                id="signupPassword"
+                                class="form-input"
+                                placeholder="••••••••"
+                                required
+                                autocomplete="new-password"
+                                minlength="6"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="confirmPassword">Confirmar Contraseña</label>
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                class="form-input"
+                                placeholder="••••••••"
+                                required
+                                autocomplete="new-password"
+                                minlength="6"
+                            >
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full">
+                            Crear Cuenta
+                        </button>
+
+                        <div style="text-align: center; margin: var(--spacing-lg) 0; color: var(--brown-600); font-size: var(--font-size-sm);">
+                            o
+                        </div>
+
+                        <button type="button" class="btn btn-outline btn-full" onclick="loginWithGoogle()" style="width: 100%;">
+                            <svg width="18" height="18" style="margin-right: 8px;" viewBox="0 0 24 24">
+                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                            </svg>
+                            Continuar con Google
+                        </button>
+
+                        <div style="text-align: center; margin-top: var(--spacing-lg);">
+                            <a href="#" onclick="toggleAuthMode(); return false;" style="color: var(--primary-color); text-decoration: none; font-size: var(--font-size-sm); font-weight: 500;">
+                                ¿Ya tienes una cuenta? Inicia sesión
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- No Access Page -->
+            <div id="noAccessPage" style="display: none;">
+                <div class="no-access-container">
+                    <div class="no-access-card">
+                        <div class="no-access-icon">🔒</div>
+                        <h2>Acceso Pendiente</h2>
+                        <p>Tu cuenta ha sido creada exitosamente, pero aún no tienes acceso al contenido del curso.</p>
+                        <p>Por favor, contacta al equipo de LCK para inscribirte, o si ya estás inscritx, para que te den acceso al portal del estudiante.</p>
+
+                        <div class="contact-info">
+                            <p>Una vez que tu acceso sea aprobado, podrás ver todo el contenido del curso aquí.</p>
+                        </div>
+
+                        <button class="btn btn-outline btn-sm" onclick="logout()" style="margin-top: var(--spacing-xl);">Cerrar Sesión</button>
+                    </div>
                 </div>
             </div>
 
@@ -775,7 +922,7 @@
     <!-- Firebase -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
         import { getFirestore, collection, getDocs, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { getStorage, ref, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
@@ -802,6 +949,7 @@
         window.firebaseStorage = storage;
         window.firebaseSignOut = signOut;
         window.firebaseSignInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.firebaseCreateUserWithEmailAndPassword = createUserWithEmailAndPassword;
         window.firebaseSignInWithPopup = signInWithPopup;
         window.firebaseGoogleProvider = new GoogleAuthProvider();
         window.firebaseOnAuthStateChanged = onAuthStateChanged;
@@ -820,12 +968,13 @@
                 const userRef = doc(db, 'users', user.uid);
                 const userDoc = await getDoc(userRef);
 
+                let userData;
+
                 if (!userDoc.exists()) {
                     // Check if email is in pre-approved list
                     const configRef = doc(db, 'config', 'preApprovedEmails');
                     const configDoc = await getDoc(configRef);
 
-                    let accessibleWeeks = [];
                     let role = 'sin_acceso'; // Default: no access
 
                     if (configDoc.exists()) {
@@ -834,27 +983,41 @@
                         const userEmail = (user.email || '').toLowerCase();
 
                         if (preApprovedEmails.includes(userEmail)) {
-                            // User is pre-approved! Give them access to configured weeks
-                            accessibleWeeks = preApprovedData.autoWeeks || [];
+                            // User is pre-approved! Give them student role
+                            // They will see all weeks that are globally unlocked
                             role = 'student';
                         }
                     }
 
-                    // Create new user document
-                    await setDoc(userRef, {
+                    // Create new user document (no more accessibleWeeks field needed)
+                    userData = {
                         email: user.email,
                         displayName: user.displayName || user.email,
-                        accessibleWeeks: accessibleWeeks,
                         role: role,
                         createdAt: Date.now()
-                    });
+                    };
+
+                    await setDoc(userRef, userData);
+                } else {
+                    userData = userDoc.data();
                 }
 
-                showCoursePage(user.email);
-                loadCourseContent(user.uid);
+                // Check if user has student role
+                if (userData.role === 'sin_acceso') {
+                    // Show no access page
+                    showNoAccessPage(user.email);
+                } else if (userData.role === 'student' || userData.role === 'admin') {
+                    // Show course page - students see all unlocked weeks
+                    showCoursePage(user.email);
+                    loadCourseContent();
+                } else {
+                    // Default: no access
+                    showNoAccessPage(user.email);
+                }
             } else {
                 document.getElementById('loginPage').style.display = 'flex';
                 document.getElementById('coursePage').style.display = 'none';
+                document.getElementById('noAccessPage').style.display = 'none';
                 document.getElementById('userInfo').style.display = 'none';
             }
         });
@@ -862,6 +1025,40 @@
 
     <script>
         // Check if user is already logged in (handled by Firebase onAuthStateChanged)
+
+        function toggleAuthMode() {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            const authTitle = document.getElementById('authTitle');
+            const authSubtitle = document.getElementById('authSubtitle');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Hide error message
+            errorMessage.style.display = 'none';
+
+            if (loginForm.style.display === 'none') {
+                // Switch to login mode
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+                authTitle.textContent = 'Portal del Estudiante';
+                authSubtitle.textContent = 'Accede a tus clases y materiales del curso Fit Mental';
+
+                // Clear signup form
+                document.getElementById('signupEmail').value = '';
+                document.getElementById('signupPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+            } else {
+                // Switch to signup mode
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+                authTitle.textContent = 'Crear Cuenta';
+                authSubtitle.textContent = 'Regístrate para acceder al curso Fit Mental';
+
+                // Clear login form
+                document.getElementById('email').value = '';
+                document.getElementById('password').value = '';
+            }
+        }
 
         async function login(event) {
             event.preventDefault();
@@ -880,6 +1077,55 @@
             }
         }
 
+        async function signup(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'Las contraseñas no coinciden';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            // Validate password length
+            if (password.length < 6) {
+                errorMessage.textContent = 'La contraseña debe tener al menos 6 caracteres';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            try {
+                // Create user account with Firebase
+                const userCredential = await window.firebaseCreateUserWithEmailAndPassword(window.firebaseAuth, email, password);
+                errorMessage.style.display = 'none';
+
+                // User document will be created automatically by onAuthStateChanged listener
+                // which checks for pre-approved emails and assigns access accordingly
+            } catch (error) {
+                console.error('Signup error:', error);
+
+                // Provide user-friendly error messages
+                let errorMsg = 'Error al crear la cuenta';
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMsg = 'Este email ya está registrado. Intenta iniciar sesión.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMsg = 'Email inválido';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMsg = 'La contraseña es muy débil';
+                } else if (error.message) {
+                    errorMsg = error.message;
+                }
+
+                errorMessage.textContent = errorMsg;
+                errorMessage.style.display = 'block';
+            }
+        }
+
         async function loginWithGoogle() {
             const errorMessage = document.getElementById('errorMessage');
 
@@ -893,9 +1139,23 @@
             }
         }
 
-        function showCoursePage(email) {
-            // Hide login page
+        function showNoAccessPage(email) {
+            // Hide other pages
             document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('coursePage').style.display = 'none';
+
+            // Show no access page
+            document.getElementById('noAccessPage').style.display = 'block';
+
+            // Show user info in header
+            document.getElementById('userInfo').style.display = 'flex';
+            document.getElementById('userEmail').textContent = email;
+        }
+
+        function showCoursePage(email) {
+            // Hide other pages
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('noAccessPage').style.display = 'none';
 
             // Show course page
             document.getElementById('coursePage').style.display = 'block';
@@ -908,46 +1168,48 @@
         async function logout() {
             try {
                 await window.firebaseSignOut(window.firebaseAuth);
-                // Clear form
+                // Clear forms
                 document.getElementById('loginForm').reset();
+                document.getElementById('signupForm').reset();
                 document.getElementById('errorMessage').style.display = 'none';
+
+                // Reset to login view
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('signupForm').style.display = 'none';
+                document.getElementById('authTitle').textContent = 'Portal del Estudiante';
+                document.getElementById('authSubtitle').textContent = 'Accede a tus clases y materiales del curso Fit Mental';
             } catch (error) {
                 console.error('Logout error:', error);
             }
         }
 
-        async function loadCourseContent(userId) {
+        async function loadCourseContent() {
             try {
-                // Get user's accessible weeks
-                const userRef = window.firebaseDoc(window.firebaseDb, 'users', userId);
-                const userDoc = await window.firebaseGetDoc(userRef);
-                const userData = userDoc.data();
-                const accessibleWeeks = userData.accessibleWeeks || [];
-
                 // Load all weeks from Firestore
                 const weeksSnapshot = await window.firebaseGetDocs(
                     window.firebaseCollection(window.firebaseDb, 'weeks')
                 );
 
+                // Students see all weeks, but only unlocked ones show content
                 weeksSnapshot.forEach((docSnapshot) => {
                     const weekData = docSnapshot.data();
                     const weekNumber = weekData.weekNumber;
 
-                    // Check if user has access to this week
-                    const hasAccess = accessibleWeeks.includes(weekNumber);
-                    updateWeekContent(weekNumber, weekData, hasAccess);
+                    // Week is accessible if it's marked as unlocked in Firestore
+                    const isUnlocked = weekData.unlocked === true;
+                    updateWeekContent(weekNumber, weekData, isUnlocked);
                 });
             } catch (error) {
                 console.error('Error loading course content:', error);
             }
         }
 
-        function updateWeekContent(weekNumber, weekData, userHasAccess) {
+        function updateWeekContent(weekNumber, weekData, isUnlocked) {
             const weekCard = document.getElementById(`week${weekNumber}`);
             if (!weekCard) return;
 
-            // User must have access to see the content (regardless of global unlock status)
-            if (!userHasAccess) return;
+            // If week is not unlocked, keep it locked
+            if (!isUnlocked) return;
 
             // Update title from Firebase
             const titleElement = weekCard.querySelector('h3');
@@ -989,30 +1251,54 @@
                 videoHTML = '<div class="video-placeholder">Video disponible próximamente</div>';
             }
 
-            // Build exercises HTML
-            let exercisesHTML = '';
-            if (weekData.exercises && weekData.exercises.length > 0) {
-                exercisesHTML = weekData.exercises.map((exercise, index) => `
+            // Build documents HTML
+            let documentsHTML = '';
+            if (weekData.documents && weekData.documents.length > 0) {
+                documentsHTML = weekData.documents.map((doc, index) => `
                     <div class="exercise-item">
-                        <a href="#" class="download-btn" onclick="downloadFile('${exercise.filename}', '${exercise.storagePath}'); return false;">
-                            <span>⬇️</span>
-                            <span>${exercise.name}</span>
+                        <a href="#" class="download-btn" onclick="downloadFile('${doc.filename}', '${doc.storagePath}'); return false;">
+                            <span>📄</span>
+                            <span>${doc.name}</span>
                         </a>
                     </div>
                 `).join('');
             } else {
-                exercisesHTML = '<p style="color: var(--brown-600); font-size: var(--font-size-sm);">No hay ejercicios disponibles aún.</p>';
+                documentsHTML = '<p style="color: var(--brown-600); font-size: var(--font-size-sm);">No hay documentos disponibles aún.</p>';
+            }
+
+            // Build meditations HTML with audio player
+            let meditationsHTML = '';
+            if (weekData.meditations && weekData.meditations.length > 0) {
+                meditationsHTML = weekData.meditations.map((meditation, index) => `
+                    <div class="meditation-item" style="background: var(--warm-white); padding: var(--spacing-md); border-radius: 10px; border: 1px solid var(--lavender-200); margin-bottom: var(--spacing-md);">
+                        <div style="margin-bottom: var(--spacing-sm); font-weight: 500; color: var(--lavender-800);">🎵 ${meditation.name}</div>
+                        <audio controls controlsList="nodownload" style="width: 100%; margin-top: var(--spacing-sm);">
+                            <source src="${meditation.streamURL}" type="${meditation.type || 'audio/mpeg'}">
+                            Tu navegador no soporta la reproducción de audio.
+                        </audio>
+                    </div>
+                `).join('');
+            } else {
+                meditationsHTML = '<p style="color: var(--brown-600); font-size: var(--font-size-sm);">No hay meditaciones disponibles aún.</p>';
             }
 
             weekContent.innerHTML = `
-                <div class="video-section">
-                    <h4>📹 Grabación de la Clase</h4>
-                    ${videoHTML}
+                <div style="grid-column: 1 / -1;">
+                    <div class="video-section">
+                        <h4>📹 Grabación de la Clase</h4>
+                        ${videoHTML}
+                    </div>
                 </div>
                 <div class="exercises-section">
-                    <h4>📚 Ejercicios</h4>
+                    <h4>📄 Documentos</h4>
                     <div class="exercise-list">
-                        ${exercisesHTML}
+                        ${documentsHTML}
+                    </div>
+                </div>
+                <div class="exercises-section">
+                    <h4>🎵 Meditaciones Guiadas</h4>
+                    <div style="margin-top: var(--spacing-md);">
+                        ${meditationsHTML}
                     </div>
                 </div>
             `;

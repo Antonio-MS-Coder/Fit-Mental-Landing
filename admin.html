@@ -749,8 +749,8 @@
     <!-- Firebase -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, updateDoc, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, updateDoc, deleteDoc, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
         // Firebase configuration
@@ -775,6 +775,7 @@
         window.firebaseDb = db;
         window.firebaseStorage = storage;
         window.firebaseSignOut = signOut;
+        window.firebaseSendPasswordResetEmail = sendPasswordResetEmail;
         window.firebaseSignInWithEmailAndPassword = signInWithEmailAndPassword;
         window.firebaseSignInWithPopup = signInWithPopup;
         window.firebaseGoogleProvider = new GoogleAuthProvider();
@@ -785,6 +786,7 @@
         window.firebaseSetDoc = setDoc;
         window.firebaseGetDoc = getDoc;
         window.firebaseUpdateDoc = updateDoc;
+        window.firebaseDeleteDoc = deleteDoc;
         window.firebaseQuery = query;
         window.firebaseWhere = where;
         window.firebaseRef = ref;
@@ -964,11 +966,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">URL del Video Vimeo</label>
+                    <label class="form-label">URL del Video Vimeo (Grabación de Clase)</label>
                     <input type="text" class="form-input" id="video-input-${week.weekNumber}" value="${week.videoUrl || ''}" placeholder="Pega aquí el link de Vimeo (cualquier formato)">
                     <div style="display: flex; gap: var(--spacing-sm); margin-top: var(--spacing-sm);">
                         <button type="button" class="btn btn-success" onclick="updateWeekVideo(${week.weekNumber})">
-                            ${week.videoUrl ? '🔄 Cambiar Video' : '📤 Subir Video'}
+                            ${week.videoUrl ? '🔄 Cambiar Video' : '📤 Agregar Video'}
                         </button>
                         ${week.videoUrl ? `<button type="button" class="btn btn-danger" onclick="removeWeekVideo(${week.weekNumber})">🗑️ Quitar Video</button>` : ''}
                     </div>
@@ -976,21 +978,44 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Ejercicios PDF</label>
+                    <label class="form-label">📄 Documentos Descargables (PDFs)</label>
+                    <p style="font-size: var(--font-size-sm); color: var(--brown-600); margin-bottom: var(--spacing-md);">Estudiantes podrán descargar estos documentos</p>
                     <div class="file-upload">
-                        <input type="file" class="file-upload-input" accept=".pdf" multiple onchange="uploadExercises(${week.weekNumber}, this.files)">
+                        <input type="file" class="file-upload-input" accept=".pdf" multiple onchange="uploadDocuments(${week.weekNumber}, this.files)">
                         <label class="file-upload-label">
                             <span>📎</span>
                             <span>Seleccionar archivos PDF</span>
                         </label>
                     </div>
-                    <div class="file-list" id="exercises-${week.weekNumber}">
-                        ${week.exercises && week.exercises.length > 0 ? week.exercises.map((ex, idx) => `
+                    <div class="file-list" id="documents-${week.weekNumber}">
+                        ${(week.documents && week.documents.length > 0) ? week.documents.map((doc, idx) => `
                             <div class="file-item">
-                                <span>${ex.name}</span>
-                                <button class="btn btn-danger btn-sm" onclick="deleteExercise(${week.weekNumber}, ${idx}, '${ex.storagePath}')">Eliminar</button>
+                                <span>📄 ${doc.name}</span>
+                                <button class="btn btn-danger btn-sm" onclick="deleteDocument(${week.weekNumber}, ${idx}, '${doc.storagePath}')">Eliminar</button>
                             </div>
-                        `).join('') : '<p style="color: var(--brown-600); font-size: var(--font-size-sm); margin-top: var(--spacing-sm);">No hay ejercicios cargados</p>'}
+                        `).join('') : '<p style="color: var(--brown-600); font-size: var(--font-size-sm); margin-top: var(--spacing-sm);">No hay documentos cargados</p>'}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">🎵 Meditaciones (Audio Streaming)</label>
+                    <p style="font-size: var(--font-size-sm); color: var(--brown-600); margin-bottom: var(--spacing-md);">Solo se podrán reproducir, no descargar. Formatos: MP3, WAV, M4A</p>
+                    <div class="file-upload">
+                        <input type="file" class="file-upload-input" accept="audio/*" multiple onchange="uploadMeditations(${week.weekNumber}, this.files)">
+                        <label class="file-upload-label">
+                            <span>🎵</span>
+                            <span>Seleccionar archivos de audio</span>
+                        </label>
+                    </div>
+                    <div class="file-list" id="meditations-${week.weekNumber}">
+                        ${(week.meditations && week.meditations.length > 0) ? week.meditations.map((med, idx) => `
+                            <div class="file-item">
+                                <div style="display: flex; align-items: center; gap: var(--spacing-sm); flex: 1;">
+                                    <span>🎵 ${med.name}</span>
+                                </div>
+                                <button class="btn btn-danger btn-sm" onclick="deleteMeditation(${week.weekNumber}, ${idx}, '${med.storagePath}')">Eliminar</button>
+                            </div>
+                        `).join('') : '<p style="color: var(--brown-600); font-size: var(--font-size-sm); margin-top: var(--spacing-sm);">No hay meditaciones cargadas</p>'}
                     </div>
                 </div>
             `;
@@ -1094,7 +1119,8 @@
             }
         }
 
-        async function uploadExercises(weekNumber, files) {
+        // Document Upload Functions
+        async function uploadDocuments(weekNumber, files) {
             if (!files || files.length === 0) return;
 
             const loading = document.getElementById('loadingIndicator');
@@ -1103,19 +1129,19 @@
             try {
                 const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
                 const weekDoc = await window.firebaseGetDoc(weekRef);
-                const currentExercises = weekDoc.data().exercises || [];
+                const currentDocuments = weekDoc.data().documents || [];
 
                 for (let file of files) {
                     // Upload file to Firebase Storage
                     const timestamp = Date.now();
-                    const storagePath = `exercises/week${weekNumber}/${timestamp}_${file.name}`;
+                    const storagePath = `documents/week${weekNumber}/${timestamp}_${file.name}`;
                     const storageRef = window.firebaseRef(window.firebaseStorage, storagePath);
 
                     await window.firebaseUploadBytes(storageRef, file);
                     const downloadURL = await window.firebaseGetDownloadURL(storageRef);
 
-                    // Add to exercises array
-                    currentExercises.push({
+                    // Add to documents array
+                    currentDocuments.push({
                         name: file.name,
                         filename: file.name,
                         storagePath: storagePath,
@@ -1125,20 +1151,20 @@
                 }
 
                 // Update Firestore
-                await window.firebaseUpdateDoc(weekRef, { exercises: currentExercises });
+                await window.firebaseUpdateDoc(weekRef, { documents: currentDocuments });
 
-                showAlert(`Ejercicios cargados exitosamente para la semana ${weekNumber}`, 'success');
+                showAlert(`${files.length} documento(s) cargado(s) exitosamente para la semana ${weekNumber}`, 'success');
                 loadWeeks();
             } catch (error) {
-                console.error('Error uploading exercises:', error);
-                showAlert('Error al cargar ejercicios: ' + error.message, 'error');
+                console.error('Error uploading documents:', error);
+                showAlert('Error al cargar documentos: ' + error.message, 'error');
             } finally {
                 loading.classList.remove('active');
             }
         }
 
-        async function deleteExercise(weekNumber, exerciseIndex, storagePath) {
-            if (!confirm('¿Estás seguro de eliminar este ejercicio?')) return;
+        async function deleteDocument(weekNumber, documentIndex, storagePath) {
+            if (!confirm('¿Estás seguro de eliminar este documento?')) return;
 
             const loading = document.getElementById('loadingIndicator');
             loading.classList.add('active');
@@ -1151,15 +1177,96 @@
                 // Update Firestore
                 const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
                 const weekDoc = await window.firebaseGetDoc(weekRef);
-                const exercises = weekDoc.data().exercises || [];
-                exercises.splice(exerciseIndex, 1);
-                await window.firebaseUpdateDoc(weekRef, { exercises });
+                const documents = weekDoc.data().documents || [];
+                documents.splice(documentIndex, 1);
+                await window.firebaseUpdateDoc(weekRef, { documents });
 
-                showAlert('Ejercicio eliminado exitosamente', 'success');
+                showAlert('Documento eliminado exitosamente', 'success');
                 loadWeeks();
             } catch (error) {
-                console.error('Error deleting exercise:', error);
-                showAlert('Error al eliminar ejercicio: ' + error.message, 'error');
+                console.error('Error deleting document:', error);
+                showAlert('Error al eliminar documento: ' + error.message, 'error');
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        // Meditation Upload Functions
+        async function uploadMeditations(weekNumber, files) {
+            if (!files || files.length === 0) return;
+
+            const loading = document.getElementById('loadingIndicator');
+            loading.classList.add('active');
+
+            try {
+                const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
+                const weekDoc = await window.firebaseGetDoc(weekRef);
+                const currentMeditations = weekDoc.data().meditations || [];
+
+                for (let file of files) {
+                    // Upload audio file to Firebase Storage
+                    const timestamp = Date.now();
+                    const storagePath = `meditations/week${weekNumber}/${timestamp}_${file.name}`;
+                    const storageRef = window.firebaseRef(window.firebaseStorage, storagePath);
+
+                    // Set metadata for audio streaming
+                    const metadata = {
+                        contentType: file.type,
+                        customMetadata: {
+                            'streamable': 'true'
+                        }
+                    };
+
+                    await window.firebaseUploadBytes(storageRef, file, metadata);
+                    const streamURL = await window.firebaseGetDownloadURL(storageRef);
+
+                    // Add to meditations array
+                    currentMeditations.push({
+                        name: file.name,
+                        filename: file.name,
+                        storagePath: storagePath,
+                        streamURL: streamURL,
+                        uploadedAt: timestamp,
+                        type: file.type
+                    });
+                }
+
+                // Update Firestore
+                await window.firebaseUpdateDoc(weekRef, { meditations: currentMeditations });
+
+                showAlert(`${files.length} meditación(es) cargada(s) exitosamente para la semana ${weekNumber}`, 'success');
+                loadWeeks();
+            } catch (error) {
+                console.error('Error uploading meditations:', error);
+                showAlert('Error al cargar meditaciones: ' + error.message, 'error');
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        async function deleteMeditation(weekNumber, meditationIndex, storagePath) {
+            if (!confirm('¿Estás seguro de eliminar esta meditación?')) return;
+
+            const loading = document.getElementById('loadingIndicator');
+            loading.classList.add('active');
+
+            try {
+                // Delete from storage
+                const storageRef = window.firebaseRef(window.firebaseStorage, storagePath);
+                await window.firebaseDeleteObject(storageRef);
+
+                // Update Firestore
+                const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
+                const weekDoc = await window.firebaseGetDoc(weekRef);
+                const meditations = weekDoc.data().meditations || [];
+                meditations.splice(meditationIndex, 1);
+                await window.firebaseUpdateDoc(weekRef, { meditations });
+
+                showAlert('Meditación eliminada exitosamente', 'success');
+                loadWeeks();
+            } catch (error) {
+                console.error('Error deleting meditation:', error);
+                showAlert('Error al eliminar meditación: ' + error.message, 'error');
             } finally {
                 loading.classList.remove('active');
             }
@@ -1357,22 +1464,16 @@
                         </select>
                     </div>
                 </div>
-                <div>
-                    <label style="display: block; margin-bottom: var(--spacing-sm); color: var(--brown-700); font-weight: 500; font-size: var(--font-size-sm);">
-                        Acceso a Semanas:
-                    </label>
-                    <div class="week-checkboxes" id="weeks-${user.uid}">
-                        ${[1, 2, 3, 4, 5, 6].map(weekNum => {
-                            const hasAccess = (user.accessibleWeeks || []).includes(weekNum);
-                            return `
-                                <label class="week-checkbox-label">
-                                    <input type="checkbox" ${hasAccess ? 'checked' : ''} onchange="updateUserAccess('${user.uid}', ${weekNum}, this.checked)">
-                                    <span>Semana ${weekNum}</span>
-                                </label>
-                            `;
-                        }).join('')}
-                    </div>
+
+                <div style="margin-top: var(--spacing-lg); display: flex; gap: var(--spacing-sm); flex-wrap: wrap;">
+                    <button class="btn btn-outline btn-sm" onclick="sendPasswordReset('${user.email}')">
+                        🔑 Enviar Email de Cambio de Contraseña
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteUser('${user.uid}', '${user.email}')">
+                        🗑️ Eliminar Usuario
+                    </button>
                 </div>
+
                 <div style="margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid var(--sand-200); font-size: var(--font-size-xs); color: var(--brown-500);">
                     Registrado: ${user.createdAt ? new Date(user.createdAt).toLocaleDateString('es-ES') : 'Fecha desconocida'}
                 </div>
@@ -1416,6 +1517,39 @@
             } catch (error) {
                 console.error('Error updating user access:', error);
                 showAlert('Error al actualizar el acceso: ' + error.message, 'error');
+            }
+        }
+
+        async function sendPasswordReset(email) {
+            if (!confirm(`¿Enviar email de cambio de contraseña a ${email}?`)) return;
+
+            try {
+                await window.firebaseSendPasswordResetEmail(window.firebaseAuth, email);
+                showAlert(`Email de cambio de contraseña enviado a ${email}`, 'success');
+            } catch (error) {
+                console.error('Error sending password reset:', error);
+                showAlert('Error al enviar el email: ' + error.message, 'error');
+            }
+        }
+
+        async function deleteUser(userId, email) {
+            if (!confirm(`⚠️ ¿Estás seguro de eliminar al usuario ${email}?\n\nEsta acción NO SE PUEDE DESHACER y eliminará:\n- El perfil del usuario\n- Su acceso al curso\n\nNOTA: El usuario podrá volver a registrarse si lo desea.`)) return;
+
+            const loading = document.getElementById('loadingIndicator');
+            loading.classList.add('active');
+
+            try {
+                // Delete user document from Firestore
+                const userRef = window.firebaseDoc(window.firebaseDb, 'users', userId);
+                await window.firebaseDeleteDoc(userRef);
+
+                showAlert(`Usuario ${email} eliminado exitosamente`, 'success');
+                loadUsers();
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                showAlert('Error al eliminar usuario: ' + error.message, 'error');
+            } finally {
+                loading.classList.remove('active');
             }
         }
     </script>
