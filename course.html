@@ -1269,6 +1269,9 @@
             // Build meditations HTML grouped by audio type
             let meditationsHTML = '';
             if (weekData.meditations && weekData.meditations.length > 0) {
+                // Filter out hidden meditations
+                const visibleMeditations = weekData.meditations.filter(meditation => !meditation.hidden);
+
                 // Group meditations by audioType
                 const groupedMeditations = {
                     'Guided Meditation': [],
@@ -1276,7 +1279,7 @@
                     'Audio': []
                 };
 
-                weekData.meditations.forEach(meditation => {
+                visibleMeditations.forEach(meditation => {
                     const audioType = meditation.audioType || 'Audio';
                     if (!groupedMeditations[audioType]) {
                         groupedMeditations[audioType] = [];
@@ -1291,28 +1294,35 @@
                     'Audio': { icon: '🎵', title: 'Audios', color: 'var(--primary-color)' }
                 };
 
-                meditationsHTML = Object.entries(groupedMeditations)
-                    .filter(([type, meditations]) => meditations.length > 0)
-                    .map(([audioType, meditations]) => {
-                        const config = audioTypeConfig[audioType];
-                        return `
-                            <div style="margin-bottom: var(--spacing-xl);">
-                                <h5 style="color: ${config.color}; font-size: var(--font-size-lg); margin-bottom: var(--spacing-md); display: flex; align-items: center; gap: var(--spacing-sm);">
-                                    <span>${config.icon}</span>
-                                    <span>${config.title}</span>
-                                </h5>
-                                ${meditations.map((meditation, index) => `
-                                    <div class="meditation-item" style="background: var(--warm-white); padding: var(--spacing-md); border-radius: 10px; border: 1px solid var(--lavender-200); margin-bottom: var(--spacing-md);">
-                                        <div style="margin-bottom: var(--spacing-sm); font-weight: 500; color: var(--lavender-800);">${config.icon} ${meditation.name}</div>
-                                        <audio controls controlsList="nodownload" style="width: 100%; margin-top: var(--spacing-sm);">
-                                            <source src="${meditation.streamURL}" type="${meditation.type || 'audio/mpeg'}">
-                                            Tu navegador no soporta la reproducción de audio.
-                                        </audio>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        `;
-                    }).join('');
+                // Check if there are any visible meditations after grouping
+                const hasVisibleMeditations = Object.values(groupedMeditations).some(arr => arr.length > 0);
+
+                if (hasVisibleMeditations) {
+                    meditationsHTML = Object.entries(groupedMeditations)
+                        .filter(([type, meditations]) => meditations.length > 0)
+                        .map(([audioType, meditations]) => {
+                            const config = audioTypeConfig[audioType];
+                            return `
+                                <div style="margin-bottom: var(--spacing-xl);">
+                                    <h5 style="color: ${config.color}; font-size: var(--font-size-lg); margin-bottom: var(--spacing-md); display: flex; align-items: center; gap: var(--spacing-sm);">
+                                        <span>${config.icon}</span>
+                                        <span>${config.title}</span>
+                                    </h5>
+                                    ${meditations.map((meditation, index) => `
+                                        <div class="meditation-item" style="background: var(--warm-white); padding: var(--spacing-md); border-radius: 10px; border: 1px solid var(--lavender-200); margin-bottom: var(--spacing-md);">
+                                            <div style="margin-bottom: var(--spacing-sm); font-weight: 500; color: var(--lavender-800);">${config.icon} ${meditation.name}</div>
+                                            <audio controls controlsList="nodownload" style="width: 100%; margin-top: var(--spacing-sm);">
+                                                <source src="${meditation.streamURL}" type="${meditation.type || 'audio/mpeg'}">
+                                                Tu navegador no soporta la reproducción de audio.
+                                            </audio>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `;
+                        }).join('');
+                } else {
+                    meditationsHTML = '<p style="color: var(--brown-600); font-size: var(--font-size-sm);">No hay meditaciones disponibles aún.</p>';
+                }
             } else {
                 meditationsHTML = '<p style="color: var(--brown-600); font-size: var(--font-size-sm);">No hay meditaciones disponibles aún.</p>';
             }

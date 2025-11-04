@@ -403,6 +403,11 @@
             font-size: var(--font-size-sm);
         }
 
+        .file-item-hidden {
+            background: var(--sand-100);
+            border: 1px dashed var(--sand-300);
+        }
+
         .status-badge {
             display: inline-block;
             padding: var(--spacing-xs) var(--spacing-md);
@@ -1160,14 +1165,18 @@
                     </div>
                     <div class="file-list" id="meditations-${week.weekNumber}">
                         ${(week.meditations && week.meditations.length > 0) ? week.meditations.map((med, idx) => `
-                            <div class="file-item">
+                            <div class="file-item ${med.hidden ? 'file-item-hidden' : ''}">
                                 <div style="display: flex; align-items: center; gap: var(--spacing-sm); flex: 1;">
-                                    <span>${getAudioIcon(med.audioType)} ${med.name}</span>
+                                    <span style="${med.hidden ? 'opacity: 0.5; text-decoration: line-through;' : ''}">${getAudioIcon(med.audioType)} ${med.name}</span>
                                     ${med.audioType ? `<span class="audio-type-badge audio-type-${med.audioType.toLowerCase().replace(/\s+/g, '-')}">${med.audioType}</span>` : ''}
+                                    ${med.hidden ? '<span class="status-badge status-locked">Oculto</span>' : ''}
                                 </div>
                                 <div style="display: flex; gap: var(--spacing-xs);">
                                     <button class="btn btn-outline btn-sm" onclick="editAudioLabel(${week.weekNumber}, ${idx})">✏️ Editar</button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteMeditation(${week.weekNumber}, ${idx}, '${med.storagePath}')">Eliminar</button>
+                                    <button class="btn ${med.hidden ? 'btn-success' : 'btn-outline'} btn-sm" onclick="toggleMeditationVisibility(${week.weekNumber}, ${idx})">
+                                        ${med.hidden ? '👁️ Mostrar' : '👁️‍🗨️ Ocultar'}
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteMeditation(${week.weekNumber}, ${idx}, '${med.storagePath}')">🗑️ Eliminar</button>
                                 </div>
                             </div>
                         `).join('') : '<p style="color: var(--brown-600); font-size: var(--font-size-sm); margin-top: var(--spacing-sm);">No hay meditaciones cargadas</p>'}
@@ -1623,8 +1632,30 @@
             }
         }
 
+        async function toggleMeditationVisibility(weekNumber, meditationIndex) {
+            try {
+                const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
+                const weekDoc = await window.firebaseGetDoc(weekRef);
+                const meditations = weekDoc.data().meditations || [];
+
+                if (meditations[meditationIndex]) {
+                    // Toggle hidden state
+                    meditations[meditationIndex].hidden = !meditations[meditationIndex].hidden;
+
+                    await window.firebaseUpdateDoc(weekRef, { meditations });
+
+                    const status = meditations[meditationIndex].hidden ? 'ocultado' : 'mostrado';
+                    showAlert(`Audio ${status} exitosamente`, 'success');
+                    loadWeeks();
+                }
+            } catch (error) {
+                console.error('Error toggling meditation visibility:', error);
+                showAlert('Error al cambiar visibilidad: ' + error.message, 'error');
+            }
+        }
+
         async function deleteMeditation(weekNumber, meditationIndex, storagePath) {
-            if (!confirm('¿Estás seguro de eliminar esta meditación?')) return;
+            if (!confirm('⚠️ ¿Estás seguro de ELIMINAR PERMANENTEMENTE esta meditación?\n\nEsta acción NO SE PUEDE DESHACER.\n\nSi solo quieres ocultarla temporalmente, usa el botón "Ocultar" en su lugar.')) return;
 
             const loading = document.getElementById('loadingIndicator');
             loading.classList.add('active');
