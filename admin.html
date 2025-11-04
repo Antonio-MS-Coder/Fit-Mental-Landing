@@ -1135,8 +1135,14 @@
                     <div class="file-list" id="documents-${week.weekNumber}">
                         ${(week.documents && week.documents.length > 0) ? week.documents.map((doc, idx) => `
                             <div class="file-item">
-                                <span>📄 ${doc.name}</span>
-                                <button class="btn btn-danger btn-sm" onclick="deleteDocument(${week.weekNumber}, ${idx}, '${doc.storagePath}')">Eliminar</button>
+                                <div style="display: flex; align-items: center; gap: var(--spacing-sm); flex: 1;">
+                                    <span>📄 ${doc.displayName || doc.name}</span>
+                                    ${doc.displayName && doc.displayName !== doc.filename ? `<span style="color: var(--brown-500); font-size: var(--font-size-xs);">(${doc.filename})</span>` : ''}
+                                </div>
+                                <div style="display: flex; gap: var(--spacing-xs);">
+                                    <button class="btn btn-outline btn-sm" onclick="editDocumentName(${week.weekNumber}, ${idx})">✏️ Renombrar</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteDocument(${week.weekNumber}, ${idx}, '${doc.storagePath}')">Eliminar</button>
+                                </div>
                             </div>
                         `).join('') : '<p style="color: var(--brown-600); font-size: var(--font-size-sm); margin-top: var(--spacing-sm);">No hay documentos cargados</p>'}
                     </div>
@@ -1289,9 +1295,10 @@
                     await window.firebaseUploadBytes(storageRef, file);
                     const downloadURL = await window.firebaseGetDownloadURL(storageRef);
 
-                    // Add to documents array
+                    // Add to documents array with displayName
                     currentDocuments.push({
                         name: file.name,
+                        displayName: file.name, // Default to filename, can be edited
                         filename: file.name,
                         storagePath: storagePath,
                         downloadURL: downloadURL,
@@ -1309,6 +1316,32 @@
                 showAlert('Error al cargar documentos: ' + error.message, 'error');
             } finally {
                 loading.classList.remove('active');
+            }
+        }
+
+        async function editDocumentName(weekNumber, documentIndex) {
+            try {
+                const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
+                const weekDoc = await window.firebaseGetDoc(weekRef);
+                const documents = weekDoc.data().documents || [];
+
+                if (!documents[documentIndex]) {
+                    showAlert('Documento no encontrado', 'error');
+                    return;
+                }
+
+                const currentName = documents[documentIndex].displayName || documents[documentIndex].name;
+                const newName = prompt('Introduce el nuevo nombre para el documento:', currentName);
+
+                if (newName && newName.trim() !== '' && newName !== currentName) {
+                    documents[documentIndex].displayName = newName.trim();
+                    await window.firebaseUpdateDoc(weekRef, { documents });
+                    showAlert('Nombre actualizado exitosamente', 'success');
+                    loadWeeks();
+                }
+            } catch (error) {
+                console.error('Error updating document name:', error);
+                showAlert('Error al actualizar el nombre: ' + error.message, 'error');
             }
         }
 
@@ -1438,6 +1471,9 @@
                 const file = currentAudioUpload.files[currentAudioUpload.currentFileIndex];
                 await uploadSingleMeditation(currentAudioUpload.weekNumber, file, audioType);
 
+                // Reload weeks immediately to show the new audio
+                await loadWeeks();
+
                 // Move to next file
                 currentAudioUpload.currentFileIndex++;
 
@@ -1449,7 +1485,6 @@
                     // All files uploaded
                     closeAudioLabelModal();
                     showAlert(`${currentAudioUpload.files.length} audio(s) subido(s) exitosamente`, 'success');
-                    loadWeeks();
 
                     // Clear file input
                     const fileInput = document.getElementById(`audio-upload-${currentAudioUpload.weekNumber}`);
