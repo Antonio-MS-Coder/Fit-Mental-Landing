@@ -741,7 +741,152 @@
         .week-checkbox-label input {
             cursor: pointer;
         }
+
+        .audio-type-badge {
+            display: inline-block;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: 12px;
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .audio-type-guided-meditation {
+            background: rgba(155, 135, 184, 0.2);
+            color: var(--success-color);
+        }
+
+        .audio-type-autohypnosis {
+            background: rgba(212, 165, 116, 0.2);
+            color: var(--accent-color);
+        }
+
+        .audio-type-audio {
+            background: rgba(139, 90, 58, 0.1);
+            color: var(--primary-color);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--warm-white);
+            border-radius: 20px;
+            padding: var(--spacing-2xl);
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--sand-200);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--brown-900);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: var(--font-size-2xl);
+            color: var(--brown-600);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .close-modal:hover {
+            color: var(--danger-color);
+            transform: rotate(90deg);
+        }
+
+        .audio-type-options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .audio-type-option {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            background: var(--sand-50);
+            border: 2px solid var(--sand-300);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .audio-type-option:hover {
+            border-color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .audio-type-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .audio-type-option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: var(--font-size-lg);
+            font-weight: 500;
+            color: var(--brown-800);
+        }
     </style>
+
+    <!-- Audio Labeling Modal -->
+    <div id="audioLabelModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Etiquetar Audio</h3>
+                <button class="close-modal" onclick="closeAudioLabelModal()">×</button>
+            </div>
+            <p style="color: var(--brown-600); margin-bottom: var(--spacing-xl);">Selecciona el tipo de audio:</p>
+            <div class="audio-type-options">
+                <div class="audio-type-option">
+                    <input type="radio" id="type-guided-meditation" name="audioType" value="Guided Meditation">
+                    <label for="type-guided-meditation">🧘 Guided Meditation</label>
+                </div>
+                <div class="audio-type-option">
+                    <input type="radio" id="type-autohypnosis" name="audioType" value="Autohypnosis">
+                    <label for="type-autohypnosis">💫 Autohypnosis</label>
+                </div>
+                <div class="audio-type-option">
+                    <input type="radio" id="type-audio" name="audioType" value="Audio">
+                    <label for="type-audio">🎵 Audio</label>
+                </div>
+            </div>
+            <div style="display: flex; gap: var(--spacing-md); margin-top: var(--spacing-2xl);">
+                <button class="btn btn-outline" style="flex: 1;" onclick="closeAudioLabelModal()">Cancelar</button>
+                <button class="btn btn-success" style="flex: 1;" onclick="saveAudioLabel()">Guardar</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -1001,7 +1146,7 @@
                     <label class="form-label">🎵 Meditaciones (Audio Streaming)</label>
                     <p style="font-size: var(--font-size-sm); color: var(--brown-600); margin-bottom: var(--spacing-md);">Solo se podrán reproducir, no descargar. Formatos: MP3, WAV, M4A</p>
                     <div class="file-upload">
-                        <input type="file" class="file-upload-input" accept="audio/*" multiple onchange="uploadMeditations(${week.weekNumber}, this.files)">
+                        <input type="file" class="file-upload-input" id="audio-upload-${week.weekNumber}" accept="audio/*" multiple onchange="prepareAudioUpload(${week.weekNumber}, this.files)">
                         <label class="file-upload-label">
                             <span>🎵</span>
                             <span>Seleccionar archivos de audio</span>
@@ -1011,9 +1156,13 @@
                         ${(week.meditations && week.meditations.length > 0) ? week.meditations.map((med, idx) => `
                             <div class="file-item">
                                 <div style="display: flex; align-items: center; gap: var(--spacing-sm); flex: 1;">
-                                    <span>🎵 ${med.name}</span>
+                                    <span>${getAudioIcon(med.audioType)} ${med.name}</span>
+                                    ${med.audioType ? `<span class="audio-type-badge audio-type-${med.audioType.toLowerCase().replace(/\s+/g, '-')}">${med.audioType}</span>` : ''}
                                 </div>
-                                <button class="btn btn-danger btn-sm" onclick="deleteMeditation(${week.weekNumber}, ${idx}, '${med.storagePath}')">Eliminar</button>
+                                <div style="display: flex; gap: var(--spacing-xs);">
+                                    <button class="btn btn-outline btn-sm" onclick="editAudioLabel(${week.weekNumber}, ${idx})">✏️ Editar</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteMeditation(${week.weekNumber}, ${idx}, '${med.storagePath}')">Eliminar</button>
+                                </div>
                             </div>
                         `).join('') : '<p style="color: var(--brown-600); font-size: var(--font-size-sm); margin-top: var(--spacing-sm);">No hay meditaciones cargadas</p>'}
                     </div>
@@ -1132,9 +1281,9 @@
                 const currentDocuments = weekDoc.data().documents || [];
 
                 for (let file of files) {
-                    // Upload file to Firebase Storage
+                    // Upload file to Firebase Storage with new path structure
                     const timestamp = Date.now();
-                    const storagePath = `documents/week${weekNumber}/${timestamp}_${file.name}`;
+                    const storagePath = `Curso-Fit-Mental/documents/week${weekNumber}/${timestamp}_${file.name}`;
                     const storageRef = window.firebaseRef(window.firebaseStorage, storagePath);
 
                     await window.firebaseUploadBytes(storageRef, file);
@@ -1188,6 +1337,201 @@
                 showAlert('Error al eliminar documento: ' + error.message, 'error');
             } finally {
                 loading.classList.remove('active');
+            }
+        }
+
+        // Audio Icon Helper
+        function getAudioIcon(audioType) {
+            switch(audioType) {
+                case 'Guided Meditation': return '🧘';
+                case 'Autohypnosis': return '💫';
+                case 'Audio': return '🎵';
+                default: return '🎵';
+            }
+        }
+
+        // Audio Labeling State
+        let currentAudioUpload = {
+            weekNumber: null,
+            files: null,
+            currentFileIndex: 0
+        };
+
+        let currentAudioEdit = {
+            weekNumber: null,
+            meditationIndex: null
+        };
+
+        // Prepare audio upload with labeling
+        function prepareAudioUpload(weekNumber, files) {
+            if (!files || files.length === 0) return;
+
+            currentAudioUpload = {
+                weekNumber: weekNumber,
+                files: files,
+                currentFileIndex: 0
+            };
+
+            // Show modal for first file
+            showAudioLabelModal(files[0].name, true);
+        }
+
+        // Show audio label modal
+        function showAudioLabelModal(fileName, isUpload = false) {
+            const modal = document.getElementById('audioLabelModal');
+            const header = modal.querySelector('.modal-header h3');
+
+            if (isUpload) {
+                header.textContent = `Etiquetar: ${fileName}`;
+            } else {
+                header.textContent = 'Editar Etiqueta de Audio';
+            }
+
+            // Clear previous selection
+            document.querySelectorAll('input[name="audioType"]').forEach(radio => {
+                radio.checked = false;
+            });
+
+            modal.classList.add('active');
+        }
+
+        // Close modal
+        function closeAudioLabelModal() {
+            const modal = document.getElementById('audioLabelModal');
+            modal.classList.remove('active');
+
+            // Reset upload state if canceled
+            if (currentAudioUpload.files) {
+                currentAudioUpload = {
+                    weekNumber: null,
+                    files: null,
+                    currentFileIndex: 0
+                };
+
+                // Clear file input
+                const fileInputs = document.querySelectorAll('input[type="file"][accept="audio/*"]');
+                fileInputs.forEach(input => input.value = '');
+            }
+        }
+
+        // Save audio label
+        async function saveAudioLabel() {
+            const selectedType = document.querySelector('input[name="audioType"]:checked');
+
+            if (!selectedType) {
+                alert('Por favor selecciona un tipo de audio');
+                return;
+            }
+
+            const audioType = selectedType.value;
+
+            // If editing existing audio
+            if (currentAudioEdit.weekNumber !== null) {
+                await updateAudioType(currentAudioEdit.weekNumber, currentAudioEdit.meditationIndex, audioType);
+                currentAudioEdit = { weekNumber: null, meditationIndex: null };
+                closeAudioLabelModal();
+                return;
+            }
+
+            // If uploading new audio
+            if (currentAudioUpload.files) {
+                const file = currentAudioUpload.files[currentAudioUpload.currentFileIndex];
+                await uploadSingleMeditation(currentAudioUpload.weekNumber, file, audioType);
+
+                // Move to next file
+                currentAudioUpload.currentFileIndex++;
+
+                if (currentAudioUpload.currentFileIndex < currentAudioUpload.files.length) {
+                    // Label next file
+                    const nextFile = currentAudioUpload.files[currentAudioUpload.currentFileIndex];
+                    showAudioLabelModal(nextFile.name, true);
+                } else {
+                    // All files uploaded
+                    closeAudioLabelModal();
+                    showAlert(`${currentAudioUpload.files.length} audio(s) subido(s) exitosamente`, 'success');
+                    loadWeeks();
+
+                    // Clear file input
+                    const fileInput = document.getElementById(`audio-upload-${currentAudioUpload.weekNumber}`);
+                    if (fileInput) fileInput.value = '';
+                }
+            }
+        }
+
+        // Edit audio label
+        function editAudioLabel(weekNumber, meditationIndex) {
+            currentAudioEdit = {
+                weekNumber: weekNumber,
+                meditationIndex: meditationIndex
+            };
+            showAudioLabelModal('', false);
+        }
+
+        // Update audio type
+        async function updateAudioType(weekNumber, meditationIndex, audioType) {
+            const loading = document.getElementById('loadingIndicator');
+            loading.classList.add('active');
+
+            try {
+                const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
+                const weekDoc = await window.firebaseGetDoc(weekRef);
+                const meditations = weekDoc.data().meditations || [];
+
+                if (meditations[meditationIndex]) {
+                    meditations[meditationIndex].audioType = audioType;
+                    await window.firebaseUpdateDoc(weekRef, { meditations });
+                    showAlert('Etiqueta actualizada exitosamente', 'success');
+                    loadWeeks();
+                }
+            } catch (error) {
+                console.error('Error updating audio type:', error);
+                showAlert('Error al actualizar la etiqueta: ' + error.message, 'error');
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        // Upload single meditation with label
+        async function uploadSingleMeditation(weekNumber, file, audioType) {
+            try {
+                const weekRef = window.firebaseDoc(window.firebaseDb, 'weeks', `week${weekNumber}`);
+                const weekDoc = await window.firebaseGetDoc(weekRef);
+                const currentMeditations = weekDoc.data().meditations || [];
+
+                // Upload audio file to Firebase Storage with new path structure
+                const timestamp = Date.now();
+                const storagePath = `Curso-Fit-Mental/meditations/week${weekNumber}/${timestamp}_${file.name}`;
+                const storageRef = window.firebaseRef(window.firebaseStorage, storagePath);
+
+                // Set metadata for audio streaming
+                const metadata = {
+                    contentType: file.type,
+                    customMetadata: {
+                        'streamable': 'true',
+                        'audioType': audioType
+                    }
+                };
+
+                await window.firebaseUploadBytes(storageRef, file, metadata);
+                const streamURL = await window.firebaseGetDownloadURL(storageRef);
+
+                // Add to meditations array with audioType
+                currentMeditations.push({
+                    name: file.name,
+                    filename: file.name,
+                    storagePath: storagePath,
+                    streamURL: streamURL,
+                    uploadedAt: timestamp,
+                    type: file.type,
+                    audioType: audioType
+                });
+
+                // Update Firestore
+                await window.firebaseUpdateDoc(weekRef, { meditations: currentMeditations });
+            } catch (error) {
+                console.error('Error uploading meditation:', error);
+                showAlert('Error al cargar audio: ' + error.message, 'error');
+                throw error;
             }
         }
 
