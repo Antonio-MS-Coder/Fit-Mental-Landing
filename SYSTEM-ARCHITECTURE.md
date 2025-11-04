@@ -112,7 +112,7 @@
 │  │  └── meditations/                                                │         │
 │  │      ├── week1/                                                  │         │
 │  │      │   ├── 1234567890_meditation1.mp3  🧘 Guided Meditation   │         │
-│  │      │   ├── 1234567891_hypnosis.mp3     💫 Autohypnosis        │         │
+│  │      │   ├── 1234567891_hypnosis.mp3     💫 Hypnosis            │         │
 │  │      │   └── 1234567892_audio.mp3        🎵 Audio               │         │
 │  │      ├── week2/                                                  │         │
 │  │      └── ... (week3-6)                                           │         │
@@ -175,7 +175,7 @@
 │  │  Modal Appears: "Etiquetar Audio"   │                                      │
 │  ├──────────────────────────────────────┤                                      │
 │  │  [ ] 🧘 Guided Meditation           │                                      │
-│  │  [ ] 💫 Autohypnosis                │                                      │
+│  │  [ ] 💫 Hypnosis                    │                                      │
 │  │  [ ] 🎵 Audio                        │                                      │
 │  │                                      │                                      │
 │  │  [Cancelar]  [Guardar]              │                                      │
@@ -267,7 +267,7 @@
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
 │  ✅ Role-Based Access Control (admin, student, sin_acceso)                     │
-│  ✅ Audio Labeling System (Guided Meditation, Autohypnosis, Audio)             │
+│  ✅ Audio Labeling System (Guided Meditation, Hypnosis, Audio)                 │
 │  ✅ Week-Based Content Organization (6 weeks)                                  │
 │  ✅ Vimeo Video Integration with Auto-Conversion                               │
 │  ✅ Document Upload/Download (PDFs)                                            │

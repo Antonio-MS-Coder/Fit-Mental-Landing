@@ -3,7 +3,7 @@
 ## Overview
 I've successfully implemented an audio labeling system for the Fit Mental admin panel that allows admins to categorize audio files as:
 - **🧘 Guided Meditation**
-- **💫 Autohypnosis**
+- **💫 Hypnosis**
 - **🎵 Audio**
 
 ---
@@ -56,7 +56,7 @@ gs://fit-mental.firebasestorage.app/
     └── meditations/
         ├── week1/
         │   ├── {timestamp}_meditation1.mp3  (audioType: 'Guided Meditation')
-        │   ├── {timestamp}_hypnosis1.mp3    (audioType: 'Autohypnosis')
+        │   ├── {timestamp}_hypnosis1.mp3    (audioType: 'Hypnosis')
         │   └── {timestamp}_audio1.mp3       (audioType: 'Audio')
         └── week2-6/...
 ```
@@ -126,7 +126,7 @@ firebase deploy --only storage
 2. **Upload Audio Files**:
    - Select audio files
    - Modal appears asking for label
-   - Choose: Guided Meditation, Autohypnosis, or Audio
+   - Choose: Guided Meditation, Hypnosis, or Audio
    - Files upload with labels
 
 3. **Edit Existing Labels**:

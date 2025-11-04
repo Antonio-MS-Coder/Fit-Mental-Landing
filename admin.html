@@ -757,7 +757,7 @@
             color: var(--success-color);
         }
 
-        .audio-type-autohypnosis {
+        .audio-type-hypnosis {
             background: rgba(212, 165, 116, 0.2);
             color: var(--accent-color);
         }
@@ -873,8 +873,8 @@
                     <label for="type-guided-meditation">🧘 Guided Meditation</label>
                 </div>
                 <div class="audio-type-option">
-                    <input type="radio" id="type-autohypnosis" name="audioType" value="Autohypnosis">
-                    <label for="type-autohypnosis">💫 Autohypnosis</label>
+                    <input type="radio" id="type-hypnosis" name="audioType" value="Hypnosis">
+                    <label for="type-hypnosis">💫 Hypnosis</label>
                 </div>
                 <div class="audio-type-option">
                     <input type="radio" id="type-audio" name="audioType" value="Audio">
@@ -1377,7 +1377,7 @@
         function getAudioIcon(audioType) {
             switch(audioType) {
                 case 'Guided Meditation': return '🧘';
-                case 'Autohypnosis': return '💫';
+                case 'Hypnosis': return '💫';
                 case 'Audio': return '🎵';
                 default: return '🎵';
             }

@@ -35,7 +35,7 @@ firebase deploy --only storage
 4. Click "Seleccionar archivos de audio" under "🎵 Meditaciones"
 5. Select an audio file (MP3, WAV, or M4A)
 6. **Modal should appear** asking you to label the audio
-7. Select: Guided Meditation, Autohypnosis, or Audio
+7. Select: Guided Meditation, Hypnosis, or Audio
 8. Click "Guardar"
 9. Audio uploads with the label ✅
 
