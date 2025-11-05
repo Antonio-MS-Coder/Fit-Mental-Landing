@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitMental App Admin - Panel de Contenido</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Warm, Organic Color Palette */
+            --primary-color: #8b5a3a;
+            --secondary-color: #8b5a3a;
+            --accent-color: #d4a574;
+            --success-color: #9b87b8;
+            --warning-color: #e8a87c;
+            --danger-color: #c85a5a;
+            --info-color: #5a8fc8;
+
+            /* Organic Neutral Colors */
+            --cream: #faf8f5;
+            --warm-white: #fdfcfa;
+            --sand-50: #faf7f2;
+            --sand-100: #f5f0e8;
+            --sand-200: #ede4d3;
+            --sand-300: #e0d0b7;
+            --brown-100: #f4f1ec;
+            --brown-200: #e8ddd0;
+            --brown-300: #d4c4ab;
+            --brown-400: #b5a082;
+            --brown-500: #8b7355;
+            --brown-600: #5d4a35;
+            --brown-700: #3d312a;
+            --brown-800: #2b221b;
+            --brown-900: #1f1812;
+
+            /* Lavender Palette */
+            --lavender-50: #f9f7fd;
+            --lavender-100: #f3eef9;
+            --lavender-200: #e7ddf3;
+            --lavender-300: #d6c6e8;
+            --lavender-400: #c4abdb;
+            --lavender-500: #a594c4;
+            --lavender-600: #8b7aa8;
+            --lavender-700: #6f6186;
+            --lavender-800: #544965;
+            --lavender-900: #3d3348;
+
+            /* Typography */
+            --font-family-primary: 'Caveat', cursive;
+            --font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+            /* Transitions */
+            --transition-fast: 150ms ease-in-out;
+            --transition-medium: 300ms ease-in-out;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            line-height: 1.7;
+            color: var(--brown-800);
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--sand-50) 100%);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-family-primary);
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--brown-900);
+            margin-bottom: var(--spacing-md);
+        }
+
+        h1 { font-size: var(--font-size-4xl); }
+        h2 { font-size: var(--font-size-3xl); }
+        h3 { font-size: var(--font-size-2xl); }
+        h4 { font-size: var(--font-size-xl); }
+
+        /* Header */
+        .header {
+            background: rgba(253, 252, 250, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--sand-200);
+            padding: var(--spacing-md) 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-family-primary);
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: var(--spacing-2xl) var(--spacing-xl);
+        }
+
+        /* Sidebar Navigation */
+        .app-layout {
+            display: flex;
+            gap: var(--spacing-xl);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--warm-white);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-lg);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .nav-item {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            color: var(--brown-700);
+        }
+
+        .nav-item:hover {
+            background: var(--sand-100);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-icon {
+            font-size: var(--font-size-xl);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            background: var(--warm-white);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-2xl);
+            box-shadow: var(--shadow-lg);
+            min-height: 600px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-xl);
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all var(--transition-medium);
+            font-family: var(--font-family-body);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8b5a3a 0%, #6d5a42 100%);
+            color: var(--warm-white);
+            box-shadow: 0 4px 15px rgba(139, 90, 58, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 90, 58, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #9b87b8 0%, #8b7aa8 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(155, 135, 184, 0.2);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(155, 135, 184, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #c85a5a 0%, #a84545 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(200, 90, 90, 0.2);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(200, 90, 90, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--warm-white);
+        }
+
+        .btn-sm {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--warm-white);
+            border: 2px solid var(--sand-200);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            transition: all var(--transition-medium);
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--brown-800);
+            font-weight: 500;
+            font-size: var(--font-size-sm);
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: var(--spacing-md);
+            border: 2px solid var(--sand-300);
+            border-radius: 12px;
+            font-size: var(--font-size-base);
+            font-family: var(--font-family-body);
+            color: var(--brown-800);
+            transition: all var(--transition-fast);
+            background: var(--sand-50);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: var(--warm-white);
+            box-shadow: 0 0 0 3px rgba(139, 90, 58, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            gap: var(--spacing-lg);
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        /* Content Cards */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+        }
+
+        .content-card {
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--sand-50) 100%);
+            border: 2px solid var(--sand-200);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all var(--transition-medium);
+            cursor: pointer;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-color);
+        }
+
+        .content-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: linear-gradient(135deg, var(--sand-100) 0%, var(--sand-200) 100%);
+        }
+
+        .content-body {
+            padding: var(--spacing-lg);
+        }
+
+        .content-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--brown-900);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .content-meta {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            color: var(--brown-600);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: 20px;
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-meditation {
+            background: rgba(155, 135, 184, 0.2);
+            color: var(--lavender-700);
+        }
+
+        .badge-hypnosis {
+            background: rgba(212, 165, 116, 0.2);
+            color: var(--accent-color);
+        }
+
+        .badge-song {
+            background: rgba(90, 143, 200, 0.2);
+            color: var(--info-color);
+        }
+
+        .badge-affirmation {
+            background: rgba(232, 168, 124, 0.2);
+            color: var(--warning-color);
+        }
+
+        .badge-lesson {
+            background: rgba(139, 90, 58, 0.2);
+            color: var(--primary-color);
+        }
+
+        .badge-free {
+            background: rgba(155, 184, 135, 0.2);
+            color: #5a7c4a;
+        }
+
+        .badge-premium {
+            background: rgba(212, 165, 116, 0.2);
+            color: var(--accent-color);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--warm-white);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-2xl);
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 2px solid var(--sand-200);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: var(--font-size-2xl);
+            color: var(--brown-600);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .modal-close:hover {
+            color: var(--danger-color);
+            transform: rotate(90deg);
+        }
+
+        /* File Upload */
+        .file-upload-area {
+            border: 2px dashed var(--sand-300);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            text-align: center;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            background: var(--sand-50);
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--primary-color);
+            background: var(--warm-white);
+        }
+
+        .file-upload-area.dragover {
+            border-color: var(--success-color);
+            background: var(--lavender-50);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--sand-200);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .alert-success {
+            background: rgba(155, 184, 135, 0.1);
+            border: 2px solid #9bb887;
+            color: #5a7c4a;
+        }
+
+        .alert-error {
+            background: rgba(200, 90, 90, 0.1);
+            border: 2px solid var(--danger-color);
+            color: var(--danger-color);
+        }
+
+        .alert-info {
+            background: rgba(90, 143, 200, 0.1);
+            border: 2px solid var(--info-color);
+            color: var(--info-color);
+        }
+
+        /* Stats Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--sand-50) 100%);
+            border: 2px solid var(--sand-200);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: var(--font-size-3xl);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .stat-value {
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            color: var(--primary-color);
+            font-family: var(--font-family-primary);
+        }
+
+        .stat-label {
+            color: var(--brown-600);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Table */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--spacing-lg);
+        }
+
+        .table th {
+            background: var(--sand-100);
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            color: var(--brown-800);
+            border-bottom: 2px solid var(--sand-200);
+        }
+
+        .table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--sand-200);
+        }
+
+        .table tr:hover {
+            background: var(--sand-50);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .app-layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+
+            .sidebar-nav {
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: var(--spacing-sm);
+            }
+
+            .nav-item {
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .search-input {
+            flex: 1;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--sand-300);
+            transition: var(--transition-medium);
+            border-radius: 30px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: var(--transition-medium);
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--success-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        /* Loading State */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: var(--spacing-3xl);
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: var(--spacing-3xl);
+            color: var(--brown-600);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: var(--spacing-lg);
+            opacity: 0.5;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: var(--spacing-sm);
+            border-bottom: 2px solid var(--sand-200);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .tab-button {
+            padding: var(--spacing-md) var(--spacing-xl);
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: var(--brown-600);
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .tab-button:hover {
+            color: var(--primary-color);
+        }
+
+        .tab-button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">FitMental App Admin</div>
+            <div class="nav-buttons">
+                <a href="admin.html" class="btn btn-outline btn-sm">Panel del Curso</a>
+                <button class="btn btn-outline btn-sm" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Page -->
+    <div id="loginPage" class="container">
+        <div style="max-width: 450px; margin: 100px auto;">
+            <div class="card">
+                <h2 style="text-align: center;">Acceso Admin - App FitMental</h2>
+                <p style="text-align: center; margin-bottom: var(--spacing-2xl); color: var(--brown-600);">
+                    Panel de gestión de contenido de la aplicación nativa
+                </p>
+
+                <div id="errorMessage" class="alert alert-error" style="display: none;">
+                    Email o contraseña incorrectos
+                </div>
+
+                <form id="loginForm" onsubmit="login(event)">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" id="email" class="form-input" placeholder="admin@fitmental.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        Ingresar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" style="display: none;">
+        <div class="container">
+            <div class="app-layout">
+                <!-- Sidebar Navigation -->
+                <aside class="sidebar">
+                    <nav class="sidebar-nav">
+                        <div class="nav-item active" onclick="showSection('dashboard')" data-section="dashboard">
+                            <span class="nav-icon">📊</span>
+                            <span>Dashboard</span>
+                        </div>
+                        <div class="nav-item" onclick="showSection('meditations')" data-section="meditations">
+                            <span class="nav-icon">🧘</span>
+                            <span>Meditaciones</span>
+                        </div>
+                        <div class="nav-item" onclick="showSection('programs')" data-section="programs">
+                            <span class="nav-icon">📚</span>
+                            <span>Programas</span>
+                        </div>
+                        <div class="nav-item" onclick="showSection('playlists')" data-section="playlists">
+                            <span class="nav-icon">🎵</span>
+                            <span>Playlists</span>
+                        </div>
+                        <div class="nav-item" onclick="showSection('background')" data-section="background">
+                            <span class="nav-icon">🎶</span>
+                            <span>Música de Fondo</span>
+                        </div>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="main-content">
+                    <!-- Dashboard Section -->
+                    <div id="dashboardSection" class="section active">
+                        <h1>Dashboard</h1>
+                        <p style="color: var(--brown-600); margin-bottom: var(--spacing-2xl);">
+                            Vista general del contenido de la aplicación FitMental
+                        </p>
+
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">🧘</div>
+                                <div class="stat-value" id="meditationCount">0</div>
+                                <div class="stat-label">Meditaciones Totales</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">📚</div>
+                                <div class="stat-value" id="programCount">0</div>
+                                <div class="stat-label">Programas Activos</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">🎵</div>
+                                <div class="stat-value" id="playlistCount">0</div>
+                                <div class="stat-label">Playlists Creadas</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">🎶</div>
+                                <div class="stat-value" id="backgroundCount">0</div>
+                                <div class="stat-label">Pistas de Fondo</div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Actividad Reciente</h3>
+                            <div id="recentActivity" class="empty-state">
+                                <div class="empty-state-icon">📝</div>
+                                <p>No hay actividad reciente para mostrar</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Meditations Section -->
+                    <div id="meditationsSection" class="section" style="display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xl);">
+                            <h1>Gestión de Meditaciones</h1>
+                            <button class="btn btn-primary" onclick="openMeditationModal()">
+                                + Nueva Meditación
+                            </button>
+                        </div>
+
+                        <!-- Search and Filters -->
+                        <div class="search-bar">
+                            <input type="text" class="form-input search-input" placeholder="Buscar meditaciones..." id="searchMeditations">
+                            <select class="form-select" style="width: 200px;" id="filterCategory">
+                                <option value="">Todas las categorías</option>
+                                <option value="Relajación">Relajación</option>
+                                <option value="Sueño">Sueño</option>
+                                <option value="Ansiedad">Ansiedad</option>
+                                <option value="Enfoque">Enfoque</option>
+                                <option value="Gratitud">Gratitud</option>
+                                <option value="Amor Propio">Amor Propio</option>
+                                <option value="Respiración">Respiración</option>
+                                <option value="Energía">Energía</option>
+                            </select>
+                            <select class="form-select" style="width: 150px;" id="filterType">
+                                <option value="">Todos los tipos</option>
+                                <option value="meditation">Meditación</option>
+                                <option value="hypnosis">Hipnosis</option>
+                                <option value="song">Canción</option>
+                                <option value="affirmation">Afirmación</option>
+                                <option value="lesson">Lección</option>
+                            </select>
+                        </div>
+
+                        <!-- Meditations Grid -->
+                        <div id="meditationsGrid" class="content-grid">
+                            <div class="loading active">
+                                <div class="spinner"></div>
+                                <p style="margin-top: var(--spacing-md);">Cargando meditaciones...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Programs Section -->
+                    <div id="programsSection" class="section" style="display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xl);">
+                            <h1>Gestión de Programas</h1>
+                            <button class="btn btn-primary" onclick="openProgramModal()">
+                                + Nuevo Programa
+                            </button>
+                        </div>
+
+                        <div id="programsList" class="content-grid">
+                            <div class="loading active">
+                                <div class="spinner"></div>
+                                <p style="margin-top: var(--spacing-md);">Cargando programas...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Playlists Section -->
+                    <div id="playlistsSection" class="section" style="display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xl);">
+                            <h1>Gestión de Playlists</h1>
+                            <button class="btn btn-primary" onclick="openPlaylistModal()">
+                                + Nueva Playlist
+                            </button>
+                        </div>
+
+                        <div class="tabs">
+                            <button class="tab-button active" onclick="showPlaylistTab('admin')">Admin Playlists</button>
+                            <button class="tab-button" onclick="showPlaylistTab('featured')">Destacadas</button>
+                            <button class="tab-button" onclick="showPlaylistTab('user')">Usuario</button>
+                        </div>
+
+                        <div id="adminPlaylists" class="tab-content active">
+                            <div class="content-grid">
+                                <div class="loading active">
+                                    <div class="spinner"></div>
+                                    <p>Cargando playlists...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="featuredPlaylists" class="tab-content">
+                            <div class="content-grid"></div>
+                        </div>
+
+                        <div id="userPlaylists" class="tab-content">
+                            <div class="content-grid"></div>
+                        </div>
+                    </div>
+
+                    <!-- Background Music Section -->
+                    <div id="backgroundSection" class="section" style="display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xl);">
+                            <h1>Gestión de Música de Fondo</h1>
+                            <button class="btn btn-primary" onclick="openBackgroundModal()">
+                                + Nueva Pista
+                            </button>
+                        </div>
+
+                        <div id="backgroundList" class="content-grid">
+                            <div class="loading active">
+                                <div class="spinner"></div>
+                                <p style="margin-top: var(--spacing-md);">Cargando pistas de fondo...</p>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Meditation Modal -->
+    <div id="meditationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="meditationModalTitle">Nueva Meditación</h2>
+                <button class="modal-close" onclick="closeMeditationModal()">×</button>
+            </div>
+
+            <form id="meditationForm" onsubmit="saveMeditation(event)">
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Título *</label>
+                        <input type="text" id="medTitle" class="form-input" required placeholder="Ej: Meditación de Gratitud">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tipo *</label>
+                        <select id="medType" class="form-select" required>
+                            <option value="">Seleccionar tipo</option>
+                            <option value="meditation">Meditación</option>
+                            <option value="hypnosis">Hipnosis</option>
+                            <option value="song">Canción</option>
+                            <option value="affirmation">Afirmación</option>
+                            <option value="lesson">Lección</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Categoría *</label>
+                        <select id="medCategory" class="form-select" required>
+                            <option value="">Seleccionar categoría</option>
+                            <option value="Relajación">Relajación</option>
+                            <option value="Sueño">Sueño</option>
+                            <option value="Ansiedad">Ansiedad</option>
+                            <option value="Enfoque">Enfoque</option>
+                            <option value="Gratitud">Gratitud</option>
+                            <option value="Amor Propio">Amor Propio</option>
+                            <option value="Respiración">Respiración</option>
+                            <option value="Energía">Energía</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tipo de Acceso *</label>
+                        <select id="medAccessType" class="form-select" required>
+                            <option value="free">Gratis</option>
+                            <option value="premium">Premium</option>
+                            <option value="program">Solo Programa</option>
+                            <option value="both">Premium + Programa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Descripción</label>
+                    <textarea id="medDescription" class="form-textarea" placeholder="Descripción de la meditación..."></textarea>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Instructor</label>
+                        <input type="text" id="medInstructor" class="form-input" placeholder="Nombre del instructor">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Idioma</label>
+                        <select id="medLanguage" class="form-select">
+                            <option value="es">Español</option>
+                            <option value="en">Inglés</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tags (separados por comas)</label>
+                    <input type="text" id="medTags" class="form-input" placeholder="relajación, mindfulness, respiración">
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Archivo de Audio *</label>
+                        <div class="file-upload-area" id="audioUploadArea">
+                            <input type="file" id="medAudioFile" accept="audio/*" style="display: none;" onchange="handleAudioFile(this)">
+                            <div onclick="document.getElementById('medAudioFile').click()">
+                                <div style="font-size: 2rem;">🎵</div>
+                                <p>Clic para seleccionar archivo de audio</p>
+                                <p style="font-size: var(--font-size-sm); color: var(--brown-600);">MP3, M4A, WAV (Max 100MB)</p>
+                            </div>
+                        </div>
+                        <div id="audioFileName" style="margin-top: var(--spacing-sm); color: var(--success-color);"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Imagen de Portada *</label>
+                        <div class="file-upload-area" id="imageUploadArea">
+                            <input type="file" id="medImageFile" accept="image/*" style="display: none;" onchange="handleImageFile(this)">
+                            <div onclick="document.getElementById('medImageFile').click()">
+                                <div style="font-size: 2rem;">🖼️</div>
+                                <p>Clic para seleccionar imagen</p>
+                                <p style="font-size: var(--font-size-sm); color: var(--brown-600);">JPG, PNG, WebP (Max 5MB)</p>
+                            </div>
+                        </div>
+                        <div id="imageFileName" style="margin-top: var(--spacing-sm); color: var(--success-color);"></div>
+                        <img id="imagePreview" style="max-width: 200px; margin-top: var(--spacing-md); border-radius: var(--radius-md); display: none;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: var(--spacing-md);">
+                        <input type="checkbox" id="medIsActive" checked>
+                        <span>Activo (visible en la app)</span>
+                    </label>
+                </div>
+
+                <div style="display: flex; gap: var(--spacing-md); justify-content: flex-end; margin-top: var(--spacing-2xl);">
+                    <button type="button" class="btn btn-outline" onclick="closeMeditationModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Guardar Meditación</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Program Modal -->
+    <div id="programModal" class="modal">
+        <div class="modal-content" style="max-width: 1000px;">
+            <div class="modal-header">
+                <h2>Nuevo Programa</h2>
+                <button class="modal-close" onclick="closeProgramModal()">×</button>
+            </div>
+
+            <form id="programForm" onsubmit="saveProgram(event)">
+                <!-- Program will be implemented -->
+                <div class="alert alert-info">
+                    <span>ℹ️</span>
+                    <span>El constructor de programas estará disponible próximamente</span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alertContainer" style="position: fixed; top: 80px; right: 20px; z-index: 3000;"></div>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            doc,
+            setDoc,
+            getDoc,
+            updateDoc,
+            deleteDoc,
+            query,
+            where,
+            orderBy,
+            limit,
+            addDoc,
+            serverTimestamp
+        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import {
+            getStorage,
+            ref,
+            uploadBytes,
+            getDownloadURL,
+            deleteObject,
+            uploadBytesResumable
+        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCg6d83-1N_ehP2cztK9rbBEOlQ42Sev_A",
+            authDomain: "fit-mental.firebaseapp.com",
+            projectId: "fit-mental",
+            storageBucket: "fit-mental.firebasestorage.app",
+            messagingSenderId: "238490497654",
+            appId: "1:238490497654:web:065ba42d23676166c7a557",
+            measurementId: "G-BHQVM0NC1N"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // Make Firebase services available globally
+        window.firebaseAuth = auth;
+        window.firebaseDb = db;
+        window.firebaseStorage = storage;
+        window.firebaseSignOut = signOut;
+        window.firebaseServerTimestamp = serverTimestamp;
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // Check if user is admin
+                const userRef = doc(db, 'users', user.uid);
+                const userDoc = await getDoc(userRef);
+
+                if (!userDoc.exists() || userDoc.data().role !== 'admin') {
+                    await signOut(auth);
+                    showAlert('No tienes permisos de administrador', 'error');
+                    return;
+                }
+
+                // User is admin, show panel
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                loadDashboard();
+                loadMeditations();
+            } else {
+                document.getElementById('loginPage').style.display = 'block';
+                document.getElementById('adminPanel').style.display = 'none';
+            }
+        });
+
+        // Export functions for global use
+        window.firebaseGetDocs = getDocs;
+        window.firebaseCollection = collection;
+        window.firebaseDoc = doc;
+        window.firebaseSetDoc = setDoc;
+        window.firebaseGetDoc = getDoc;
+        window.firebaseUpdateDoc = updateDoc;
+        window.firebaseDeleteDoc = deleteDoc;
+        window.firebaseQuery = query;
+        window.firebaseWhere = where;
+        window.firebaseOrderBy = orderBy;
+        window.firebaseLimit = limit;
+        window.firebaseAddDoc = addDoc;
+        window.firebaseRef = ref;
+        window.firebaseUploadBytes = uploadBytes;
+        window.firebaseUploadBytesResumable = uploadBytesResumable;
+        window.firebaseGetDownloadURL = getDownloadURL;
+        window.firebaseDeleteObject = deleteObject;
+    </script>
+
+    <script>
+        // Global variables
+        let currentMeditation = null;
+        let selectedAudioFile = null;
+        let selectedImageFile = null;
+
+        // Authentication
+        async function login(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            try {
+                await firebaseAuth.signInWithEmailAndPassword(firebaseAuth, email, password);
+                errorMessage.style.display = 'none';
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = error.message || 'Email o contraseña incorrectos';
+                errorMessage.style.display = 'block';
+            }
+        }
+
+        async function logout() {
+            try {
+                await window.firebaseSignOut(window.firebaseAuth);
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        }
+
+        // Section Navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show selected section
+            document.getElementById(sectionName + 'Section').style.display = 'block';
+
+            // Update nav active state
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-section') === sectionName) {
+                    item.classList.add('active');
+                }
+            });
+
+            // Load section data
+            switch(sectionName) {
+                case 'dashboard':
+                    loadDashboard();
+                    break;
+                case 'meditations':
+                    loadMeditations();
+                    break;
+                case 'programs':
+                    loadPrograms();
+                    break;
+                case 'playlists':
+                    loadPlaylists();
+                    break;
+                case 'background':
+                    loadBackgroundMusic();
+                    break;
+            }
+        }
+
+        // Dashboard Functions
+        async function loadDashboard() {
+            try {
+                // Load meditation count
+                const meditationsSnapshot = await window.firebaseGetDocs(
+                    window.firebaseCollection(window.firebaseDb, 'meditaciones')
+                );
+                document.getElementById('meditationCount').textContent = meditationsSnapshot.size;
+
+                // Load program count
+                const programsSnapshot = await window.firebaseGetDocs(
+                    window.firebaseCollection(window.firebaseDb, 'programs')
+                );
+                document.getElementById('programCount').textContent = programsSnapshot.size;
+
+                // Load playlist count
+                const playlistsSnapshot = await window.firebaseGetDocs(
+                    window.firebaseQuery(
+                        window.firebaseCollection(window.firebaseDb, 'playlists'),
+                        window.firebaseWhere('type', '==', 'admin')
+                    )
+                );
+                document.getElementById('playlistCount').textContent = playlistsSnapshot.size;
+
+                // Load background music count
+                const backgroundSnapshot = await window.firebaseGetDocs(
+                    window.firebaseCollection(window.firebaseDb, 'backgroundTracks')
+                );
+                document.getElementById('backgroundCount').textContent = backgroundSnapshot.size;
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                showAlert('Error al cargar el dashboard', 'error');
+            }
+        }
+
+        // Meditations Functions
+        async function loadMeditations() {
+            const grid = document.getElementById('meditationsGrid');
+            grid.innerHTML = '<div class="loading active"><div class="spinner"></div><p>Cargando meditaciones...</p></div>';
+
+            try {
+                const snapshot = await window.firebaseGetDocs(
+                    window.firebaseQuery(
+                        window.firebaseCollection(window.firebaseDb, 'meditaciones'),
+                        window.firebaseOrderBy('createdAt', 'desc')
+                    )
+                );
+
+                grid.innerHTML = '';
+
+                if (snapshot.empty) {
+                    grid.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <div class="empty-state-icon">🧘</div>
+                            <h3>No hay meditaciones aún</h3>
+                            <p>Haz clic en "Nueva Meditación" para agregar contenido</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                snapshot.forEach((doc) => {
+                    const meditation = { id: doc.id, ...doc.data() };
+                    renderMeditationCard(meditation);
+                });
+            } catch (error) {
+                console.error('Error loading meditations:', error);
+                grid.innerHTML = '<div class="alert alert-error">Error al cargar las meditaciones</div>';
+            }
+        }
+
+        function renderMeditationCard(meditation) {
+            const grid = document.getElementById('meditationsGrid');
+            const card = document.createElement('div');
+            card.className = 'content-card';
+            card.innerHTML = `
+                <img src="${meditation.imageURL || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2Y1ZjBlOCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzhiNzM1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='}"
+                     alt="${meditation.title}"
+                     class="content-image">
+                <div class="content-body">
+                    <h3 class="content-title">${meditation.title || 'Sin título'}</h3>
+                    <div class="content-meta">
+                        <span class="badge badge-${meditation.type || 'meditation'}">${meditation.type || 'meditation'}</span>
+                        <span class="badge badge-${meditation.accessType || 'free'}">${meditation.accessType || 'free'}</span>
+                    </div>
+                    <div class="content-meta">
+                        <span>📁 ${meditation.category || 'Sin categoría'}</span>
+                        <span>⏱️ ${formatDuration(meditation.duration || 0)}</span>
+                    </div>
+                    <p style="font-size: var(--font-size-sm); color: var(--brown-600); margin-top: var(--spacing-sm);">
+                        ${meditation.description ? meditation.description.substring(0, 100) + '...' : 'Sin descripción'}
+                    </p>
+                    <div style="display: flex; gap: var(--spacing-sm); margin-top: var(--spacing-md);">
+                        <button class="btn btn-outline btn-sm" onclick="editMeditation('${meditation.id}')">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteMeditation('${meditation.id}')">Eliminar</button>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        }
+
+        // Meditation Modal Functions
+        function openMeditationModal(meditationId = null) {
+            const modal = document.getElementById('meditationModal');
+            const title = document.getElementById('meditationModalTitle');
+
+            if (meditationId) {
+                title.textContent = 'Editar Meditación';
+                loadMeditationForEdit(meditationId);
+            } else {
+                title.textContent = 'Nueva Meditación';
+                document.getElementById('meditationForm').reset();
+                currentMeditation = null;
+                selectedAudioFile = null;
+                selectedImageFile = null;
+                document.getElementById('audioFileName').textContent = '';
+                document.getElementById('imageFileName').textContent = '';
+                document.getElementById('imagePreview').style.display = 'none';
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeMeditationModal() {
+            const modal = document.getElementById('meditationModal');
+            modal.classList.remove('active');
+            currentMeditation = null;
+            selectedAudioFile = null;
+            selectedImageFile = null;
+        }
+
+        async function loadMeditationForEdit(meditationId) {
+            try {
+                const doc = await window.firebaseGetDoc(
+                    window.firebaseDoc(window.firebaseDb, 'meditaciones', meditationId)
+                );
+
+                if (doc.exists()) {
+                    currentMeditation = { id: doc.id, ...doc.data() };
+
+                    // Fill form with meditation data
+                    document.getElementById('medTitle').value = currentMeditation.title || '';
+                    document.getElementById('medType').value = currentMeditation.type || '';
+                    document.getElementById('medCategory').value = currentMeditation.category || '';
+                    document.getElementById('medAccessType').value = currentMeditation.accessType || 'free';
+                    document.getElementById('medDescription').value = currentMeditation.description || '';
+                    document.getElementById('medInstructor').value = currentMeditation.instructor || '';
+                    document.getElementById('medLanguage').value = currentMeditation.language || 'es';
+                    document.getElementById('medTags').value = currentMeditation.tags ? currentMeditation.tags.join(', ') : '';
+                    document.getElementById('medIsActive').checked = currentMeditation.isActive !== false;
+
+                    // Show current image
+                    if (currentMeditation.imageURL) {
+                        document.getElementById('imagePreview').src = currentMeditation.imageURL;
+                        document.getElementById('imagePreview').style.display = 'block';
+                    }
+
+                    // Show audio file name if exists
+                    if (currentMeditation.audioURL) {
+                        document.getElementById('audioFileName').textContent = '✅ Audio actual cargado';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading meditation:', error);
+                showAlert('Error al cargar la meditación', 'error');
+            }
+        }
+
+        // File handling
+        function handleAudioFile(input) {
+            const file = input.files[0];
+            if (file) {
+                if (file.size > 100 * 1024 * 1024) { // 100MB limit
+                    showAlert('El archivo de audio no debe superar los 100MB', 'error');
+                    input.value = '';
+                    return;
+                }
+                selectedAudioFile = file;
+                document.getElementById('audioFileName').textContent = `✅ ${file.name}`;
+            }
+        }
+
+        function handleImageFile(input) {
+            const file = input.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                    showAlert('La imagen no debe superar los 5MB', 'error');
+                    input.value = '';
+                    return;
+                }
+                selectedImageFile = file;
+                document.getElementById('imageFileName').textContent = `✅ ${file.name}`;
+
+                // Preview image
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imagePreview').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Save Meditation
+        async function saveMeditation(event) {
+            event.preventDefault();
+
+            const formData = {
+                title: document.getElementById('medTitle').value,
+                type: document.getElementById('medType').value,
+                category: document.getElementById('medCategory').value,
+                accessType: document.getElementById('medAccessType').value,
+                description: document.getElementById('medDescription').value,
+                instructor: document.getElementById('medInstructor').value,
+                language: document.getElementById('medLanguage').value,
+                tags: document.getElementById('medTags').value.split(',').map(tag => tag.trim()).filter(tag => tag),
+                isActive: document.getElementById('medIsActive').checked
+            };
+
+            try {
+                showAlert('Guardando meditación...', 'info');
+
+                let audioURL = currentMeditation?.audioURL;
+                let imageURL = currentMeditation?.imageURL;
+
+                // Upload audio if new file selected
+                if (selectedAudioFile) {
+                    const audioRef = window.firebaseRef(
+                        window.firebaseStorage,
+                        `app-meditations/${Date.now()}_${selectedAudioFile.name}`
+                    );
+                    await window.firebaseUploadBytes(audioRef, selectedAudioFile);
+                    audioURL = await window.firebaseGetDownloadURL(audioRef);
+
+                    // Get audio duration
+                    const audio = new Audio(audioURL);
+                    await new Promise(resolve => {
+                        audio.addEventListener('loadedmetadata', () => {
+                            formData.duration = Math.floor(audio.duration);
+                            resolve();
+                        });
+                    });
+                } else if (!currentMeditation) {
+                    showAlert('Por favor selecciona un archivo de audio', 'error');
+                    return;
+                }
+
+                // Upload image if new file selected
+                if (selectedImageFile) {
+                    const imageRef = window.firebaseRef(
+                        window.firebaseStorage,
+                        `meditation-images/${Date.now()}_${selectedImageFile.name}`
+                    );
+                    await window.firebaseUploadBytes(imageRef, selectedImageFile);
+                    imageURL = await window.firebaseGetDownloadURL(imageRef);
+                } else if (!currentMeditation) {
+                    showAlert('Por favor selecciona una imagen de portada', 'error');
+                    return;
+                }
+
+                // Add URLs to form data
+                formData.audioURL = audioURL;
+                formData.imageURL = imageURL;
+
+                // Save to Firestore
+                if (currentMeditation) {
+                    // Update existing
+                    formData.updatedAt = window.firebaseServerTimestamp();
+                    await window.firebaseUpdateDoc(
+                        window.firebaseDoc(window.firebaseDb, 'meditaciones', currentMeditation.id),
+                        formData
+                    );
+                    showAlert('Meditación actualizada exitosamente', 'success');
+                } else {
+                    // Create new
+                    formData.createdAt = window.firebaseServerTimestamp();
+                    formData.updatedAt = window.firebaseServerTimestamp();
+                    formData.order = 0;
+                    const docRef = await window.firebaseAddDoc(
+                        window.firebaseCollection(window.firebaseDb, 'meditaciones'),
+                        formData
+                    );
+                    // Update with ID
+                    await window.firebaseUpdateDoc(docRef, { id: docRef.id });
+                    showAlert('Meditación creada exitosamente', 'success');
+                }
+
+                closeMeditationModal();
+                loadMeditations();
+            } catch (error) {
+                console.error('Error saving meditation:', error);
+                showAlert('Error al guardar la meditación: ' + error.message, 'error');
+            }
+        }
+
+        // Edit Meditation
+        function editMeditation(meditationId) {
+            openMeditationModal(meditationId);
+        }
+
+        // Delete Meditation
+        async function deleteMeditation(meditationId) {
+            if (!confirm('¿Estás seguro de eliminar esta meditación? Esta acción no se puede deshacer.')) {
+                return;
+            }
+
+            try {
+                // Get meditation data to delete files
+                const doc = await window.firebaseGetDoc(
+                    window.firebaseDoc(window.firebaseDb, 'meditaciones', meditationId)
+                );
+
+                if (doc.exists()) {
+                    const meditation = doc.data();
+
+                    // Delete audio file from storage
+                    if (meditation.audioURL) {
+                        try {
+                            const audioRef = window.firebaseRef(window.firebaseStorage, meditation.audioURL);
+                            await window.firebaseDeleteObject(audioRef);
+                        } catch (error) {
+                            console.error('Error deleting audio file:', error);
+                        }
+                    }
+
+                    // Delete image file from storage
+                    if (meditation.imageURL) {
+                        try {
+                            const imageRef = window.firebaseRef(window.firebaseStorage, meditation.imageURL);
+                            await window.firebaseDeleteObject(imageRef);
+                        } catch (error) {
+                            console.error('Error deleting image file:', error);
+                        }
+                    }
+                }
+
+                // Delete from Firestore
+                await window.firebaseDeleteDoc(
+                    window.firebaseDoc(window.firebaseDb, 'meditaciones', meditationId)
+                );
+
+                showAlert('Meditación eliminada exitosamente', 'success');
+                loadMeditations();
+            } catch (error) {
+                console.error('Error deleting meditation:', error);
+                showAlert('Error al eliminar la meditación', 'error');
+            }
+        }
+
+        // Programs Functions
+        async function loadPrograms() {
+            const container = document.getElementById('programsList');
+            container.innerHTML = '<div class="loading active"><div class="spinner"></div><p>Cargando programas...</p></div>';
+
+            try {
+                const snapshot = await window.firebaseGetDocs(
+                    window.firebaseCollection(window.firebaseDb, 'programs')
+                );
+
+                container.innerHTML = '';
+
+                if (snapshot.empty) {
+                    container.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <div class="empty-state-icon">📚</div>
+                            <h3>No hay programas aún</h3>
+                            <p>Los programas permiten estructurar contenido en días y semanas</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                snapshot.forEach((doc) => {
+                    const program = { id: doc.id, ...doc.data() };
+                    renderProgramCard(program);
+                });
+            } catch (error) {
+                console.error('Error loading programs:', error);
+                container.innerHTML = '<div class="alert alert-error">Error al cargar los programas</div>';
+            }
+        }
+
+        function renderProgramCard(program) {
+            const container = document.getElementById('programsList');
+            const card = document.createElement('div');
+            card.className = 'content-card';
+            card.innerHTML = `
+                <img src="${program.coverImageURL || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2Y1ZjBl OCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzhiNzM1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='}"
+                     alt="${program.title}"
+                     class="content-image">
+                <div class="content-body">
+                    <h3 class="content-title">${program.title}</h3>
+                    <p style="color: var(--brown-600); font-size: var(--font-size-sm);">${program.subtitle || ''}</p>
+                    <div class="content-meta">
+                        <span>📅 ${program.totalDays || 0} días</span>
+                        <span>👥 ${program.enrolledCount || 0} inscritos</span>
+                    </div>
+                    <div class="content-meta">
+                        <span class="badge badge-${program.accessType}">${program.accessType || 'free'}</span>
+                        ${program.price ? `<span>$${(program.price / 100).toFixed(2)}</span>` : ''}
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        }
+
+        function openProgramModal() {
+            document.getElementById('programModal').classList.add('active');
+        }
+
+        function closeProgramModal() {
+            document.getElementById('programModal').classList.remove('active');
+        }
+
+        // Playlists Functions
+        async function loadPlaylists() {
+            const container = document.getElementById('adminPlaylists').querySelector('.content-grid');
+            container.innerHTML = '<div class="loading active"><div class="spinner"></div><p>Cargando playlists...</p></div>';
+
+            try {
+                const snapshot = await window.firebaseGetDocs(
+                    window.firebaseQuery(
+                        window.firebaseCollection(window.firebaseDb, 'playlists'),
+                        window.firebaseWhere('type', '==', 'admin')
+                    )
+                );
+
+                container.innerHTML = '';
+
+                if (snapshot.empty) {
+                    container.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <div class="empty-state-icon">🎵</div>
+                            <h3>No hay playlists aún</h3>
+                            <p>Crea playlists para organizar el contenido</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                snapshot.forEach((doc) => {
+                    const playlist = { id: doc.id, ...doc.data() };
+                    renderPlaylistCard(playlist, container);
+                });
+            } catch (error) {
+                console.error('Error loading playlists:', error);
+                container.innerHTML = '<div class="alert alert-error">Error al cargar las playlists</div>';
+            }
+        }
+
+        function renderPlaylistCard(playlist, container) {
+            const card = document.createElement('div');
+            card.className = 'content-card';
+            card.innerHTML = `
+                <img src="${playlist.coverImageURL || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2Y1ZjBlOCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzhiNzM1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='}"
+                     alt="${playlist.title}"
+                     class="content-image">
+                <div class="content-body">
+                    <h3 class="content-title">${playlist.title}</h3>
+                    <div class="content-meta">
+                        <span>🎵 ${playlist.contentCount || 0} pistas</span>
+                        <span>⏱️ ${formatDuration(playlist.totalDuration || 0)}</span>
+                    </div>
+                    ${playlist.isFeatured ? '<span class="badge badge-premium">⭐ Destacada</span>' : ''}
+                </div>
+            `;
+            container.appendChild(card);
+        }
+
+        function showPlaylistTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName + 'Playlists').classList.add('active');
+        }
+
+        function openPlaylistModal() {
+            showAlert('El editor de playlists estará disponible próximamente', 'info');
+        }
+
+        // Background Music Functions
+        async function loadBackgroundMusic() {
+            const container = document.getElementById('backgroundList');
+            container.innerHTML = '<div class="loading active"><div class="spinner"></div><p>Cargando pistas de fondo...</p></div>';
+
+            try {
+                const snapshot = await window.firebaseGetDocs(
+                    window.firebaseCollection(window.firebaseDb, 'backgroundTracks')
+                );
+
+                container.innerHTML = '';
+
+                if (snapshot.empty) {
+                    container.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <div class="empty-state-icon">🎶</div>
+                            <h3>No hay pistas de fondo aún</h3>
+                            <p>Agrega música de fondo para las meditaciones</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                snapshot.forEach((doc) => {
+                    const track = { id: doc.id, ...doc.data() };
+                    renderBackgroundCard(track);
+                });
+            } catch (error) {
+                console.error('Error loading background music:', error);
+                container.innerHTML = '<div class="alert alert-error">Error al cargar las pistas de fondo</div>';
+            }
+        }
+
+        function renderBackgroundCard(track) {
+            const container = document.getElementById('backgroundList');
+            const card = document.createElement('div');
+            card.className = 'content-card';
+            card.innerHTML = `
+                <div class="content-body">
+                    <h3 class="content-title">${track.name}</h3>
+                    <div class="content-meta">
+                        <span>📁 ${track.category}</span>
+                        <span>⏱️ ${formatDuration(track.duration || 0)}</span>
+                    </div>
+                    <div style="margin-top: var(--spacing-md);">
+                        <audio controls style="width: 100%;">
+                            <source src="${track.url}" type="audio/mpeg">
+                        </audio>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        }
+
+        function openBackgroundModal() {
+            showAlert('El cargador de música de fondo estará disponible próximamente', 'info');
+        }
+
+        // Helper Functions
+        function formatDuration(seconds) {
+            if (!seconds) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function showAlert(message, type = 'info') {
+            const container = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
+                <span>${message}</span>
+            `;
+
+            container.appendChild(alert);
+
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 300);
+            }, 5000);
+        }
+
+        // Search and Filter Functions
+        document.addEventListener('DOMContentLoaded', () => {
+            // Search meditations
+            document.getElementById('searchMeditations')?.addEventListener('input', (e) => {
+                filterMeditations();
+            });
+
+            // Filter by category
+            document.getElementById('filterCategory')?.addEventListener('change', (e) => {
+                filterMeditations();
+            });
+
+            // Filter by type
+            document.getElementById('filterType')?.addEventListener('change', (e) => {
+                filterMeditations();
+            });
+        });
+
+        async function filterMeditations() {
+            const searchTerm = document.getElementById('searchMeditations').value.toLowerCase();
+            const category = document.getElementById('filterCategory').value;
+            const type = document.getElementById('filterType').value;
+
+            let query = window.firebaseCollection(window.firebaseDb, 'meditaciones');
+
+            if (category) {
+                query = window.firebaseQuery(query, window.firebaseWhere('category', '==', category));
+            }
+
+            if (type) {
+                query = window.firebaseQuery(query, window.firebaseWhere('type', '==', type));
+            }
+
+            const snapshot = await window.firebaseGetDocs(query);
+            const grid = document.getElementById('meditationsGrid');
+            grid.innerHTML = '';
+
+            snapshot.forEach((doc) => {
+                const meditation = { id: doc.id, ...doc.data() };
+
+                // Apply search filter
+                if (searchTerm) {
+                    const title = (meditation.title || '').toLowerCase();
+                    const description = (meditation.description || '').toLowerCase();
+                    const instructor = (meditation.instructor || '').toLowerCase();
+
+                    if (!title.includes(searchTerm) &&
+                        !description.includes(searchTerm) &&
+                        !instructor.includes(searchTerm)) {
+                        return;
+                    }
+                }
+
+                renderMeditationCard(meditation);
+            });
+
+            if (grid.innerHTML === '') {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <div class="empty-state-icon">🔍</div>
+                        <h3>No se encontraron resultados</h3>
+                        <p>Intenta con otros términos de búsqueda o filtros</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

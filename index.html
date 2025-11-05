@@ -1340,13 +1340,22 @@
                     <a href="#cris">Sobre Cris</a>
                     <a href="#beneficios">Beneficios</a>
                 </nav>
-                <div style="display: flex; gap: 1rem;">
+                <div style="display: flex; gap: 1rem; align-items: center;">
                     <a href="https://sniffpots.crissteinman.com" target="_blank" class="btn btn-secondary">
                         Sniff Pots
                     </a>
                     <a href="https://buy.stripe.com/fZufZi5Uf9uA58X5zig3601" class="btn btn-primary" target="_blank" rel="noopener">
                         Inscríbete Ahora
                     </a>
+                    <!-- Admin Panel Links (hidden by default) -->
+                    <div id="adminLinks" style="display: none; gap: 0.5rem;">
+                        <a href="admin.html" class="btn btn-outline" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                            📚 Curso
+                        </a>
+                        <a href="app-admin.html" class="btn btn-outline" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                            📱 App
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1912,6 +1921,47 @@
                     page_title: 'Fit Mental Landing Page',
                     page_location: window.location.href
                 });
+            }
+        });
+    </script>
+
+    <!-- Firebase Admin Check -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCg6d83-1N_ehP2cztK9rbBEOlQ42Sev_A",
+            authDomain: "fit-mental.firebaseapp.com",
+            projectId: "fit-mental",
+            storageBucket: "fit-mental.firebasestorage.app",
+            messagingSenderId: "238490497654",
+            appId: "1:238490497654:web:065ba42d23676166c7a557",
+            measurementId: "G-BHQVM0NC1N"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Check if user is admin
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    const userDoc = await getDoc(doc(db, 'users', user.uid));
+                    if (userDoc.exists() && userDoc.data().role === 'admin') {
+                        // Show admin links
+                        const adminLinks = document.getElementById('adminLinks');
+                        if (adminLinks) {
+                            adminLinks.style.display = 'flex';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error checking admin status:', error);
+                }
             }
         });
     </script>
