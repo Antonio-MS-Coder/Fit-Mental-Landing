@@ -1,0 +1,141 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ========================================================================
+    // CURSO FIT MENTAL - COURSE PLATFORM RULES (DO NOT MODIFY)
+    // ========================================================================
+
+    // Allow authenticated users to read weeks
+    match /weeks/{week} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Users collection - users can read their own doc, admins can read/write all
+    match /users/{userId} {
+      // Allow users to read their own document (needed for admin checks in Storage rules)
+      // Also allow admins to read any user document
+      allow read: if request.auth != null &&
+        (request.auth.uid == userId ||
+         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'));
+
+      // Allow users to update their own profile (except role field)
+      // Admins can write to any user document
+      allow write: if request.auth != null &&
+        (request.auth.uid == userId ||
+         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'));
+
+      // Allow new users to create their profile on sign-up
+      allow create: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Config collection - for pre-approved emails and other settings
+    match /config/{document} {
+      // Anyone authenticated can read config (needed for checking pre-approved emails on signup)
+      allow read: if request.auth != null;
+      // Only admins can write to config
+      allow write: if request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // ========================================================================
+    // FIT MENTAL APP - NEW RULES FOR AFFIRMATIONS & MEDITATIONS
+    // ========================================================================
+
+    // Meditations collection - shared meditation library
+    // All authenticated users can read meditations
+    // Admins can create/update/delete meditations
+    match /meditations/{meditationId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Meditaciones collection (Spanish version) - same permissions
+    // All authenticated users can read meditations
+    // Admins can write meditations
+    match /meditaciones/{meditationId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // ========================================================================
+    // NEW COLLECTIONS FOR FITMENTAL APP ADMIN PANEL
+    // ========================================================================
+
+    // Programs collection - Structured courses and challenges
+    match /programs/{programId} {
+      // All authenticated users can read programs
+      allow read: if request.auth != null;
+      // Only admins can create/update/delete programs
+      allow write: if request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Playlists collection - Curated content lists
+    match /playlists/{playlistId} {
+      // All authenticated users can read public playlists
+      // Users can read their own private playlists
+      // Admins can read all playlists
+      allow read: if request.auth != null &&
+        (resource.data.visibility == 'public' ||
+         resource.data.creatorId == request.auth.uid ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+
+      // Users can create their own playlists
+      allow create: if request.auth != null &&
+        request.resource.data.creatorId == request.auth.uid;
+
+      // Users can update/delete their own playlists
+      // Admins can update/delete any playlist
+      allow update, delete: if request.auth != null &&
+        (resource.data.creatorId == request.auth.uid ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+    }
+
+    // Background tracks collection - shared background music library
+    // All authenticated users can read background tracks
+    // Admins can create/update/delete background tracks
+    match /backgroundTracks/{trackId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // User recordings collection - personal affirmation recordings
+    // Users can fully manage their own recordings
+    match /users/{userId}/recordings/{recordingId} {
+      allow read, write, delete: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Alternative path for recordings (if stored at root level with userId field)
+    match /recordings/{recordingId} {
+      // Users can read/write/delete their own recordings
+      allow read, write, delete: if request.auth != null &&
+        resource.data.userId == request.auth.uid;
+      // Users can create recordings with their own userId
+      allow create: if request.auth != null &&
+        request.resource.data.userId == request.auth.uid;
+    }
+
+    // Affirmations collection - personal affirmations with audio
+    // Users can fully manage their own affirmations
+    match /affirmations/{affirmationId} {
+      // Users can read their own affirmations
+      allow read: if request.auth != null &&
+        resource.data.userId == request.auth.uid;
+      // Users can update/delete their own affirmations
+      allow update, delete: if request.auth != null &&
+        resource.data.userId == request.auth.uid;
+      // Users can create affirmations with their own userId
+      allow create: if request.auth != null &&
+        request.resource.data.userId == request.auth.uid;
+    }
+  }
+}

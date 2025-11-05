@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicializar Colecciones - FitMental App</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #8b5a3a;
+            padding-bottom: 10px;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        button {
+            background: #8b5a3a;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #6d4730;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #8b5a3a;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        #loginForm {
+            margin: 20px 0;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .hidden {
+            display: none;
+        }
+        ul {
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Inicialización de Colecciones - FitMental App</h1>
+
+        <div class="section">
+            <h2>📝 Descripción</h2>
+            <p>Esta herramienta inicializa las colecciones necesarias para el panel de administración de la aplicación FitMental.</p>
+            <p>Se crearán las siguientes colecciones con documentos de ejemplo:</p>
+            <ul>
+                <li><code>meditaciones</code> - Biblioteca de meditaciones</li>
+                <li><code>programs</code> - Programas estructurados</li>
+                <li><code>playlists</code> - Listas de reproducción</li>
+                <li><code>backgroundTracks</code> - Música de fondo</li>
+            </ul>
+        </div>
+
+        <!-- Login Section -->
+        <div id="authSection" class="section">
+            <h2>🔐 Autenticación de Admin</h2>
+            <form id="loginForm" onsubmit="login(event)">
+                <input type="email" id="email" placeholder="Email de admin" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            <div id="authStatus"></div>
+        </div>
+
+        <!-- Actions Section -->
+        <div id="actionsSection" class="section hidden">
+            <h2>⚡ Acciones</h2>
+            <p>Usuario actual: <strong id="currentUser"></strong></p>
+
+            <button onclick="checkCollections()">🔍 Verificar Colecciones</button>
+            <button onclick="initializeCollections()">✨ Inicializar Colecciones</button>
+            <button onclick="addSampleContent()">📚 Agregar Contenido de Ejemplo</button>
+            <button onclick="logout()">🚪 Cerrar Sesión</button>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="statusMessages"></div>
+    </div>
+
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            onAuthStateChanged,
+            signOut
+        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            doc,
+            setDoc,
+            getDoc,
+            serverTimestamp,
+            addDoc
+        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCg6d83-1N_ehP2cztK9rbBEOlQ42Sev_A",
+            authDomain: "fit-mental.firebaseapp.com",
+            projectId: "fit-mental",
+            storageBucket: "fit-mental.firebasestorage.app",
+            messagingSenderId: "238490497654",
+            appId: "1:238490497654:web:065ba42d23676166c7a557",
+            measurementId: "G-BHQVM0NC1N"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Make functions global
+        window.auth = auth;
+        window.db = db;
+        window.serverTimestamp = serverTimestamp;
+
+        // Auth state listener
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // Check if user is admin
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists() && userDoc.data().role === 'admin') {
+                    document.getElementById('authSection').classList.add('hidden');
+                    document.getElementById('actionsSection').classList.remove('hidden');
+                    document.getElementById('currentUser').textContent = user.email;
+                    addStatus('Autenticado como admin: ' + user.email, 'success');
+                } else {
+                    await signOut(auth);
+                    addStatus('No tienes permisos de administrador', 'error');
+                }
+            } else {
+                document.getElementById('authSection').classList.remove('hidden');
+                document.getElementById('actionsSection').classList.add('hidden');
+            }
+        });
+
+        // Login function
+        window.login = async function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                addStatus('Error de autenticación: ' + error.message, 'error');
+            }
+        };
+
+        // Logout function
+        window.logout = async function() {
+            try {
+                await signOut(auth);
+                addStatus('Sesión cerrada', 'info');
+            } catch (error) {
+                addStatus('Error al cerrar sesión: ' + error.message, 'error');
+            }
+        };
+
+        // Check collections
+        window.checkCollections = async function() {
+            addStatus('Verificando colecciones...', 'info');
+
+            const collections = ['meditaciones', 'programs', 'playlists', 'backgroundTracks'];
+
+            for (const collName of collections) {
+                try {
+                    const snapshot = await getDocs(collection(db, collName));
+                    addStatus(`✅ ${collName}: ${snapshot.size} documentos`, 'success');
+                } catch (error) {
+                    addStatus(`❌ ${collName}: Error - ${error.message}`, 'error');
+                }
+            }
+        };
+
+        // Initialize empty collections
+        window.initializeCollections = async function() {
+            addStatus('Inicializando colecciones...', 'info');
+
+            try {
+                // Initialize meditaciones
+                const medDoc = doc(db, 'meditaciones', 'init-doc');
+                await setDoc(medDoc, {
+                    id: 'init-doc',
+                    title: 'Documento de Inicialización',
+                    type: 'meditation',
+                    category: 'Sistema',
+                    description: 'Este documento inicializa la colección. Puedes eliminarlo después.',
+                    accessType: 'free',
+                    isActive: false,
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp()
+                });
+                addStatus('✅ Colección meditaciones inicializada', 'success');
+
+                // Initialize programs
+                const progDoc = doc(db, 'programs', 'init-doc');
+                await setDoc(progDoc, {
+                    id: 'init-doc',
+                    title: 'Programa de Inicialización',
+                    type: 'system',
+                    description: 'Este documento inicializa la colección. Puedes eliminarlo después.',
+                    accessType: 'free',
+                    isActive: false,
+                    totalDays: 0,
+                    createdAt: serverTimestamp()
+                });
+                addStatus('✅ Colección programs inicializada', 'success');
+
+                // Initialize playlists
+                const playDoc = doc(db, 'playlists', 'init-doc');
+                await setDoc(playDoc, {
+                    id: 'init-doc',
+                    title: 'Playlist de Inicialización',
+                    type: 'admin',
+                    creatorId: 'system',
+                    description: 'Este documento inicializa la colección. Puedes eliminarlo después.',
+                    visibility: 'private',
+                    accessType: 'free',
+                    contentIds: [],
+                    contentCount: 0,
+                    isActive: false,
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp()
+                });
+                addStatus('✅ Colección playlists inicializada', 'success');
+
+                // Initialize backgroundTracks
+                const bgDoc = doc(db, 'backgroundTracks', 'init-doc');
+                await setDoc(bgDoc, {
+                    id: 'init-doc',
+                    name: 'Pista de Inicialización',
+                    category: 'Nature',
+                    description: 'Este documento inicializa la colección. Puedes eliminarlo después.',
+                    url: '',
+                    duration: 0,
+                    isActive: false,
+                    order: 0
+                });
+                addStatus('✅ Colección backgroundTracks inicializada', 'success');
+
+                addStatus('🎉 Todas las colecciones han sido inicializadas', 'success');
+            } catch (error) {
+                addStatus('Error al inicializar: ' + error.message, 'error');
+                console.error('Error details:', error);
+            }
+        };
+
+        // Add sample content
+        window.addSampleContent = async function() {
+            addStatus('Agregando contenido de ejemplo...', 'info');
+
+            try {
+                // Sample meditation
+                const medRef = await addDoc(collection(db, 'meditaciones'), {
+                    title: 'Meditación de Bienvenida',
+                    type: 'meditation',
+                    category: 'Relajación',
+                    duration: 300,
+                    description: 'Una meditación relajante para comenzar tu práctica.',
+                    accessType: 'free',
+                    isPremium: false,
+                    instructor: 'Cris Steinman',
+                    tags: ['relajación', 'principiantes', 'mindfulness'],
+                    language: 'es',
+                    audioURL: 'https://example.com/audio.mp3',
+                    imageURL: 'https://example.com/image.jpg',
+                    isActive: true,
+                    order: 1,
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp()
+                });
+                await setDoc(doc(db, 'meditaciones', medRef.id), { id: medRef.id }, { merge: true });
+                addStatus('✅ Meditación de ejemplo creada', 'success');
+
+                // Sample program
+                const progRef = await addDoc(collection(db, 'programs'), {
+                    title: 'Programa de Introducción - 7 Días',
+                    subtitle: 'Descubre el poder de la meditación',
+                    description: 'Un programa perfecto para principiantes que quieren comenzar su práctica de meditación.',
+                    type: 'course',
+                    totalDays: 7,
+                    weeks: [{
+                        weekNumber: 1,
+                        title: 'Semana de Descubrimiento',
+                        days: Array.from({length: 7}, (_, i) => ({
+                            dayNumber: i + 1,
+                            title: `Día ${i + 1}`,
+                            contentIds: [],
+                            isRestDay: false
+                        }))
+                    }],
+                    accessType: 'free',
+                    price: 0,
+                    currency: 'MXN',
+                    coverImageURL: 'https://example.com/program-cover.jpg',
+                    benefits: ['Reduce el estrés', 'Mejora el enfoque', 'Aumenta la paz interior'],
+                    targetAudience: 'Principiantes',
+                    difficulty: 'beginner',
+                    enrolledCount: 0,
+                    rating: 0,
+                    isActive: true,
+                    createdAt: serverTimestamp(),
+                    launchDate: serverTimestamp()
+                });
+                await setDoc(doc(db, 'programs', progRef.id), { id: progRef.id }, { merge: true });
+                addStatus('✅ Programa de ejemplo creado', 'success');
+
+                // Sample playlist
+                const playRef = await addDoc(collection(db, 'playlists'), {
+                    title: 'Playlist de Relajación',
+                    description: 'Las mejores meditaciones para relajarte',
+                    type: 'admin',
+                    creatorId: 'admin',
+                    contentIds: [],
+                    contentCount: 0,
+                    totalDuration: 0,
+                    visibility: 'public',
+                    accessType: 'free',
+                    coverImageURL: 'https://example.com/playlist-cover.jpg',
+                    tags: ['relajación', 'estrés', 'calma'],
+                    isOfficial: true,
+                    isFeatured: true,
+                    isActive: true,
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp()
+                });
+                await setDoc(doc(db, 'playlists', playRef.id), { id: playRef.id }, { merge: true });
+                addStatus('✅ Playlist de ejemplo creada', 'success');
+
+                // Sample background track
+                const bgRef = await addDoc(collection(db, 'backgroundTracks'), {
+                    name: 'Sonidos del Bosque',
+                    category: 'Nature',
+                    url: 'https://example.com/forest-sounds.mp3',
+                    duration: 600,
+                    thumbnailUrl: 'https://example.com/forest-thumb.jpg',
+                    isActive: true,
+                    order: 1
+                });
+                await setDoc(doc(db, 'backgroundTracks', bgRef.id), { id: bgRef.id }, { merge: true });
+                addStatus('✅ Pista de fondo de ejemplo creada', 'success');
+
+                addStatus('🎉 Contenido de ejemplo agregado exitosamente', 'success');
+            } catch (error) {
+                addStatus('Error al agregar contenido: ' + error.message, 'error');
+                console.error('Error details:', error);
+            }
+        };
+
+        // Add status message
+        window.addStatus = function(message, type = 'info') {
+            const container = document.getElementById('statusMessages');
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.textContent = message;
+            container.appendChild(div);
+
+            // Auto-scroll to latest message
+            div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        };
+    </script>
+</body>
+</html>
