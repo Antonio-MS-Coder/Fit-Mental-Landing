@@ -4,7 +4,8 @@ service cloud.firestore {
 
     // ========================================================================
     // CURSO FIT MENTAL - COURSE PLATFORM RULES (DO NOT MODIFY)
-    // ========================================================================
+    // ==============================================
+    ==========================
 
     // Allow authenticated users to read weeks
     match /weeks/{week} {

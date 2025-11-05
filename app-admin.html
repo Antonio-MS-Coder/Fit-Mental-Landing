@@ -1559,11 +1559,12 @@
                 let audioURL = currentMeditation?.audioURL;
                 let imageURL = currentMeditation?.imageURL;
 
-                // Upload audio if new file selected
+                // Upload audio if new file selected - Using existing app structure
                 if (selectedAudioFile) {
+                    // Use the existing content/meditations path structure
                     const audioRef = window.firebaseRef(
                         window.firebaseStorage,
-                        `app-meditations/${Date.now()}_${selectedAudioFile.name}`
+                        `content/meditations/${formData.category}/${Date.now()}_${selectedAudioFile.name}`
                     );
                     await window.firebaseUploadBytes(audioRef, selectedAudioFile);
                     audioURL = await window.firebaseGetDownloadURL(audioRef);
@@ -1581,11 +1582,12 @@
                     return;
                 }
 
-                // Upload image if new file selected
+                // Upload image if new file selected - Using existing app structure
                 if (selectedImageFile) {
+                    // Use the existing content/images path structure
                     const imageRef = window.firebaseRef(
                         window.firebaseStorage,
-                        `meditation-images/${Date.now()}_${selectedImageFile.name}`
+                        `content/images/${formData.category}/${Date.now()}_${selectedImageFile.name}`
                     );
                     await window.firebaseUploadBytes(imageRef, selectedImageFile);
                     imageURL = await window.firebaseGetDownloadURL(imageRef);

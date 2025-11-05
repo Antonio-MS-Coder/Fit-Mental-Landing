@@ -1,0 +1,131 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+             exists(/databases/(default)/documents/users/$(request.auth.uid)) &&
+             firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidSize(maxSizeMB) {
+      return request.resource.size <= maxSizeMB * 1024 * 1024;
+    }
+
+    function isValidAudio() {
+      return request.resource.contentType.matches('audio/.*');
+    }
+
+    function isValidImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    // ========================================================================
+    // FITMENTAL APP - MAIN CONTENT STRUCTURE
+    // ========================================================================
+
+    // Content - Meditations (Audio files organized by category)
+    // Path: content/meditations/{category}/{filename}
+    match /content/meditations/{category}/{filename} {
+      // All authenticated users can read/stream
+      allow read: if isAuthenticated();
+
+      // Only admins can upload/modify/delete
+      allow write: if isAdmin() && isValidAudio() && isValidSize(100);
+      allow delete: if isAdmin();
+    }
+
+    // Content - Images (Cover images organized by category)
+    // Path: content/images/{category}/{filename}
+    match /content/images/{category}/{filename} {
+      // All authenticated users can read
+      allow read: if isAuthenticated();
+
+      // Only admins can upload/modify/delete
+      allow write: if isAdmin() && isValidImage() && isValidSize(5);
+      allow delete: if isAdmin();
+    }
+
+    // Content - Background Music
+    // Path: content/music/{filename}
+    match /content/music/{filename} {
+      // All authenticated users can read/stream
+      allow read: if isAuthenticated();
+
+      // Only admins can upload/modify/delete
+      allow write: if isAdmin() && isValidAudio() && isValidSize(50);
+      allow delete: if isAdmin();
+    }
+
+    // Alternative path for music with subfolders
+    match /content/music/{category}/{filename} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin() && isValidAudio() && isValidSize(50);
+      allow delete: if isAdmin();
+    }
+
+    // ========================================================================
+    // USER-GENERATED CONTENT
+    // ========================================================================
+
+    // Users personal content (recordings, custom meditations)
+    // Path: users/{userId}/{allPaths=**}
+    match /users/{userId}/{allPaths=**} {
+      // Users can fully manage their own content
+      allow read, write: if isOwner(userId);
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+
+    // ========================================================================
+    // CURSO FIT MENTAL - COURSE CONTENT (EXISTING STRUCTURE)
+    // ========================================================================
+
+    // Course Documents (PDFs) - Week-based organization
+    match /Curso-Fit-Mental/documents/{allPaths=**} {
+      allow write: if isAdmin() && isValidSize(50);
+      allow delete: if isAdmin();
+      allow read: if isAuthenticated();
+    }
+
+    // Course Meditations (Audio) - Week-based organization
+    match /Curso-Fit-Mental/meditations/{allPaths=**} {
+      allow write: if isAdmin() && isValidAudio() && isValidSize(100);
+      allow delete: if isAdmin();
+      allow read: if isAuthenticated();
+    }
+
+    // Legacy paths for backward compatibility
+    match /documents/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write, delete: if isAdmin();
+    }
+
+    match /meditations/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write, delete: if isAdmin();
+    }
+
+    // ========================================================================
+    // ADMIN UTILITIES
+    // ========================================================================
+
+    // Admin-only uploads for platform assets
+    match /admin/{allPaths=**} {
+      allow read, write, delete: if isAdmin();
+    }
+
+    // ========================================================================
+    // DEFAULT DENY
+    // ========================================================================
+    // All other paths are denied by default
+  }
+}
