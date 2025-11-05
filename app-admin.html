@@ -1222,13 +1222,35 @@
             }
         }
 
+        // Category mapping between Storage (iOS app) and Admin Panel
+        const categoryMappings = {
+            // Admin Panel (Spanish) -> Storage (English)
+            'Abundancia y Prosperidad': 'abundance',
+            'Calma y Ansiedad': 'anxiety',
+            'Despertar': 'despertar',
+            'Enfoque Pleno': 'focus',
+            'Sueño Profundo': 'sleep'
+        };
+
+        // Reverse mapping for loading from Storage
+        const storageCategoryMappings = {
+            'abundance': 'Abundancia y Prosperidad',
+            'anxiety': 'Calma y Ansiedad',
+            'despertar': 'Despertar',
+            'focus': 'Enfoque Pleno',
+            'sleep': 'Sueño Profundo'
+        };
+
         // Load categories from localStorage and Firestore
         async function loadCategories() {
             try {
-                // Default categories
+                // Categories that match iOS app
                 const defaultCategories = [
-                    'Relajación', 'Sueño', 'Ansiedad', 'Enfoque',
-                    'Gratitud', 'Amor Propio', 'Respiración', 'Energía', 'General'
+                    'Abundancia y Prosperidad',
+                    'Calma y Ansiedad',
+                    'Despertar',
+                    'Enfoque Pleno',
+                    'Sueño Profundo'
                 ];
 
                 // Get custom categories from Firestore config
@@ -1687,15 +1709,19 @@
                 let audioURL = currentMeditation?.audioURL;
                 let imageURL = currentMeditation?.imageURL;
 
-                // Upload audio if new file selected - Using existing app structure
+                // Map category to storage format (iOS app expects English folder names)
+                const storageCategory = categoryMappings[formData.category] || formData.category.toLowerCase();
+                const language = formData.language || 'es'; // Default to Spanish
+
+                // Upload audio if new file selected - Using iOS app structure
                 if (selectedAudioFile) {
                     showAlert('Subiendo audio...', 'info');
-                    const audioRef = window.firebaseRef(
-                        window.firebaseStorage,
-                        `content/meditations/${formData.category}/${Date.now()}_${selectedAudioFile.name}`
+                    const audioRef = window.storageRef(
+                        window.storage,
+                        `content/meditations/${language}/${storageCategory}/${Date.now()}_${selectedAudioFile.name}`
                     );
-                    await window.firebaseUploadBytes(audioRef, selectedAudioFile);
-                    audioURL = await window.firebaseGetDownloadURL(audioRef);
+                    await window.uploadBytes(audioRef, selectedAudioFile);
+                    audioURL = await window.getDownloadURL(audioRef);
 
                     // Get audio duration
                     const audio = new Audio(audioURL);
@@ -1713,20 +1739,24 @@
                     return;
                 }
 
-                // Upload image if new file selected - Using existing app structure
+                // Upload image if new file selected - Using iOS app structure
                 if (selectedImageFile) {
                     showAlert('Subiendo imagen...', 'info');
-                    const imageRef = window.firebaseRef(
-                        window.firebaseStorage,
-                        `content/images/${formData.category}/${Date.now()}_${selectedImageFile.name}`
+                    // iOS app expects images in meditation-covers folder
+                    const imageName = formData.title.toLowerCase().replace(/\s+/g, '-');
+                    const imageRef = window.storageRef(
+                        window.storage,
+                        `content/images/meditation-covers/${imageName}_${Date.now()}.${selectedImageFile.name.split('.').pop()}`
                     );
-                    await window.firebaseUploadBytes(imageRef, selectedImageFile);
-                    imageURL = await window.firebaseGetDownloadURL(imageRef);
+                    await window.uploadBytes(imageRef, selectedImageFile);
+                    imageURL = await window.getDownloadURL(imageRef);
                 }
 
-                // Add URLs to form data
+                // Add URLs and storage info to form data
                 formData.audioURL = audioURL;
                 formData.imageURL = imageURL || '';
+                formData.storageCategory = storageCategory; // Keep track of the English folder name
+                formData.storagePath = `content/meditations/${language}/${storageCategory}/`;
 
                 // Save to Firestore
                 if (currentMeditation) {
@@ -2446,7 +2476,9 @@
 
         async function syncMeditations() {
             try {
-                const basePath = 'content/meditations';
+                // iOS app structure: content/meditations/[language]/[category]/
+                const language = 'es'; // Default to Spanish
+                const basePath = `content/meditations/${language}`;
                 const storageRef = window.storageRef(window.storage, basePath);
                 const result = await window.firebaseListAll(storageRef);
 
@@ -2455,7 +2487,10 @@
 
                 // Process each category folder
                 for (const categoryRef of result.prefixes) {
-                    const categoryName = categoryRef.name;
+                    const storageCategoryName = categoryRef.name; // e.g., 'abundance', 'anxiety'
+                    const displayCategoryName = storageCategoryMappings[storageCategoryName] || storageCategoryName;
+                    console.log(`Processing category: ${storageCategoryName} as ${displayCategoryName}`);
+
                     const categoryResult = await window.firebaseListAll(categoryRef);
 
                     // Process audio files in this category
@@ -2487,40 +2522,61 @@
                         let title = fileName.replace(/^\d+_/, '').replace(/\.[^.]+$/, '');
                         title = title.replace(/_/g, ' ').replace(/-/g, ' ');
 
-                        // Look for matching image
+                        // Look for matching image in iOS structure
                         let imageURL = null;
                         try {
-                            const imageBasePath = `content/images/${categoryName}`;
-                            const imageRef = window.storageRef(window.storage, imageBasePath);
-                            const imageResult = await window.firebaseListAll(imageRef);
+                            // First try meditation-covers
+                            const meditationCoversPath = `content/images/meditation-covers`;
+                            const meditationCoversRef = window.storageRef(window.storage, meditationCoversPath);
+                            const meditationCoversResult = await window.firebaseListAll(meditationCoversRef);
 
                             // Find image with similar name
-                            for (const imgRef of imageResult.items) {
+                            const searchName = title.toLowerCase().replace(/\s+/g, '-');
+                            for (const imgRef of meditationCoversResult.items) {
                                 const imgName = imgRef.name.toLowerCase();
-                                const searchName = title.toLowerCase().replace(/\s+/g, '');
-
                                 if (imgName.includes(searchName) || searchName.includes(imgName.replace(/\.[^.]+$/, ''))) {
-                                    imageURL = await window.firebaseGetDownloadURL(imgRef);
+                                    imageURL = await window.getDownloadURL(imgRef);
                                     break;
                                 }
                             }
+
+                            // If not found, try category cover as fallback
+                            if (!imageURL) {
+                                const categoryCapitalized = storageCategoryName.charAt(0).toUpperCase() + storageCategoryName.slice(1);
+                                const categoryImageRef = window.storageRef(
+                                    window.storage,
+                                    `content/images/category-covers/${categoryCapitalized}.jpg`
+                                );
+                                imageURL = await window.getDownloadURL(categoryImageRef);
+                            }
                         } catch (e) {
                             console.log('No image found for', title);
+                            // Use default if no image found
+                            try {
+                                const defaultImageRef = window.storageRef(
+                                    window.storage,
+                                    `content/images/meditation-covers/meditation-default.jpg`
+                                );
+                                imageURL = await window.getDownloadURL(defaultImageRef);
+                            } catch (defaultError) {
+                                console.log('No default image found');
+                            }
                         }
 
                         // Create meditation document
                         const meditationData = {
                             title: title,
-                            category: categoryName,
+                            category: displayCategoryName, // Use Spanish display name
+                            storageCategory: storageCategoryName, // Keep track of storage folder
                             type: 'meditation',
                             audioURL: audioURL,
                             imageURL: imageURL,
                             fileName: fileName,
-                            storagePath: `${basePath}/${categoryName}/${fileName}`,
-                            description: `Meditación importada desde Storage - ${categoryName}`,
+                            storagePath: `${basePath}/${storageCategoryName}/${fileName}`,
+                            description: `Meditación importada desde Storage - ${displayCategoryName}`,
                             isActive: true,
                             accessType: 'free',
-                            language: 'es',
+                            language: language,
                             createdAt: window.firebaseServerTimestamp(),
                             updatedAt: window.firebaseServerTimestamp(),
                             syncedFromStorage: true
@@ -2801,14 +2857,21 @@
             console.log('Storage object:', window.storage);
 
             const pathsToCheck = [
+                // iOS app structure
+                'content/meditations/es',
+                'content/meditations/es/abundance',
+                'content/meditations/es/anxiety',
+                'content/meditations/es/despertar',
+                'content/meditations/es/focus',
+                'content/meditations/es/sleep',
+                'content/images/category-covers',
+                'content/images/meditation-covers',
+                // Music paths
                 'content/music',
                 'content',
-                'music',
+                // Legacy paths
                 'Curso-Fit-Mental',
-                'Curso-Fit-Mental/music',
                 'Curso-Fit-Mental/meditations',
-                'meditations',
-                'documents',
                 ''  // Root
             ];
 
