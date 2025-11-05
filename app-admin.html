@@ -763,6 +763,7 @@
                 <button class="tab-btn active" onclick="showTab('dashboard')">📊 Dashboard</button>
                 <button class="tab-btn" onclick="showTab('meditations')">🧘 Meditaciones</button>
                 <button class="tab-btn" onclick="showTab('programs')">📚 Programas</button>
+                <button class="tab-btn" onclick="showTab('playlists')">🎵 Playlists</button>
                 <button class="tab-btn" onclick="showTab('background')">🎶 Música de Fondo</button>
             </div>
 
@@ -773,16 +774,16 @@
                     Vista general del contenido de la aplicación FitMental
                 </p>
 
-                <div class="stats-grid">
+                <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
                     <div class="stat-card">
                         <div class="stat-icon">🧘</div>
                         <div class="stat-value" id="meditationCount">0</div>
-                        <div class="stat-label">Meditaciones Totales</div>
+                        <div class="stat-label">Meditaciones</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon">✅</div>
                         <div class="stat-value" id="activeMeditationCount">0</div>
-                        <div class="stat-label">Meditaciones Activas</div>
+                        <div class="stat-label">Activas</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon">📚</div>
@@ -790,9 +791,14 @@
                         <div class="stat-label">Programas</div>
                     </div>
                     <div class="stat-card">
+                        <div class="stat-icon">🎵</div>
+                        <div class="stat-value" id="playlistCount">0</div>
+                        <div class="stat-label">Playlists</div>
+                    </div>
+                    <div class="stat-card">
                         <div class="stat-icon">🎶</div>
                         <div class="stat-value" id="backgroundCount">0</div>
-                        <div class="stat-label">Pistas de Fondo</div>
+                        <div class="stat-label">Música</div>
                     </div>
                 </div>
 
@@ -811,6 +817,9 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xl); flex-wrap: wrap; gap: var(--spacing-md);">
                     <h1>Gestión de Meditaciones</h1>
                     <div style="display: flex; gap: var(--spacing-md);">
+                        <button class="btn btn-outline" onclick="syncStorageContent('meditations')" title="Sincronizar desde Storage">
+                            📥 Sincronizar
+                        </button>
                         <button class="btn btn-outline refresh-btn" onclick="refreshMeditations()" title="Refrescar">
                             🔄
                         </button>
@@ -825,15 +834,6 @@
                     <input type="text" class="form-input search-input" placeholder="Buscar meditaciones..." id="searchMeditations" oninput="filterMeditations()">
                     <select class="form-select" style="width: 200px;" id="filterCategory" onchange="filterMeditations()">
                         <option value="">Todas las categorías</option>
-                        <option value="Relajación">Relajación</option>
-                        <option value="Sueño">Sueño</option>
-                        <option value="Ansiedad">Ansiedad</option>
-                        <option value="Enfoque">Enfoque</option>
-                        <option value="Gratitud">Gratitud</option>
-                        <option value="Amor Propio">Amor Propio</option>
-                        <option value="Respiración">Respiración</option>
-                        <option value="Energía">Energía</option>
-                        <option value="General">General</option>
                     </select>
                     <select class="form-select" style="width: 150px;" id="filterType" onchange="filterMeditations()">
                         <option value="">Todos los tipos</option>
@@ -876,13 +876,35 @@
                 </div>
             </div>
 
+            <!-- Playlists Tab -->
+            <div id="playlistsTab" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xl); flex-wrap: wrap; gap: var(--spacing-md);">
+                    <h1>Gestión de Playlists</h1>
+                    <button class="btn btn-primary" onclick="openPlaylistModal()">
+                        + Nueva Playlist
+                    </button>
+                </div>
+
+                <div id="playlistsList" class="content-grid">
+                    <div class="loading active">
+                        <div class="spinner"></div>
+                        <p style="margin-top: var(--spacing-md);">Cargando playlists...</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Background Music Tab -->
             <div id="backgroundTab" class="tab-content">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xl);">
                     <h1>Gestión de Música de Fondo</h1>
-                    <button class="btn btn-primary" onclick="openBackgroundModal()">
-                        + Nueva Pista
-                    </button>
+                    <div style="display: flex; gap: var(--spacing-md);">
+                        <button class="btn btn-outline" onclick="syncStorageContent('music')" title="Sincronizar desde Storage">
+                            📥 Sincronizar
+                        </button>
+                        <button class="btn btn-primary" onclick="openBackgroundModal()">
+                            + Nueva Pista
+                        </button>
+                    </div>
                 </div>
 
                 <div id="backgroundList" class="content-grid">
@@ -926,18 +948,12 @@
                 <div class="grid grid-2">
                     <div class="form-group">
                         <label class="form-label">Categoría *</label>
-                        <select id="medCategory" class="form-select" required>
-                            <option value="">Seleccionar categoría</option>
-                            <option value="Relajación">Relajación</option>
-                            <option value="Sueño">Sueño</option>
-                            <option value="Ansiedad">Ansiedad</option>
-                            <option value="Enfoque">Enfoque</option>
-                            <option value="Gratitud">Gratitud</option>
-                            <option value="Amor Propio">Amor Propio</option>
-                            <option value="Respiración">Respiración</option>
-                            <option value="Energía">Energía</option>
-                            <option value="General">General</option>
-                        </select>
+                        <div style="display: flex; gap: var(--spacing-sm);">
+                            <select id="medCategory" class="form-select" required style="flex: 1;">
+                                <option value="">Seleccionar categoría</option>
+                            </select>
+                            <button type="button" class="btn btn-outline btn-sm" onclick="addNewCategory()" title="Agregar nueva categoría">+</button>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -1053,7 +1069,8 @@
             uploadBytes,
             getDownloadURL,
             deleteObject,
-            uploadBytesResumable
+            uploadBytesResumable,
+            listAll
         } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
         // Firebase configuration
@@ -1096,6 +1113,7 @@
                 // User is admin, show panel
                 document.getElementById('loginPage').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
+                loadCategories(); // Load categories first
                 loadDashboard();
                 loadMeditations();
             } else {
@@ -1118,10 +1136,14 @@
         window.firebaseLimit = limit;
         window.firebaseAddDoc = addDoc;
         window.firebaseRef = ref;
+        window.storageRef = ref;
+        window.uploadBytes = uploadBytes;
+        window.getDownloadURL = getDownloadURL;
         window.firebaseUploadBytes = uploadBytes;
         window.firebaseUploadBytesResumable = uploadBytesResumable;
         window.firebaseGetDownloadURL = getDownloadURL;
         window.firebaseDeleteObject = deleteObject;
+        window.firebaseListAll = listAll;
     </script>
 
     <script>
@@ -1130,6 +1152,9 @@
         let selectedAudioFile = null;
         let selectedImageFile = null;
         let allMeditations = [];
+        let allPrograms = [];
+        let allPlaylists = [];
+        let customCategories = [];
 
         // Authentication
         async function login(event) {
@@ -1173,17 +1198,124 @@
             // Load data for the selected tab
             switch(tabName) {
                 case 'dashboard':
+                    loadCategories();
                     loadDashboard();
                     break;
                 case 'meditations':
+                    loadCategories();
                     loadMeditations();
                     break;
                 case 'programs':
                     loadPrograms();
                     break;
+                case 'playlists':
+                    loadPlaylists();
+                    break;
                 case 'background':
                     loadBackgroundMusic();
                     break;
+            }
+        }
+
+        // Load categories from localStorage and Firestore
+        async function loadCategories() {
+            try {
+                // Default categories
+                const defaultCategories = [
+                    'Relajación', 'Sueño', 'Ansiedad', 'Enfoque',
+                    'Gratitud', 'Amor Propio', 'Respiración', 'Energía', 'General'
+                ];
+
+                // Get custom categories from Firestore config
+                try {
+                    const configDoc = await window.firebaseGetDoc(
+                        window.firebaseDoc(window.firebaseDb, 'config', 'categories')
+                    );
+
+                    if (configDoc.exists()) {
+                        const data = configDoc.data();
+                        customCategories = data.customCategories || [];
+                    }
+                } catch (error) {
+                    console.log('No custom categories found, using defaults');
+                }
+
+                // Combine and sort all categories
+                const allCategories = [...new Set([...defaultCategories, ...customCategories])].sort();
+
+                // Update filter dropdown
+                const filterSelect = document.getElementById('filterCategory');
+                if (filterSelect) {
+                    const currentValue = filterSelect.value;
+                    filterSelect.innerHTML = '<option value="">Todas las categorías</option>';
+                    allCategories.forEach(cat => {
+                        filterSelect.innerHTML += `<option value="${cat}">${cat}</option>`;
+                    });
+                    filterSelect.value = currentValue;
+                }
+
+                // Update form dropdown
+                const formSelect = document.getElementById('medCategory');
+                if (formSelect) {
+                    const currentValue = formSelect.value;
+                    formSelect.innerHTML = '<option value="">Seleccionar categoría</option>';
+                    allCategories.forEach(cat => {
+                        formSelect.innerHTML += `<option value="${cat}">${cat}</option>`;
+                    });
+                    formSelect.value = currentValue;
+                }
+
+                return allCategories;
+            } catch (error) {
+                console.error('Error loading categories:', error);
+                return [];
+            }
+        }
+
+        // Add new category
+        async function addNewCategory() {
+            const categoryName = prompt('Ingrese el nombre de la nueva categoría:');
+
+            if (!categoryName || categoryName.trim() === '') {
+                return;
+            }
+
+            const trimmedCategory = categoryName.trim();
+
+            // Check if already exists
+            const allCategories = await loadCategories();
+            if (allCategories.includes(trimmedCategory)) {
+                showAlert('Esta categoría ya existe', 'warning');
+                return;
+            }
+
+            try {
+                // Add to custom categories
+                customCategories.push(trimmedCategory);
+
+                // Save to Firestore
+                await window.firebaseSetDoc(
+                    window.firebaseDoc(window.firebaseDb, 'config', 'categories'),
+                    {
+                        customCategories: customCategories,
+                        updatedAt: window.firebaseServerTimestamp()
+                    },
+                    { merge: true }
+                );
+
+                showAlert(`Categoría "${trimmedCategory}" agregada exitosamente`, 'success');
+
+                // Reload categories
+                await loadCategories();
+
+                // Set the new category as selected in the form
+                const formSelect = document.getElementById('medCategory');
+                if (formSelect) {
+                    formSelect.value = trimmedCategory;
+                }
+            } catch (error) {
+                console.error('Error adding category:', error);
+                showAlert('Error al agregar la categoría', 'error');
             }
         }
 
@@ -1233,6 +1365,12 @@
                 );
                 document.getElementById('programCount').textContent = programsSnapshot.size;
 
+                // Load playlists count
+                const playlistsSnapshot = await window.firebaseGetDocs(
+                    window.firebaseCollection(window.firebaseDb, 'playlists')
+                );
+                document.getElementById('playlistCount').textContent = playlistsSnapshot.size;
+
                 // Load background music count
                 const backgroundSnapshot = await window.firebaseGetDocs(
                     window.firebaseCollection(window.firebaseDb, 'backgroundTracks')
@@ -1250,11 +1388,9 @@
             grid.innerHTML = '<div class="loading active"><div class="spinner"></div><p>Cargando meditaciones...</p></div>';
 
             try {
+                // Load without orderBy to avoid errors with missing fields
                 const snapshot = await window.firebaseGetDocs(
-                    window.firebaseQuery(
-                        window.firebaseCollection(window.firebaseDb, 'meditaciones'),
-                        window.firebaseOrderBy('createdAt', 'desc')
-                    )
+                    window.firebaseCollection(window.firebaseDb, 'meditaciones')
                 );
 
                 allMeditations = [];
@@ -1262,10 +1398,23 @@
                     allMeditations.push({ id: doc.id, ...doc.data() });
                 });
 
+                // Sort manually after loading
+                allMeditations.sort((a, b) => {
+                    // Sort by createdAt if exists, otherwise by title
+                    if (a.createdAt && b.createdAt) {
+                        return b.createdAt - a.createdAt;
+                    }
+                    return (a.title || '').localeCompare(b.title || '');
+                });
+
                 renderMeditations(allMeditations);
             } catch (error) {
                 console.error('Error loading meditations:', error);
-                grid.innerHTML = '<div class="alert alert-error">Error al cargar las meditaciones</div>';
+                grid.innerHTML = `
+                    <div class="alert alert-error">
+                        Error al cargar las meditaciones: ${error.message}
+                    </div>
+                `;
             }
         }
 
@@ -1695,7 +1844,133 @@
         }
 
         function openProgramModal() {
-            showAlert('El editor de programas estará disponible próximamente', 'info');
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.id = 'programModal';
+
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Nuevo Programa</h2>
+                        <button class="modal-close" onclick="closeProgramModal()">×</button>
+                    </div>
+                    <form id="programForm" onsubmit="saveProgram(event)">
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Título del Programa *</label>
+                                <input type="text" id="progTitle" class="form-input" required
+                                    placeholder="Ej: Reto 21 días de meditación">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Subtítulo</label>
+                                <input type="text" id="progSubtitle" class="form-input"
+                                    placeholder="Ej: Transforma tu vida con meditación diaria">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Descripción</label>
+                            <textarea id="progDescription" class="form-textarea" rows="4"
+                                placeholder="Describe el objetivo y contenido del programa..."></textarea>
+                        </div>
+
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Duración (días) *</label>
+                                <input type="number" id="progDays" class="form-input" required min="1"
+                                    placeholder="21">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Tipo de Acceso *</label>
+                                <select id="progAccessType" class="form-select" required>
+                                    <option value="free">Gratis</option>
+                                    <option value="premium">Premium</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="progPriceGroup" style="display: none;">
+                            <label class="form-label">Precio (MXN)</label>
+                            <input type="number" id="progPrice" class="form-input" min="0" step="0.01"
+                                placeholder="299.99">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Lista de Meditaciones (IDs separados por comas)</label>
+                            <textarea id="progMeditations" class="form-textarea" rows="2"
+                                placeholder="meditation1, meditation2, meditation3..."></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="closeProgramModal()">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Crear Programa</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Show/hide price based on access type
+            document.getElementById('progAccessType').addEventListener('change', (e) => {
+                const priceGroup = document.getElementById('progPriceGroup');
+                if (e.target.value === 'premium') {
+                    priceGroup.style.display = 'block';
+                } else {
+                    priceGroup.style.display = 'none';
+                }
+            });
+        }
+
+        function closeProgramModal() {
+            const modal = document.getElementById('programModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        async function saveProgram(event) {
+            event.preventDefault();
+
+            const formData = {
+                title: document.getElementById('progTitle').value.trim(),
+                subtitle: document.getElementById('progSubtitle').value.trim(),
+                description: document.getElementById('progDescription').value.trim(),
+                totalDays: parseInt(document.getElementById('progDays').value),
+                accessType: document.getElementById('progAccessType').value,
+                enrolledCount: 0,
+                isActive: true,
+                createdAt: window.firebaseServerTimestamp(),
+                updatedAt: window.firebaseServerTimestamp()
+            };
+
+            if (formData.accessType === 'premium') {
+                formData.price = parseFloat(document.getElementById('progPrice').value) * 100; // Store in cents
+            }
+
+            // Parse meditation IDs
+            const meditations = document.getElementById('progMeditations').value
+                .split(',')
+                .map(id => id.trim())
+                .filter(id => id);
+
+            if (meditations.length > 0) {
+                formData.meditationIds = meditations;
+            }
+
+            try {
+                await window.firebaseAddDoc(
+                    window.firebaseCollection(window.firebaseDb, 'programs'),
+                    formData
+                );
+                showAlert('Programa creado exitosamente', 'success');
+                closeProgramModal();
+                loadPrograms();
+                loadDashboard();
+            } catch (error) {
+                console.error('Error saving program:', error);
+                showAlert('Error al guardar el programa', 'error');
+            }
         }
 
         // Background Music Functions
@@ -1753,7 +2028,577 @@
         }
 
         function openBackgroundModal() {
-            showAlert('El cargador de música de fondo estará disponible próximamente', 'info');
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.id = 'backgroundModal';
+
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Nueva Música de Fondo</h2>
+                        <button class="modal-close" onclick="closeBackgroundModal()">×</button>
+                    </div>
+                    <form id="backgroundForm" onsubmit="saveBackgroundMusic(event)">
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Nombre de la Pista *</label>
+                                <input type="text" id="bgName" class="form-input" required
+                                    placeholder="Ej: Lluvia Relajante">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Categoría *</label>
+                                <select id="bgCategory" class="form-select" required>
+                                    <option value="">Seleccionar categoría</option>
+                                    <option value="Naturaleza">Naturaleza</option>
+                                    <option value="Ambiental">Ambiental</option>
+                                    <option value="Instrumental">Instrumental</option>
+                                    <option value="Binaural">Binaural</option>
+                                    <option value="Cuencos">Cuencos Tibetanos</option>
+                                    <option value="Piano">Piano</option>
+                                    <option value="Lluvia">Lluvia</option>
+                                    <option value="Océano">Océano</option>
+                                    <option value="General">General</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Descripción</label>
+                            <textarea id="bgDescription" class="form-textarea" rows="3"
+                                placeholder="Describe el ambiente o sensación de esta música..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Archivo de Audio *</label>
+                            <input type="file" id="bgAudioFile" accept="audio/*" required class="form-input">
+                            <p id="bgAudioFileName" style="margin-top: var(--spacing-sm); color: var(--brown-600); font-size: var(--font-size-sm);"></p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Duración (minutos)</label>
+                            <input type="number" id="bgDuration" class="form-input" min="1"
+                                placeholder="Ej: 30">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="switch">
+                                <input type="checkbox" id="bgIsActive" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <label for="bgIsActive" style="margin-left: var(--spacing-md);">Activar inmediatamente</label>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="closeBackgroundModal()">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Subir Música</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Handle file selection
+            document.getElementById('bgAudioFile').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    document.getElementById('bgAudioFileName').textContent = `Archivo seleccionado: ${file.name}`;
+
+                    // Try to get duration from audio file
+                    const audio = new Audio();
+                    audio.addEventListener('loadedmetadata', () => {
+                        const durationMinutes = Math.ceil(audio.duration / 60);
+                        document.getElementById('bgDuration').value = durationMinutes;
+                    });
+                    audio.src = URL.createObjectURL(file);
+                }
+            });
+        }
+
+        function closeBackgroundModal() {
+            const modal = document.getElementById('backgroundModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        async function saveBackgroundMusic(event) {
+            event.preventDefault();
+
+            const audioFile = document.getElementById('bgAudioFile').files[0];
+            if (!audioFile) {
+                showAlert('Por favor selecciona un archivo de audio', 'error');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Subiendo...';
+            submitBtn.disabled = true;
+
+            try {
+                const category = document.getElementById('bgCategory').value;
+                const fileName = `${Date.now()}_${audioFile.name}`;
+                const storagePath = `content/music/${category}/${fileName}`;
+
+                // Upload audio file
+                const audioRef = window.storageRef(window.storage, storagePath);
+                await window.uploadBytes(audioRef, audioFile);
+                const audioURL = await window.getDownloadURL(audioRef);
+
+                // Save metadata to Firestore
+                const formData = {
+                    name: document.getElementById('bgName').value.trim(),
+                    category: category,
+                    description: document.getElementById('bgDescription').value.trim(),
+                    duration: parseInt(document.getElementById('bgDuration').value) * 60, // Store in seconds
+                    url: audioURL,
+                    storagePath: storagePath,
+                    fileName: audioFile.name,
+                    fileSize: audioFile.size,
+                    isActive: document.getElementById('bgIsActive').checked,
+                    createdAt: window.firebaseServerTimestamp(),
+                    updatedAt: window.firebaseServerTimestamp()
+                };
+
+                await window.firebaseAddDoc(
+                    window.firebaseCollection(window.firebaseDb, 'backgroundTracks'),
+                    formData
+                );
+
+                showAlert('Música de fondo subida exitosamente', 'success');
+                closeBackgroundModal();
+                loadBackgroundMusic();
+                loadDashboard();
+            } catch (error) {
+                console.error('Error uploading background music:', error);
+                showAlert('Error al subir la música de fondo', 'error');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Playlist Functions
+        async function loadPlaylists() {
+            const container = document.getElementById('playlistsList');
+            container.innerHTML = '<div class="loading active"><div class="spinner"></div><p>Cargando playlists...</p></div>';
+
+            try {
+                const snapshot = await window.firebaseGetDocs(
+                    window.firebaseCollection(window.firebaseDb, 'playlists')
+                );
+
+                container.innerHTML = '';
+                allPlaylists = [];
+
+                if (snapshot.empty) {
+                    container.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <div class="empty-state-icon">🎵</div>
+                            <h3>No hay playlists aún</h3>
+                            <p>Crea listas curadas de meditaciones</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                snapshot.forEach((doc) => {
+                    const playlist = { id: doc.id, ...doc.data() };
+                    allPlaylists.push(playlist);
+                    renderPlaylistCard(playlist);
+                });
+            } catch (error) {
+                console.error('Error loading playlists:', error);
+                container.innerHTML = '<div class="alert alert-error">Error al cargar las playlists</div>';
+            }
+        }
+
+        function renderPlaylistCard(playlist) {
+            const container = document.getElementById('playlistsList');
+            const card = document.createElement('div');
+            card.className = 'content-card';
+            card.innerHTML = `
+                <img src="${playlist.imageURL || 'https://via.placeholder.com/300x200?text=Playlist'}" alt="${playlist.name}">
+                <div class="content-body">
+                    <h3 class="content-title">${playlist.name}</h3>
+                    <p class="content-description">${playlist.description || 'Sin descripción'}</p>
+                    <div class="content-meta">
+                        <span>🎵 ${playlist.meditationIds ? playlist.meditationIds.length : 0} pistas</span>
+                        <span>👁️ ${playlist.visibility === 'public' ? 'Pública' : 'Privada'}</span>
+                    </div>
+                    <div class="content-actions">
+                        <button class="btn btn-sm btn-outline" onclick="editPlaylist('${playlist.id}')">Editar</button>
+                        <button class="btn btn-sm btn-danger" onclick="deletePlaylist('${playlist.id}')">Eliminar</button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        }
+
+        function openPlaylistModal(playlistId = null) {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.id = 'playlistModal';
+
+            const playlistData = playlistId ? allPlaylists.find(p => p.id === playlistId) : null;
+
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${playlistData ? 'Editar' : 'Nueva'} Playlist</h2>
+                        <button class="modal-close" onclick="closePlaylistModal()">×</button>
+                    </div>
+                    <form id="playlistForm" onsubmit="savePlaylist(event, '${playlistId || ''}')">
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Nombre de la Playlist *</label>
+                                <input type="text" id="plName" class="form-input" required
+                                    value="${playlistData?.name || ''}" placeholder="Ej: Meditaciones para Dormir">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Visibilidad *</label>
+                                <select id="plVisibility" class="form-select" required>
+                                    <option value="public" ${playlistData?.visibility === 'public' ? 'selected' : ''}>Pública</option>
+                                    <option value="private" ${playlistData?.visibility === 'private' ? 'selected' : ''}>Privada</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Descripción</label>
+                            <textarea id="plDescription" class="form-textarea" rows="3"
+                                placeholder="Describe el propósito de esta playlist...">${playlistData?.description || ''}</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Categoría</label>
+                            <select id="plCategory" class="form-select">
+                                <option value="">Seleccionar categoría</option>
+                                <option value="Relajación" ${playlistData?.category === 'Relajación' ? 'selected' : ''}>Relajación</option>
+                                <option value="Sueño" ${playlistData?.category === 'Sueño' ? 'selected' : ''}>Sueño</option>
+                                <option value="Ansiedad" ${playlistData?.category === 'Ansiedad' ? 'selected' : ''}>Ansiedad</option>
+                                <option value="Enfoque" ${playlistData?.category === 'Enfoque' ? 'selected' : ''}>Enfoque</option>
+                                <option value="Energía" ${playlistData?.category === 'Energía' ? 'selected' : ''}>Energía</option>
+                                <option value="General" ${playlistData?.category === 'General' ? 'selected' : ''}>General</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Meditaciones (IDs separados por comas)</label>
+                            <textarea id="plMeditations" class="form-textarea" rows="3"
+                                placeholder="meditation1, meditation2, meditation3...">${playlistData?.meditationIds ? playlistData.meditationIds.join(', ') : ''}</textarea>
+                            <p style="margin-top: var(--spacing-sm); color: var(--brown-600); font-size: var(--font-size-sm);">
+                                Ingresa los IDs de las meditaciones separados por comas
+                            </p>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="closePlaylistModal()">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">
+                                ${playlistData ? 'Actualizar' : 'Crear'} Playlist
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+        }
+
+        function closePlaylistModal() {
+            const modal = document.getElementById('playlistModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        async function savePlaylist(event, playlistId) {
+            event.preventDefault();
+
+            const formData = {
+                name: document.getElementById('plName').value.trim(),
+                description: document.getElementById('plDescription').value.trim(),
+                visibility: document.getElementById('plVisibility').value,
+                category: document.getElementById('plCategory').value,
+                updatedAt: window.firebaseServerTimestamp()
+            };
+
+            // Parse meditation IDs
+            const meditations = document.getElementById('plMeditations').value
+                .split(',')
+                .map(id => id.trim())
+                .filter(id => id);
+
+            if (meditations.length > 0) {
+                formData.meditationIds = meditations;
+            }
+
+            if (!playlistId) {
+                formData.createdAt = window.firebaseServerTimestamp();
+                formData.creatorId = window.auth.currentUser.uid;
+            }
+
+            try {
+                if (playlistId) {
+                    await window.firebaseUpdateDoc(
+                        window.firebaseDoc(window.firebaseDb, 'playlists', playlistId),
+                        formData
+                    );
+                    showAlert('Playlist actualizada exitosamente', 'success');
+                } else {
+                    await window.firebaseAddDoc(
+                        window.firebaseCollection(window.firebaseDb, 'playlists'),
+                        formData
+                    );
+                    showAlert('Playlist creada exitosamente', 'success');
+                }
+
+                closePlaylistModal();
+                loadPlaylists();
+            } catch (error) {
+                console.error('Error saving playlist:', error);
+                showAlert('Error al guardar la playlist', 'error');
+            }
+        }
+
+        function editPlaylist(playlistId) {
+            openPlaylistModal(playlistId);
+        }
+
+        async function deletePlaylist(playlistId) {
+            if (!confirm('¿Estás seguro de eliminar esta playlist?')) {
+                return;
+            }
+
+            try {
+                await window.firebaseDeleteDoc(
+                    window.firebaseDoc(window.firebaseDb, 'playlists', playlistId)
+                );
+                showAlert('Playlist eliminada exitosamente', 'success');
+                loadPlaylists();
+            } catch (error) {
+                console.error('Error deleting playlist:', error);
+                showAlert('Error al eliminar la playlist', 'error');
+            }
+        }
+
+        // Storage Sync Functions
+        async function syncStorageContent(type) {
+            const confirmMsg = type === 'meditations'
+                ? '¿Deseas sincronizar todas las meditaciones desde Storage? Esto importará archivos que no estén en Firestore.'
+                : '¿Deseas sincronizar toda la música de fondo desde Storage? Esto importará archivos que no estén en Firestore.';
+
+            if (!confirm(confirmMsg)) {
+                return;
+            }
+
+            showAlert(`Iniciando sincronización de ${type === 'meditations' ? 'meditaciones' : 'música de fondo'}...`, 'info');
+
+            try {
+                if (type === 'meditations') {
+                    await syncMeditations();
+                } else if (type === 'music') {
+                    await syncBackgroundMusic();
+                }
+            } catch (error) {
+                console.error('Error during sync:', error);
+                showAlert('Error durante la sincronización', 'error');
+            }
+        }
+
+        async function syncMeditations() {
+            try {
+                const basePath = 'content/meditations';
+                const storageRef = window.storageRef(window.storage, basePath);
+                const result = await window.firebaseListAll(storageRef);
+
+                let imported = 0;
+                let skipped = 0;
+
+                // Process each category folder
+                for (const categoryRef of result.prefixes) {
+                    const categoryName = categoryRef.name;
+                    const categoryResult = await window.firebaseListAll(categoryRef);
+
+                    // Process audio files in this category
+                    for (const itemRef of categoryResult.items) {
+                        const fileName = itemRef.name;
+
+                        // Skip non-audio files
+                        if (!fileName.match(/\.(mp3|m4a|wav|aac|ogg)$/i)) {
+                            continue;
+                        }
+
+                        // Check if already exists in Firestore
+                        const existingQuery = await window.firebaseGetDocs(
+                            window.firebaseQuery(
+                                window.firebaseCollection(window.firebaseDb, 'meditaciones'),
+                                window.firebaseWhere('fileName', '==', fileName)
+                            )
+                        );
+
+                        if (!existingQuery.empty) {
+                            skipped++;
+                            continue;
+                        }
+
+                        // Get file URL
+                        const audioURL = await window.firebaseGetDownloadURL(itemRef);
+
+                        // Extract title from filename (remove timestamp and extension)
+                        let title = fileName.replace(/^\d+_/, '').replace(/\.[^.]+$/, '');
+                        title = title.replace(/_/g, ' ').replace(/-/g, ' ');
+
+                        // Look for matching image
+                        let imageURL = null;
+                        try {
+                            const imageBasePath = `content/images/${categoryName}`;
+                            const imageRef = window.storageRef(window.storage, imageBasePath);
+                            const imageResult = await window.firebaseListAll(imageRef);
+
+                            // Find image with similar name
+                            for (const imgRef of imageResult.items) {
+                                const imgName = imgRef.name.toLowerCase();
+                                const searchName = title.toLowerCase().replace(/\s+/g, '');
+
+                                if (imgName.includes(searchName) || searchName.includes(imgName.replace(/\.[^.]+$/, ''))) {
+                                    imageURL = await window.firebaseGetDownloadURL(imgRef);
+                                    break;
+                                }
+                            }
+                        } catch (e) {
+                            console.log('No image found for', title);
+                        }
+
+                        // Create meditation document
+                        const meditationData = {
+                            title: title,
+                            category: categoryName,
+                            type: 'meditation',
+                            audioURL: audioURL,
+                            imageURL: imageURL,
+                            fileName: fileName,
+                            storagePath: `${basePath}/${categoryName}/${fileName}`,
+                            description: `Meditación importada desde Storage - ${categoryName}`,
+                            isActive: true,
+                            accessType: 'free',
+                            language: 'es',
+                            createdAt: window.firebaseServerTimestamp(),
+                            updatedAt: window.firebaseServerTimestamp(),
+                            syncedFromStorage: true
+                        };
+
+                        await window.firebaseAddDoc(
+                            window.firebaseCollection(window.firebaseDb, 'meditaciones'),
+                            meditationData
+                        );
+                        imported++;
+                    }
+                }
+
+                showAlert(`Sincronización completada: ${imported} meditaciones importadas, ${skipped} ya existían`, 'success');
+                loadMeditations();
+                loadDashboard();
+            } catch (error) {
+                console.error('Error syncing meditations:', error);
+                showAlert('Error al sincronizar meditaciones', 'error');
+            }
+        }
+
+        async function syncBackgroundMusic() {
+            try {
+                const basePath = 'content/music';
+                const storageRef = window.storageRef(window.storage, basePath);
+                const result = await window.firebaseListAll(storageRef);
+
+                let imported = 0;
+                let skipped = 0;
+
+                // Process files in root music folder
+                for (const itemRef of result.items) {
+                    const fileName = itemRef.name;
+
+                    if (!fileName.match(/\.(mp3|m4a|wav|aac|ogg)$/i)) {
+                        continue;
+                    }
+
+                    const exists = await checkIfMusicExists(fileName);
+                    if (exists) {
+                        skipped++;
+                        continue;
+                    }
+
+                    await importMusicFile(itemRef, 'General', fileName, basePath);
+                    imported++;
+                }
+
+                // Process category subfolders
+                for (const categoryRef of result.prefixes) {
+                    const categoryName = categoryRef.name;
+                    const categoryResult = await window.firebaseListAll(categoryRef);
+
+                    for (const itemRef of categoryResult.items) {
+                        const fileName = itemRef.name;
+
+                        if (!fileName.match(/\.(mp3|m4a|wav|aac|ogg)$/i)) {
+                            continue;
+                        }
+
+                        const exists = await checkIfMusicExists(fileName);
+                        if (exists) {
+                            skipped++;
+                            continue;
+                        }
+
+                        await importMusicFile(itemRef, categoryName, fileName, `${basePath}/${categoryName}`);
+                        imported++;
+                    }
+                }
+
+                showAlert(`Sincronización completada: ${imported} pistas importadas, ${skipped} ya existían`, 'success');
+                loadBackgroundMusic();
+                loadDashboard();
+            } catch (error) {
+                console.error('Error syncing background music:', error);
+                showAlert('Error al sincronizar música de fondo', 'error');
+            }
+        }
+
+        async function checkIfMusicExists(fileName) {
+            const existingQuery = await window.firebaseGetDocs(
+                window.firebaseQuery(
+                    window.firebaseCollection(window.firebaseDb, 'backgroundTracks'),
+                    window.firebaseWhere('fileName', '==', fileName)
+                )
+            );
+            return !existingQuery.empty;
+        }
+
+        async function importMusicFile(itemRef, category, fileName, basePath) {
+            const audioURL = await window.firebaseGetDownloadURL(itemRef);
+
+            // Extract title from filename
+            let title = fileName.replace(/^\d+_/, '').replace(/\.[^.]+$/, '');
+            title = title.replace(/_/g, ' ').replace(/-/g, ' ');
+
+            const musicData = {
+                name: title,
+                category: category,
+                url: audioURL,
+                fileName: fileName,
+                storagePath: `${basePath}/${fileName}`,
+                description: `Música importada desde Storage - ${category}`,
+                isActive: true,
+                createdAt: window.firebaseServerTimestamp(),
+                updatedAt: window.firebaseServerTimestamp(),
+                syncedFromStorage: true
+            };
+
+            await window.firebaseAddDoc(
+                window.firebaseCollection(window.firebaseDb, 'backgroundTracks'),
+                musicData
+            );
         }
 
         // Helper Functions
