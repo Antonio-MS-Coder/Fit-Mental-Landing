@@ -898,6 +898,9 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xl);">
                     <h1>Gestión de Música de Fondo</h1>
                     <div style="display: flex; gap: var(--spacing-md);">
+                        <button class="btn btn-outline" onclick="diagnoseMusicStorage()" title="Diagnosticar Storage">
+                            🔍 Diagnosticar
+                        </button>
                         <button class="btn btn-outline" onclick="syncStorageContent('music')" title="Sincronizar desde Storage">
                             📥 Sincronizar
                         </button>
@@ -2399,7 +2402,39 @@
                 if (type === 'meditations') {
                     await syncMeditations();
                 } else if (type === 'music') {
-                    await syncBackgroundMusic();
+                    // Try multiple possible paths for music
+                    let syncSuccessful = false;
+
+                    // Try main path first
+                    try {
+                        await syncBackgroundMusic();
+                        syncSuccessful = true;
+                    } catch (error) {
+                        console.log('Main path failed, trying alternative paths...');
+
+                        // Try alternative paths
+                        const alternativePaths = [
+                            'Curso-Fit-Mental/music',
+                            'Curso-Fit-Mental/meditations',
+                            'music',
+                            'meditations'
+                        ];
+
+                        for (const path of alternativePaths) {
+                            try {
+                                console.log(`Trying alternative path: ${path}`);
+                                await syncBackgroundMusicFromPath(path);
+                                syncSuccessful = true;
+                                break;
+                            } catch (altError) {
+                                console.log(`Path ${path} also failed:`, altError.message);
+                            }
+                        }
+
+                        if (!syncSuccessful) {
+                            throw error;
+                        }
+                    }
                 }
             } catch (error) {
                 console.error('Error during sync:', error);
@@ -2508,37 +2543,161 @@
 
         async function syncBackgroundMusic() {
             try {
+                console.log('Starting background music sync...');
                 const basePath = 'content/music';
                 const storageRef = window.storageRef(window.storage, basePath);
+
+                console.log('Listing files in:', basePath);
                 const result = await window.firebaseListAll(storageRef);
+
+                console.log('Found:', result.items.length, 'files and', result.prefixes.length, 'folders');
 
                 let imported = 0;
                 let skipped = 0;
+                let errors = [];
 
                 // Process files in root music folder
+                console.log('Processing root files...');
                 for (const itemRef of result.items) {
                     const fileName = itemRef.name;
+                    console.log('Checking file:', fileName);
 
                     if (!fileName.match(/\.(mp3|m4a|wav|aac|ogg)$/i)) {
+                        console.log('Skipping non-audio file:', fileName);
                         continue;
                     }
 
+                    try {
+                        const exists = await checkIfMusicExists(fileName);
+                        if (exists) {
+                            console.log('File already exists in Firestore:', fileName);
+                            skipped++;
+                            continue;
+                        }
+
+                        await importMusicFile(itemRef, 'General', fileName, basePath);
+                        console.log('Imported:', fileName);
+                        imported++;
+                    } catch (fileError) {
+                        console.error('Error importing file:', fileName, fileError);
+                        errors.push(`${fileName}: ${fileError.message}`);
+                    }
+                }
+
+                // Process category subfolders
+                console.log('Processing subfolders...');
+                for (const categoryRef of result.prefixes) {
+                    const categoryName = categoryRef.name;
+                    console.log('Processing category folder:', categoryName);
+
+                    try {
+                        const categoryResult = await window.firebaseListAll(categoryRef);
+                        console.log(`Found ${categoryResult.items.length} files in ${categoryName}`);
+
+                        for (const itemRef of categoryResult.items) {
+                            const fileName = itemRef.name;
+
+                            if (!fileName.match(/\.(mp3|m4a|wav|aac|ogg)$/i)) {
+                                console.log('Skipping non-audio file:', fileName);
+                                continue;
+                            }
+
+                            try {
+                                const exists = await checkIfMusicExists(fileName);
+                                if (exists) {
+                                    console.log('File already exists:', fileName);
+                                    skipped++;
+                                    continue;
+                                }
+
+                                await importMusicFile(itemRef, categoryName, fileName, `${basePath}/${categoryName}`);
+                                console.log('Imported:', fileName, 'from category:', categoryName);
+                                imported++;
+                            } catch (fileError) {
+                                console.error('Error importing file:', fileName, fileError);
+                                errors.push(`${categoryName}/${fileName}: ${fileError.message}`);
+                            }
+                        }
+                    } catch (folderError) {
+                        console.error('Error processing folder:', categoryName, folderError);
+                        errors.push(`Folder ${categoryName}: ${folderError.message}`);
+                    }
+                }
+
+                // Report results
+                if (errors.length > 0) {
+                    console.error('Sync completed with errors:', errors);
+                    showAlert(`Sincronización parcial: ${imported} importadas, ${skipped} omitidas, ${errors.length} errores`, 'warning');
+                } else if (imported === 0 && skipped === 0) {
+                    showAlert('No se encontraron archivos de música en Storage', 'info');
+                } else {
+                    showAlert(`Sincronización completada: ${imported} pistas importadas, ${skipped} ya existían`, 'success');
+                }
+
+                loadBackgroundMusic();
+                loadDashboard();
+            } catch (error) {
+                console.error('Critical error syncing background music:', error);
+                console.error('Error details:', error.message, error.code);
+
+                // Provide more specific error messages
+                if (error.code === 'storage/object-not-found') {
+                    showAlert('La carpeta content/music no existe en Storage', 'error');
+                } else if (error.code === 'storage/unauthorized') {
+                    showAlert('Sin permisos para acceder a Storage', 'error');
+                } else {
+                    showAlert(`Error al sincronizar música: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        async function syncBackgroundMusicFromPath(basePath) {
+            console.log(`Attempting sync from path: ${basePath}`);
+            const storageRef = window.storageRef(window.storage, basePath);
+
+            const result = await window.firebaseListAll(storageRef);
+            console.log(`Found in ${basePath}:`, result.items.length, 'files and', result.prefixes.length, 'folders');
+
+            let imported = 0;
+            let skipped = 0;
+
+            // Process all audio files found
+            for (const itemRef of result.items) {
+                const fileName = itemRef.name;
+
+                if (!fileName.match(/\.(mp3|m4a|wav|aac|ogg)$/i)) {
+                    continue;
+                }
+
+                try {
                     const exists = await checkIfMusicExists(fileName);
                     if (exists) {
                         skipped++;
                         continue;
                     }
 
-                    await importMusicFile(itemRef, 'General', fileName, basePath);
+                    // Determine category from path
+                    let category = 'General';
+                    if (basePath.includes('meditations')) {
+                        category = 'Meditación';
+                    } else if (basePath.includes('music')) {
+                        category = 'Ambiental';
+                    }
+
+                    await importMusicFile(itemRef, category, fileName, basePath);
                     imported++;
+                } catch (error) {
+                    console.error('Error importing:', fileName, error);
                 }
+            }
 
-                // Process category subfolders
-                for (const categoryRef of result.prefixes) {
-                    const categoryName = categoryRef.name;
-                    const categoryResult = await window.firebaseListAll(categoryRef);
+            // Process subfolders
+            for (const folderRef of result.prefixes) {
+                try {
+                    const folderResult = await window.firebaseListAll(folderRef);
+                    const folderName = folderRef.name;
 
-                    for (const itemRef of categoryResult.items) {
+                    for (const itemRef of folderResult.items) {
                         const fileName = itemRef.name;
 
                         if (!fileName.match(/\.(mp3|m4a|wav|aac|ogg)$/i)) {
@@ -2551,18 +2710,21 @@
                             continue;
                         }
 
-                        await importMusicFile(itemRef, categoryName, fileName, `${basePath}/${categoryName}`);
+                        await importMusicFile(itemRef, folderName, fileName, `${basePath}/${folderName}`);
                         imported++;
                     }
+                } catch (error) {
+                    console.error('Error in subfolder:', error);
                 }
+            }
 
-                showAlert(`Sincronización completada: ${imported} pistas importadas, ${skipped} ya existían`, 'success');
+            if (imported > 0 || skipped > 0) {
+                showAlert(`Sincronización desde ${basePath}: ${imported} importadas, ${skipped} omitidas`, 'success');
                 loadBackgroundMusic();
                 loadDashboard();
-            } catch (error) {
-                console.error('Error syncing background music:', error);
-                showAlert('Error al sincronizar música de fondo', 'error');
             }
+
+            return imported;
         }
 
         async function checkIfMusicExists(fileName) {
@@ -2599,6 +2761,71 @@
                 window.firebaseCollection(window.firebaseDb, 'backgroundTracks'),
                 musicData
             );
+        }
+
+        // Diagnostic function to explore Storage structure
+        async function diagnoseMusicStorage() {
+            showAlert('Analizando estructura de Storage...', 'info');
+            console.log('=== STORAGE DIAGNOSTIC START ===');
+
+            const pathsToCheck = [
+                'content/music',
+                'content',
+                'music',
+                'Curso-Fit-Mental',
+                'Curso-Fit-Mental/music',
+                'Curso-Fit-Mental/meditations',
+                'meditations',
+                'documents',
+                ''  // Root
+            ];
+
+            let foundPaths = [];
+
+            for (const path of pathsToCheck) {
+                try {
+                    console.log(`\nChecking path: "${path}"`);
+                    const ref = path === ''
+                        ? window.storageRef(window.storage)
+                        : window.storageRef(window.storage, path);
+
+                    const result = await window.firebaseListAll(ref);
+
+                    if (result.items.length > 0 || result.prefixes.length > 0) {
+                        console.log(`✅ Found in "${path}":`, {
+                            files: result.items.length,
+                            folders: result.prefixes.length,
+                            folderNames: result.prefixes.map(p => p.name),
+                            fileNames: result.items.slice(0, 5).map(i => i.name) // First 5 files
+                        });
+
+                        foundPaths.push({
+                            path,
+                            files: result.items.length,
+                            folders: result.prefixes.length
+                        });
+                    } else {
+                        console.log(`❌ Empty or not found: "${path}"`);
+                    }
+                } catch (error) {
+                    console.log(`❌ Error accessing "${path}":`, error.code || error.message);
+                }
+            }
+
+            console.log('\n=== DIAGNOSTIC SUMMARY ===');
+            console.log('Accessible paths:', foundPaths);
+
+            if (foundPaths.length > 0) {
+                const message = foundPaths.map(p =>
+                    `📁 ${p.path || 'root'}: ${p.files} archivos, ${p.folders} carpetas`
+                ).join('\n');
+
+                alert(`Rutas encontradas en Storage:\n\n${message}\n\nRevisa la consola del navegador para más detalles.`);
+            } else {
+                alert('No se encontraron rutas accesibles en Storage. Revisa los permisos.');
+            }
+
+            console.log('=== STORAGE DIAGNOSTIC END ===');
         }
 
         // Helper Functions
