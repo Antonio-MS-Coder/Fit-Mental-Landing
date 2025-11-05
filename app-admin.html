@@ -1068,7 +1068,7 @@
         } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import {
             getStorage,
-            ref,
+            ref as storageRef,
             uploadBytes,
             getDownloadURL,
             deleteObject,
@@ -1095,8 +1095,10 @@
 
         // Make Firebase services available globally
         window.firebaseAuth = auth;
+        window.auth = auth;  // Add alias for auth
         window.firebaseDb = db;
         window.firebaseStorage = storage;
+        window.storage = storage;  // Add alias for consistency
         window.firebaseSignOut = signOut;
         window.firebaseServerTimestamp = serverTimestamp;
 
@@ -1139,7 +1141,7 @@
         window.firebaseLimit = limit;
         window.firebaseAddDoc = addDoc;
         window.firebaseRef = ref;
-        window.storageRef = ref;
+        window.storageRef = storageRef;  // Use Storage ref, not Firestore ref
         window.uploadBytes = uploadBytes;
         window.getDownloadURL = getDownloadURL;
         window.firebaseUploadBytes = uploadBytes;
@@ -2545,6 +2547,14 @@
             try {
                 console.log('Starting background music sync...');
                 const basePath = 'content/music';
+
+                // Ensure storage is initialized
+                if (!window.storage) {
+                    console.error('Storage not initialized');
+                    showAlert('Error: Storage no está inicializado', 'error');
+                    return;
+                }
+
                 const storageRef = window.storageRef(window.storage, basePath);
 
                 console.log('Listing files in:', basePath);
@@ -2587,8 +2597,21 @@
                 // Process category subfolders
                 console.log('Processing subfolders...');
                 for (const categoryRef of result.prefixes) {
-                    const categoryName = categoryRef.name;
-                    console.log('Processing category folder:', categoryName);
+                    // Get proper category name (e.g., "ambient" -> "Ambiental")
+                    let categoryName = categoryRef.name;
+                    const categoryMap = {
+                        'ambient': 'Ambiental',
+                        'nature': 'Naturaleza',
+                        'instrumental': 'Instrumental',
+                        'binaural': 'Binaural',
+                        'tibetan': 'Cuencos',
+                        'piano': 'Piano',
+                        'rain': 'Lluvia',
+                        'ocean': 'Océano'
+                    };
+
+                    const displayCategory = categoryMap[categoryName.toLowerCase()] || categoryName;
+                    console.log('Processing category folder:', categoryName, 'as', displayCategory);
 
                     try {
                         const categoryResult = await window.firebaseListAll(categoryRef);
@@ -2610,7 +2633,7 @@
                                     continue;
                                 }
 
-                                await importMusicFile(itemRef, categoryName, fileName, `${basePath}/${categoryName}`);
+                                await importMusicFile(itemRef, displayCategory, fileName, `${basePath}/${categoryName}`);
                                 console.log('Imported:', fileName, 'from category:', categoryName);
                                 imported++;
                             } catch (fileError) {
@@ -2767,6 +2790,15 @@
         async function diagnoseMusicStorage() {
             showAlert('Analizando estructura de Storage...', 'info');
             console.log('=== STORAGE DIAGNOSTIC START ===');
+
+            // Check if storage is initialized
+            if (!window.storage) {
+                console.error('Storage is not initialized!');
+                alert('Error: Firebase Storage no está inicializado. Recarga la página.');
+                return;
+            }
+
+            console.log('Storage object:', window.storage);
 
             const pathsToCheck = [
                 'content/music',
