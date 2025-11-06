@@ -2110,50 +2110,64 @@ Cargando estructura...
                 <div class="content-body">
                     <h3 class="content-title">${track.name}</h3>
                     <div class="content-meta">
+                        <span class="badge badge-${track.isActive !== false ? 'active' : 'inactive'}">
+                            ${track.isActive !== false ? 'Activo' : 'Inactivo'}
+                        </span>
                         <span>📁 ${track.category || 'General'}</span>
                         <span>⏱️ ${formatDuration(track.duration || 0)}</span>
                     </div>
+                    ${track.description ? `
+                        <p style="font-size: var(--font-size-sm); color: var(--brown-600); margin-top: var(--spacing-sm);">
+                            ${track.description}
+                        </p>
+                    ` : ''}
                     ${track.url ? `
                         <audio controls class="audio-player">
                             <source src="${track.url}" type="audio/mpeg">
                         </audio>
                     ` : '<p style="color: var(--danger-color);">Sin archivo de audio</p>'}
+                    <div style="display: flex; gap: var(--spacing-sm); margin-top: var(--spacing-md);">
+                        <button class="btn btn-outline btn-sm" onclick="editBackgroundTrack('${track.id}')">✏️ Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteBackgroundTrack('${track.id}', '${track.name.replace(/'/g, "\\'")}')">🗑️ Eliminar</button>
+                    </div>
                 </div>
             `;
             container.appendChild(card);
         }
 
-        function openBackgroundModal() {
+        function openBackgroundModal(track = null) {
             const modal = document.createElement('div');
             modal.className = 'modal active';
             modal.id = 'backgroundModal';
+            const isEdit = track !== null;
 
             modal.innerHTML = `
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2>Nueva Música de Fondo</h2>
+                        <h2>${isEdit ? 'Editar Música de Fondo' : 'Nueva Música de Fondo'}</h2>
                         <button class="modal-close" onclick="closeBackgroundModal()">×</button>
                     </div>
                     <form id="backgroundForm" onsubmit="saveBackgroundMusic(event)">
+                        <input type="hidden" id="bgTrackId" value="${isEdit ? track.id : ''}">
                         <div class="grid grid-2">
                             <div class="form-group">
                                 <label class="form-label">Nombre de la Pista *</label>
                                 <input type="text" id="bgName" class="form-input" required
-                                    placeholder="Ej: Lluvia Relajante">
+                                    placeholder="Ej: Lluvia Relajante" value="${isEdit ? track.name : ''}">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Categoría *</label>
                                 <select id="bgCategory" class="form-select" required>
                                     <option value="">Seleccionar categoría</option>
-                                    <option value="Naturaleza">Naturaleza</option>
-                                    <option value="Ambiental">Ambiental</option>
-                                    <option value="Instrumental">Instrumental</option>
-                                    <option value="Binaural">Binaural</option>
-                                    <option value="Cuencos">Cuencos Tibetanos</option>
-                                    <option value="Piano">Piano</option>
-                                    <option value="Lluvia">Lluvia</option>
-                                    <option value="Océano">Océano</option>
-                                    <option value="General">General</option>
+                                    <option value="Naturaleza" ${isEdit && track.category === 'Naturaleza' ? 'selected' : ''}>Naturaleza</option>
+                                    <option value="Ambiental" ${isEdit && track.category === 'Ambiental' ? 'selected' : ''}>Ambiental</option>
+                                    <option value="Instrumental" ${isEdit && track.category === 'Instrumental' ? 'selected' : ''}>Instrumental</option>
+                                    <option value="Binaural" ${isEdit && track.category === 'Binaural' ? 'selected' : ''}>Binaural</option>
+                                    <option value="Cuencos" ${isEdit && track.category === 'Cuencos' ? 'selected' : ''}>Cuencos Tibetanos</option>
+                                    <option value="Piano" ${isEdit && track.category === 'Piano' ? 'selected' : ''}>Piano</option>
+                                    <option value="Lluvia" ${isEdit && track.category === 'Lluvia' ? 'selected' : ''}>Lluvia</option>
+                                    <option value="Océano" ${isEdit && track.category === 'Océano' ? 'selected' : ''}>Océano</option>
+                                    <option value="General" ${isEdit && track.category === 'General' ? 'selected' : ''}>General</option>
                                 </select>
                             </div>
                         </div>
@@ -2161,24 +2175,36 @@ Cargando estructura...
                         <div class="form-group">
                             <label class="form-label">Descripción</label>
                             <textarea id="bgDescription" class="form-textarea" rows="3"
-                                placeholder="Describe el ambiente o sensación de esta música..."></textarea>
+                                placeholder="Describe el ambiente o sensación de esta música...">${isEdit ? (track.description || '') : ''}</textarea>
                         </div>
 
+                        ${isEdit ? `
+                            <div class="form-group">
+                                <label class="form-label">Archivo de Audio Actual</label>
+                                <audio controls class="audio-player" style="width: 100%;">
+                                    <source src="${track.url}" type="audio/mpeg">
+                                </audio>
+                                <p style="font-size: var(--font-size-sm); color: var(--brown-600); margin-top: var(--spacing-xs);">
+                                    Deja el campo siguiente vacío si no quieres cambiar el audio
+                                </p>
+                            </div>
+                        ` : ''}
+
                         <div class="form-group">
-                            <label class="form-label">Archivo de Audio *</label>
-                            <input type="file" id="bgAudioFile" accept="audio/*" required class="form-input">
+                            <label class="form-label">Archivo de Audio ${isEdit ? '(opcional)' : '*'}</label>
+                            <input type="file" id="bgAudioFile" accept="audio/*" ${isEdit ? '' : 'required'} class="form-input">
                             <p id="bgAudioFileName" style="margin-top: var(--spacing-sm); color: var(--brown-600); font-size: var(--font-size-sm);"></p>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Duración (minutos)</label>
                             <input type="number" id="bgDuration" class="form-input" min="1"
-                                placeholder="Ej: 30">
+                                placeholder="Ej: 30" value="${isEdit ? Math.ceil(track.duration / 60) : ''}">
                         </div>
 
                         <div class="form-group">
                             <label class="switch">
-                                <input type="checkbox" id="bgIsActive" checked>
+                                <input type="checkbox" id="bgIsActive" ${isEdit ? (track.isActive !== false ? 'checked' : '') : 'checked'}>
                                 <span class="slider"></span>
                             </label>
                             <label for="bgIsActive" style="margin-left: var(--spacing-md);">Activar inmediatamente</label>
@@ -2186,7 +2212,7 @@ Cargando estructura...
 
                         <div class="form-actions">
                             <button type="button" class="btn btn-secondary" onclick="closeBackgroundModal()">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Subir Música</button>
+                            <button type="submit" class="btn btn-primary">${isEdit ? 'Actualizar Música' : 'Subir Música'}</button>
                         </div>
                     </form>
                 </div>
@@ -2221,8 +2247,12 @@ Cargando estructura...
         async function saveBackgroundMusic(event) {
             event.preventDefault();
 
+            const trackId = document.getElementById('bgTrackId').value;
+            const isEdit = trackId !== '';
             const audioFile = document.getElementById('bgAudioFile').files[0];
-            if (!audioFile) {
+
+            // For new tracks, audio is required
+            if (!isEdit && !audioFile) {
                 showAlert('Por favor selecciona un archivo de audio', 'error');
                 return;
             }
@@ -2230,48 +2260,130 @@ Cargando estructura...
             // Show loading state
             const submitBtn = event.target.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Subiendo...';
+            submitBtn.textContent = isEdit ? 'Actualizando...' : 'Subiendo...';
             submitBtn.disabled = true;
 
             try {
                 const category = document.getElementById('bgCategory').value;
-                const fileName = `${Date.now()}_${audioFile.name}`;
-                const storagePath = `content/music/${category}/${fileName}`;
+                let audioURL = null;
+                let storagePath = null;
+                let fileName = null;
+                let fileSize = null;
 
-                // Upload audio file
-                const audioRef = window.storageRef(window.storage, storagePath);
-                await window.uploadBytes(audioRef, audioFile);
-                const audioURL = await window.getDownloadURL(audioRef);
+                // Upload new audio file if provided
+                if (audioFile) {
+                    fileName = `${Date.now()}_${audioFile.name}`;
+                    storagePath = `content/music/${category}/${fileName}`;
 
-                // Save metadata to Firestore
+                    const audioRef = window.storageRef(window.storage, storagePath);
+                    await window.uploadBytes(audioRef, audioFile);
+                    audioURL = await window.getDownloadURL(audioRef);
+                    fileSize = audioFile.size;
+                }
+
+                // Prepare metadata
                 const formData = {
                     name: document.getElementById('bgName').value.trim(),
                     category: category,
                     description: document.getElementById('bgDescription').value.trim(),
                     duration: parseInt(document.getElementById('bgDuration').value) * 60, // Store in seconds
-                    url: audioURL,
-                    storagePath: storagePath,
-                    fileName: audioFile.name,
-                    fileSize: audioFile.size,
                     isActive: document.getElementById('bgIsActive').checked,
-                    createdAt: window.firebaseServerTimestamp(),
                     updatedAt: window.firebaseServerTimestamp()
                 };
 
-                await window.firebaseAddDoc(
-                    window.firebaseCollection(window.firebaseDb, 'backgroundTracks'),
-                    formData
-                );
+                // Add URL and storage info only if new file was uploaded
+                if (audioURL) {
+                    formData.url = audioURL;
+                    formData.storagePath = storagePath;
+                    formData.fileName = audioFile.name;
+                    formData.fileSize = fileSize;
+                }
 
-                showAlert('Música de fondo subida exitosamente', 'success');
+                if (isEdit) {
+                    // Update existing track
+                    await window.firebaseUpdateDoc(
+                        window.firebaseDoc(window.firebaseDb, 'backgroundTracks', trackId),
+                        formData
+                    );
+                    showAlert('Música de fondo actualizada exitosamente', 'success');
+                } else {
+                    // Create new track
+                    formData.createdAt = window.firebaseServerTimestamp();
+                    await window.firebaseAddDoc(
+                        window.firebaseCollection(window.firebaseDb, 'backgroundTracks'),
+                        formData
+                    );
+                    showAlert('Música de fondo subida exitosamente', 'success');
+                }
+
                 closeBackgroundModal();
                 loadBackgroundMusic();
                 loadDashboard();
             } catch (error) {
-                console.error('Error uploading background music:', error);
-                showAlert('Error al subir la música de fondo', 'error');
+                console.error('Error saving background music:', error);
+                showAlert(`Error al ${isEdit ? 'actualizar' : 'subir'} la música de fondo`, 'error');
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
+            }
+        }
+
+        async function editBackgroundTrack(trackId) {
+            try {
+                const trackDoc = await window.firebaseGetDoc(
+                    window.firebaseDoc(window.firebaseDb, 'backgroundTracks', trackId)
+                );
+
+                if (!trackDoc.exists()) {
+                    showAlert('Pista no encontrada', 'error');
+                    return;
+                }
+
+                const track = { id: trackDoc.id, ...trackDoc.data() };
+                openBackgroundModal(track);
+            } catch (error) {
+                console.error('Error loading track for edit:', error);
+                showAlert('Error al cargar la pista', 'error');
+            }
+        }
+
+        async function deleteBackgroundTrack(trackId, trackName) {
+            if (!confirm(`¿Estás seguro de que quieres eliminar "${trackName}"?\n\nEsta acción no se puede deshacer.`)) {
+                return;
+            }
+
+            try {
+                // Get track data to delete from storage if needed
+                const trackDoc = await window.firebaseGetDoc(
+                    window.firebaseDoc(window.firebaseDb, 'backgroundTracks', trackId)
+                );
+
+                if (trackDoc.exists()) {
+                    const track = trackDoc.data();
+
+                    // Delete from Firestore
+                    await window.firebaseDeleteDoc(
+                        window.firebaseDoc(window.firebaseDb, 'backgroundTracks', trackId)
+                    );
+
+                    // Optionally delete from Storage (uncomment if you want to delete the file)
+                    // if (track.storagePath) {
+                    //     try {
+                    //         const fileRef = window.storageRef(window.storage, track.storagePath);
+                    //         await window.firebaseDeleteObject(fileRef);
+                    //     } catch (storageError) {
+                    //         console.log('File already deleted or not found in storage');
+                    //     }
+                    // }
+
+                    showAlert('Pista eliminada exitosamente', 'success');
+                    loadBackgroundMusic();
+                    loadDashboard();
+                } else {
+                    showAlert('Pista no encontrada', 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting track:', error);
+                showAlert('Error al eliminar la pista', 'error');
             }
         }
 
