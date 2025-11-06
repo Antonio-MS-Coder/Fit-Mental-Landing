@@ -991,27 +991,33 @@ Cargando estructura...
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Tipo *</label>
+                        <label class="form-label">Tipo de Contenido *</label>
                         <select id="medType" class="form-select" required>
                             <option value="">Seleccionar tipo</option>
-                            <option value="meditation">Meditación</option>
-                            <option value="hypnosis">Hipnosis</option>
-                            <option value="song">Canción</option>
-                            <option value="affirmation">Afirmación</option>
-                            <option value="lesson">Lección</option>
+                            <option value="meditation">🧘 Meditación</option>
+                            <option value="hypnosis">😴 Hipnosis</option>
+                            <option value="song">🎵 Canción</option>
+                            <option value="affirmation">💭 Afirmación</option>
+                            <option value="lesson">📚 Lección</option>
                         </select>
+                        <p style="font-size: var(--font-size-xs); color: var(--brown-600); margin-top: var(--spacing-xs);">
+                            Define el formato del audio (meditación guiada, música, hipnosis, etc.)
+                        </p>
                     </div>
                 </div>
 
                 <div class="grid grid-2">
                     <div class="form-group">
-                        <label class="form-label">Categoría *</label>
+                        <label class="form-label">Categoría/Tema *</label>
                         <div style="display: flex; gap: var(--spacing-sm);">
                             <select id="medCategory" class="form-select" required style="flex: 1;">
                                 <option value="">Seleccionar categoría</option>
                             </select>
                             <button type="button" class="btn btn-outline btn-sm" onclick="addNewCategory()" title="Agregar nueva categoría">+</button>
                         </div>
+                        <p style="font-size: var(--font-size-xs); color: var(--brown-600); margin-top: var(--spacing-xs);">
+                            Define el tema o propósito (abundancia, calma, sueño, etc.)
+                        </p>
                     </div>
 
                     <div class="form-group">
@@ -1542,14 +1548,21 @@ Cargando estructura...
                 <div class="content-body">
                     <h3 class="content-title">${meditation.title || 'Sin título'}</h3>
                     <div class="content-meta">
-                        <span class="badge badge-${meditation.type || 'meditation'}">${meditation.type || 'meditation'}</span>
+                        <span class="badge badge-${meditation.type || 'meditation'}">
+                            ${meditation.type === 'meditation' ? '🧘 Meditación' :
+                              meditation.type === 'song' ? '🎵 Canción' :
+                              meditation.type === 'hypnosis' ? '😴 Hipnosis' :
+                              meditation.type === 'affirmation' ? '💭 Afirmación' :
+                              meditation.type === 'lesson' ? '📚 Lección' :
+                              meditation.type || 'meditation'}
+                        </span>
                         <span class="badge badge-${meditation.accessType || 'free'}">${meditation.accessType || 'free'}</span>
                         <span class="badge badge-${meditation.isActive !== false ? 'active' : 'inactive'}">
                             ${meditation.isActive !== false ? 'Activo' : 'Inactivo'}
                         </span>
                     </div>
                     <div class="content-meta">
-                        <span>📁 ${meditation.category || 'Sin categoría'}</span>
+                        <span>📂 Tema: ${meditation.category || 'Sin categoría'}</span>
                         <span>⏱️ ${formatDuration(meditation.duration || 0)}</span>
                     </div>
                     <p style="font-size: var(--font-size-sm); color: var(--brown-600); margin-top: var(--spacing-sm); min-height: 40px;">
