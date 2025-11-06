@@ -761,7 +761,8 @@
             <!-- Main Tabs -->
             <div class="tabs">
                 <button class="tab-btn active" onclick="showTab('dashboard')">📊 Dashboard</button>
-                <button class="tab-btn" onclick="showTab('meditations')">🧘 Meditaciones</button>
+                <button class="tab-btn" onclick="showTab('structure')">⚙️ Estructura</button>
+                <button class="tab-btn" onclick="showTab('meditations')">🧘 Contenido</button>
                 <button class="tab-btn" onclick="showTab('programs')">📚 Programas</button>
                 <button class="tab-btn" onclick="showTab('playlists')">🎵 Playlists</button>
                 <button class="tab-btn" onclick="showTab('background')">🎶 Música de Fondo</button>
@@ -809,6 +810,60 @@
                             <div class="spinner"></div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Structure Management Tab -->
+            <div id="structureTab" class="tab-content">
+                <h1>Gestión de Estructura de Storage</h1>
+                <p style="color: var(--brown-600); margin-bottom: var(--spacing-2xl);">
+                    Define y controla la estructura completa de tu contenido en Firebase Storage
+                </p>
+
+                <!-- Content Types Section -->
+                <div class="card" style="margin-bottom: var(--spacing-xl);">
+                    <h3>📁 Tipos de Contenido</h3>
+                    <p style="color: var(--brown-600); margin-bottom: var(--spacing-lg);">
+                        Define los tipos de contenido disponibles (meditación, hipnosis, canción, etc.)
+                    </p>
+
+                    <div style="display: flex; gap: var(--spacing-md); margin-bottom: var(--spacing-lg); flex-wrap: wrap;">
+                        <input type="text" id="newContentType" class="form-input" placeholder="Ej: hipnosis" style="flex: 1; min-width: 200px;">
+                        <button class="btn btn-primary" onclick="addContentType()">+ Agregar Tipo</button>
+                    </div>
+
+                    <div id="contentTypesList" style="display: flex; flex-wrap: wrap; gap: var(--spacing-sm);">
+                        <!-- Content types will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Categories Section -->
+                <div class="card" style="margin-bottom: var(--spacing-xl);">
+                    <h3>📂 Categorías y Carpetas</h3>
+                    <p style="color: var(--brown-600); margin-bottom: var(--spacing-lg);">
+                        Administra las categorías y su mapeo entre español e inglés
+                    </p>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+                        <input type="text" id="newCategorySpanish" class="form-input" placeholder="Nombre en español">
+                        <input type="text" id="newCategoryEnglish" class="form-input" placeholder="Carpeta en inglés">
+                        <button class="btn btn-primary" onclick="addCategoryMapping()">+ Agregar</button>
+                    </div>
+
+                    <div id="categoriesMappingList">
+                        <!-- Category mappings will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Storage Structure Preview -->
+                <div class="card">
+                    <h3>🌳 Vista de Estructura Actual</h3>
+                    <button class="btn btn-outline" onclick="previewStorageStructure()" style="margin-bottom: var(--spacing-lg);">
+                        🔄 Actualizar Vista
+                    </button>
+                    <pre id="storageStructurePreview" style="background: var(--sand-100); padding: var(--spacing-lg); border-radius: var(--radius-md); overflow-x: auto;">
+Cargando estructura...
+                    </pre>
                 </div>
             </div>
 
@@ -1206,6 +1261,9 @@
                     loadCategories();
                     loadDashboard();
                     break;
+                case 'structure':
+                    loadStorageStructure();
+                    break;
                 case 'meditations':
                     loadCategories();
                     loadMeditations();
@@ -1222,9 +1280,9 @@
             }
         }
 
-        // Category mapping between Storage (iOS app) and Admin Panel
-        const categoryMappings = {
-            // Admin Panel (Spanish) -> Storage (English)
+        // Dynamic category mappings (will be loaded from Firestore)
+        let categoryMappings = {
+            // Default mappings - will be overridden by Firestore config
             'Abundancia y Prosperidad': 'abundance',
             'Calma y Ansiedad': 'anxiety',
             'Despertar': 'despertar',
@@ -1233,42 +1291,45 @@
         };
 
         // Reverse mapping for loading from Storage
-        const storageCategoryMappings = {
-            'abundance': 'Abundancia y Prosperidad',
-            'anxiety': 'Calma y Ansiedad',
-            'despertar': 'Despertar',
-            'focus': 'Enfoque Pleno',
-            'sleep': 'Sueño Profundo'
-        };
+        let storageCategoryMappings = {};
+
+        // Dynamic content types (will be loaded from Firestore)
+        let contentTypes = ['meditation', 'hypnosis', 'song', 'affirmation', 'lesson'];
+
+        // Update reverse mappings
+        function updateReverseMappings() {
+            storageCategoryMappings = {};
+            for (const [spanish, english] of Object.entries(categoryMappings)) {
+                storageCategoryMappings[english] = spanish;
+            }
+        }
 
         // Load categories from localStorage and Firestore
         async function loadCategories() {
             try {
-                // Categories that match iOS app
-                const defaultCategories = [
-                    'Abundancia y Prosperidad',
-                    'Calma y Ansiedad',
-                    'Despertar',
-                    'Enfoque Pleno',
-                    'Sueño Profundo'
-                ];
+                // Load dynamic mappings first
+                const mappingsDoc = await window.firebaseGetDoc(
+                    window.firebaseDoc(window.firebaseDb, 'config', 'categoryMappings')
+                );
 
-                // Get custom categories from Firestore config
-                try {
-                    const configDoc = await window.firebaseGetDoc(
-                        window.firebaseDoc(window.firebaseDb, 'config', 'categories')
-                    );
-
-                    if (configDoc.exists()) {
-                        const data = configDoc.data();
-                        customCategories = data.customCategories || [];
-                    }
-                } catch (error) {
-                    console.log('No custom categories found, using defaults');
+                if (mappingsDoc.exists()) {
+                    const data = mappingsDoc.data();
+                    categoryMappings = data.mappings || categoryMappings;
+                    updateReverseMappings();
                 }
 
-                // Combine and sort all categories
-                const allCategories = [...new Set([...defaultCategories, ...customCategories])].sort();
+                // Load content types
+                const typesDoc = await window.firebaseGetDoc(
+                    window.firebaseDoc(window.firebaseDb, 'config', 'contentTypes')
+                );
+
+                if (typesDoc.exists()) {
+                    const data = typesDoc.data();
+                    contentTypes = data.types || contentTypes;
+                }
+
+                // Get categories from mappings
+                const allCategories = Object.keys(categoryMappings).sort();
 
                 // Update filter dropdown
                 const filterSelect = document.getElementById('filterCategory');
@@ -1712,13 +1773,14 @@
                 // Map category to storage format (iOS app expects English folder names)
                 const storageCategory = categoryMappings[formData.category] || formData.category.toLowerCase();
                 const language = formData.language || 'es'; // Default to Spanish
+                const contentType = formData.type || 'meditation'; // Use the type from the form
 
-                // Upload audio if new file selected - Using iOS app structure
+                // Upload audio if new file selected - Dynamic content type structure
                 if (selectedAudioFile) {
                     showAlert('Subiendo audio...', 'info');
                     const audioRef = window.storageRef(
                         window.storage,
-                        `content/meditations/${language}/${storageCategory}/${Date.now()}_${selectedAudioFile.name}`
+                        `content/${contentType}/${language}/${storageCategory}/${Date.now()}_${selectedAudioFile.name}`
                     );
                     await window.uploadBytes(audioRef, selectedAudioFile);
                     audioURL = await window.getDownloadURL(audioRef);
@@ -1756,7 +1818,7 @@
                 formData.audioURL = audioURL;
                 formData.imageURL = imageURL || '';
                 formData.storageCategory = storageCategory; // Keep track of the English folder name
-                formData.storagePath = `content/meditations/${language}/${storageCategory}/`;
+                formData.storagePath = `content/${contentType}/${language}/${storageCategory}/`;
 
                 // Save to Firestore
                 if (currentMeditation) {
@@ -2431,8 +2493,8 @@
             showAlert(`Iniciando sincronización de ${type === 'meditations' ? 'meditaciones' : 'música de fondo'}...`, 'info');
 
             try {
-                if (type === 'meditations') {
-                    await syncMeditations();
+                if (type === 'meditations' || type === 'content') {
+                    await syncAllContent();
                 } else if (type === 'music') {
                     // Try multiple possible paths for music
                     let syncSuccessful = false;
@@ -2474,7 +2536,150 @@
             }
         }
 
+        async function syncAllContent() {
+            try {
+                let totalImported = 0;
+                let totalSkipped = 0;
+
+                // Sync all content types
+                for (const contentType of contentTypes) {
+                    console.log(`Syncing content type: ${contentType}`);
+
+                    const result = await syncContentType(contentType);
+                    totalImported += result.imported;
+                    totalSkipped += result.skipped;
+                }
+
+                showAlert(`Sincronización completada: ${totalImported} elementos importados, ${totalSkipped} ya existían`, 'success');
+                loadMeditations();
+                loadDashboard();
+            } catch (error) {
+                console.error('Error syncing content:', error);
+                showAlert('Error durante la sincronización', 'error');
+            }
+        }
+
+        async function syncContentType(contentType) {
+            let imported = 0;
+            let skipped = 0;
+
+            try {
+                const language = 'es'; // Default to Spanish
+                const basePath = `content/${contentType}/${language}`;
+                const storageRef = window.storageRef(window.storage, basePath);
+                const result = await window.firebaseListAll(storageRef);
+
+                // Process each category folder
+                for (const categoryRef of result.prefixes) {
+                    const storageCategoryName = categoryRef.name;
+                    const displayCategoryName = storageCategoryMappings[storageCategoryName] || storageCategoryName;
+
+                    const categoryResult = await window.firebaseListAll(categoryRef);
+
+                    // Process audio files in this category
+                    for (const itemRef of categoryResult.items) {
+                        const fileName = itemRef.name;
+
+                        // Skip non-audio files
+                        if (!fileName.match(/\.(mp3|m4a|wav|aac|ogg)$/i)) {
+                            continue;
+                        }
+
+                        // Check if already exists
+                        const existingQuery = await window.firebaseGetDocs(
+                            window.firebaseQuery(
+                                window.firebaseCollection(window.firebaseDb, 'meditaciones'),
+                                window.firebaseWhere('fileName', '==', fileName),
+                                window.firebaseWhere('type', '==', contentType)
+                            )
+                        );
+
+                        if (!existingQuery.empty) {
+                            skipped++;
+                            continue;
+                        }
+
+                        // Import the file
+                        await importContentFile(itemRef, contentType, displayCategoryName, storageCategoryName, fileName, basePath, language);
+                        imported++;
+                    }
+                }
+            } catch (error) {
+                console.log(`No content found for type: ${contentType}`, error);
+            }
+
+            return { imported, skipped };
+        }
+
+        async function importContentFile(itemRef, contentType, displayCategory, storageCategory, fileName, basePath, language) {
+            const audioURL = await window.getDownloadURL(itemRef);
+
+            // Extract title from filename
+            let title = fileName.replace(/^\d+_/, '').replace(/\.[^.]+$/, '');
+            title = title.replace(/_/g, ' ').replace(/-/g, ' ');
+
+            // Try to find matching image
+            let imageURL = await findMatchingImage(title, storageCategory);
+
+            // Create document
+            const contentData = {
+                title: title,
+                type: contentType,  // Now dynamic: meditation, hypnosis, song, etc.
+                category: displayCategory,
+                storageCategory: storageCategory,
+                audioURL: audioURL,
+                imageURL: imageURL || '',
+                fileName: fileName,
+                storagePath: `${basePath}/${storageCategory}/${fileName}`,
+                description: `${contentType.charAt(0).toUpperCase() + contentType.slice(1)} importado desde Storage - ${displayCategory}`,
+                isActive: true,
+                accessType: 'free',
+                language: language,
+                createdAt: window.firebaseServerTimestamp(),
+                updatedAt: window.firebaseServerTimestamp(),
+                syncedFromStorage: true
+            };
+
+            await window.firebaseAddDoc(
+                window.firebaseCollection(window.firebaseDb, 'meditaciones'),
+                contentData
+            );
+        }
+
+        async function findMatchingImage(title, storageCategory) {
+            try {
+                // Try meditation-covers first
+                const searchName = title.toLowerCase().replace(/\s+/g, '-');
+                const coversRef = window.storageRef(window.storage, 'content/images/meditation-covers');
+                const coversResult = await window.firebaseListAll(coversRef);
+
+                for (const imgRef of coversResult.items) {
+                    const imgName = imgRef.name.toLowerCase();
+                    if (imgName.includes(searchName)) {
+                        return await window.getDownloadURL(imgRef);
+                    }
+                }
+
+                // Try category cover as fallback
+                const categoryCapitalized = storageCategory.charAt(0).toUpperCase() + storageCategory.slice(1);
+                const categoryImageRef = window.storageRef(
+                    window.storage,
+                    `content/images/category-covers/${categoryCapitalized}.jpg`
+                );
+                return await window.getDownloadURL(categoryImageRef);
+            } catch (error) {
+                console.log('No image found for:', title);
+                return null;
+            }
+        }
+
         async function syncMeditations() {
+            // Legacy function - now calls syncAllContent
+            return await syncAllContent();
+        }
+
+        // Original syncMeditations function (renamed for backwards compatibility)
+        async function syncMeditationsOld() {
             try {
                 // iOS app structure: content/meditations/[language]/[category]/
                 const language = 'es'; // Default to Spanish
@@ -2921,6 +3126,342 @@
             }
 
             console.log('=== STORAGE DIAGNOSTIC END ===');
+        }
+
+        // Storage Structure Management Functions
+        async function loadStorageStructure() {
+            try {
+                // Load content types from Firestore
+                const typesDoc = await window.firebaseGetDoc(
+                    window.firebaseDoc(window.firebaseDb, 'config', 'contentTypes')
+                );
+
+                if (typesDoc.exists()) {
+                    const data = typesDoc.data();
+                    contentTypes = data.types || contentTypes;
+                }
+
+                // Load category mappings from Firestore
+                const mappingsDoc = await window.firebaseGetDoc(
+                    window.firebaseDoc(window.firebaseDb, 'config', 'categoryMappings')
+                );
+
+                if (mappingsDoc.exists()) {
+                    const data = mappingsDoc.data();
+                    categoryMappings = data.mappings || categoryMappings;
+                    updateReverseMappings();
+                }
+
+                // Display content types
+                displayContentTypes();
+
+                // Display category mappings
+                displayCategoryMappings();
+
+                // Load structure preview
+                await previewStorageStructure();
+            } catch (error) {
+                console.error('Error loading storage structure:', error);
+            }
+        }
+
+        function displayContentTypes() {
+            const container = document.getElementById('contentTypesList');
+            if (!container) return;
+
+            container.innerHTML = '';
+            contentTypes.forEach(type => {
+                const badge = document.createElement('span');
+                badge.className = 'badge badge-primary';
+                badge.style.cssText = 'display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; cursor: pointer;';
+                badge.innerHTML = `
+                    ${type}
+                    <button onclick="removeContentType('${type}')" style="background: none; border: none; color: inherit; cursor: pointer; padding: 0; margin-left: 4px;">×</button>
+                `;
+                container.appendChild(badge);
+            });
+
+            // Update type dropdowns in meditation form
+            const typeSelect = document.getElementById('medType');
+            if (typeSelect) {
+                const currentValue = typeSelect.value;
+                typeSelect.innerHTML = '<option value="">Seleccionar tipo</option>';
+                contentTypes.forEach(type => {
+                    const option = document.createElement('option');
+                    option.value = type;
+                    option.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+                    typeSelect.appendChild(option);
+                });
+                typeSelect.value = currentValue;
+            }
+        }
+
+        function displayCategoryMappings() {
+            const container = document.getElementById('categoriesMappingList');
+            if (!container) return;
+
+            container.innerHTML = '';
+            const table = document.createElement('table');
+            table.style.cssText = 'width: 100%; border-collapse: collapse;';
+            table.innerHTML = `
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--sand-300);">
+                        <th style="text-align: left; padding: 8px;">Español (Admin Panel)</th>
+                        <th style="text-align: left; padding: 8px;">Inglés (Storage)</th>
+                        <th style="width: 50px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            `;
+
+            const tbody = table.querySelector('tbody');
+            for (const [spanish, english] of Object.entries(categoryMappings)) {
+                const row = document.createElement('tr');
+                row.style.borderBottom = '1px solid var(--sand-200)';
+                row.innerHTML = `
+                    <td style="padding: 8px;">${spanish}</td>
+                    <td style="padding: 8px; font-family: monospace;">${english}</td>
+                    <td style="padding: 8px;">
+                        <button onclick="removeCategoryMapping('${spanish}')" class="btn btn-sm btn-danger">×</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            }
+
+            container.appendChild(table);
+        }
+
+        async function addContentType() {
+            const input = document.getElementById('newContentType');
+            const type = input.value.trim().toLowerCase();
+
+            if (!type) {
+                showAlert('Por favor ingresa un tipo de contenido', 'warning');
+                return;
+            }
+
+            if (contentTypes.includes(type)) {
+                showAlert('Este tipo ya existe', 'warning');
+                return;
+            }
+
+            contentTypes.push(type);
+            input.value = '';
+
+            // Save to Firestore
+            await saveContentTypes();
+
+            // Create folder structure in Storage
+            await createStorageFolders(type);
+
+            displayContentTypes();
+            showAlert(`Tipo "${type}" agregado exitosamente`, 'success');
+        }
+
+        async function removeContentType(type) {
+            if (!confirm(`¿Eliminar el tipo "${type}"? Esto no eliminará el contenido existente.`)) {
+                return;
+            }
+
+            contentTypes = contentTypes.filter(t => t !== type);
+            await saveContentTypes();
+            displayContentTypes();
+            showAlert(`Tipo "${type}" eliminado`, 'success');
+        }
+
+        async function saveContentTypes() {
+            try {
+                await window.firebaseSetDoc(
+                    window.firebaseDoc(window.firebaseDb, 'config', 'contentTypes'),
+                    {
+                        types: contentTypes,
+                        updatedAt: window.firebaseServerTimestamp()
+                    },
+                    { merge: true }
+                );
+            } catch (error) {
+                console.error('Error saving content types:', error);
+                showAlert('Error al guardar tipos de contenido', 'error');
+            }
+        }
+
+        async function addCategoryMapping() {
+            const spanishInput = document.getElementById('newCategorySpanish');
+            const englishInput = document.getElementById('newCategoryEnglish');
+
+            const spanish = spanishInput.value.trim();
+            const english = englishInput.value.trim().toLowerCase().replace(/\s+/g, '_');
+
+            if (!spanish || !english) {
+                showAlert('Por favor completa ambos campos', 'warning');
+                return;
+            }
+
+            if (categoryMappings[spanish]) {
+                showAlert('Esta categoría ya existe', 'warning');
+                return;
+            }
+
+            categoryMappings[spanish] = english;
+            updateReverseMappings();
+
+            spanishInput.value = '';
+            englishInput.value = '';
+
+            // Save to Firestore
+            await saveCategoryMappings();
+
+            // Create folder structure for this category
+            await createCategoryFolders(english);
+
+            displayCategoryMappings();
+            loadCategories(); // Reload categories in dropdowns
+            showAlert(`Categoría "${spanish}" → "${english}" agregada`, 'success');
+        }
+
+        async function removeCategoryMapping(spanish) {
+            if (!confirm(`¿Eliminar la categoría "${spanish}"? Esto no eliminará el contenido existente.`)) {
+                return;
+            }
+
+            delete categoryMappings[spanish];
+            updateReverseMappings();
+            await saveCategoryMappings();
+            displayCategoryMappings();
+            loadCategories();
+            showAlert(`Categoría "${spanish}" eliminada`, 'success');
+        }
+
+        async function saveCategoryMappings() {
+            try {
+                await window.firebaseSetDoc(
+                    window.firebaseDoc(window.firebaseDb, 'config', 'categoryMappings'),
+                    {
+                        mappings: categoryMappings,
+                        updatedAt: window.firebaseServerTimestamp()
+                    },
+                    { merge: true }
+                );
+            } catch (error) {
+                console.error('Error saving category mappings:', error);
+                showAlert('Error al guardar categorías', 'error');
+            }
+        }
+
+        async function createStorageFolders(contentType) {
+            try {
+                // Create placeholder file to ensure folder exists
+                const languages = ['es', 'en']; // Support multiple languages
+
+                for (const lang of languages) {
+                    for (const [spanish, english] of Object.entries(categoryMappings)) {
+                        const placeholderPath = `content/${contentType}/${lang}/${english}/.placeholder`;
+                        const placeholderRef = window.storageRef(window.storage, placeholderPath);
+
+                        // Upload empty file as placeholder
+                        const emptyBlob = new Blob([''], { type: 'text/plain' });
+                        try {
+                            await window.uploadBytes(placeholderRef, emptyBlob);
+                            console.log(`Created folder: content/${contentType}/${lang}/${english}/`);
+                        } catch (error) {
+                            // Folder might already exist
+                            console.log(`Folder might already exist: ${placeholderPath}`);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error creating storage folders:', error);
+            }
+        }
+
+        async function createCategoryFolders(categoryEnglish) {
+            try {
+                const languages = ['es', 'en'];
+
+                // Create folders for each content type
+                for (const type of contentTypes) {
+                    for (const lang of languages) {
+                        const placeholderPath = `content/${type}/${lang}/${categoryEnglish}/.placeholder`;
+                        const placeholderRef = window.storageRef(window.storage, placeholderPath);
+
+                        const emptyBlob = new Blob([''], { type: 'text/plain' });
+                        try {
+                            await window.uploadBytes(placeholderRef, emptyBlob);
+                            console.log(`Created folder: content/${type}/${lang}/${categoryEnglish}/`);
+                        } catch (error) {
+                            console.log(`Folder might already exist: ${placeholderPath}`);
+                        }
+                    }
+                }
+
+                // Also create image folders
+                const imagePaths = [
+                    `content/images/category-covers/${categoryEnglish.charAt(0).toUpperCase() + categoryEnglish.slice(1)}.jpg`,
+                    `content/images/${categoryEnglish}-covers/.placeholder`
+                ];
+
+                for (const path of imagePaths) {
+                    try {
+                        const ref = window.storageRef(window.storage, path);
+                        const emptyBlob = new Blob([''], { type: 'text/plain' });
+                        await window.uploadBytes(ref, emptyBlob);
+                    } catch (error) {
+                        console.log(`Image folder might exist: ${path}`);
+                    }
+                }
+            } catch (error) {
+                console.error('Error creating category folders:', error);
+            }
+        }
+
+        async function previewStorageStructure() {
+            const preview = document.getElementById('storageStructurePreview');
+            if (!preview) return;
+
+            let structure = 'content/\n';
+
+            // Build structure preview
+            for (const type of contentTypes) {
+                structure += `├── ${type}/\n`;
+                structure += `│   ├── es/\n`;
+
+                for (const [spanish, english] of Object.entries(categoryMappings)) {
+                    structure += `│   │   ├── ${english}/\n`;
+                }
+
+                structure += `│   └── en/\n`;
+                for (const [spanish, english] of Object.entries(categoryMappings)) {
+                    structure += `│       ├── ${english}/\n`;
+                }
+            }
+
+            structure += `├── images/\n`;
+            structure += `│   ├── category-covers/\n`;
+            structure += `│   └── meditation-covers/\n`;
+            structure += `└── music/\n`;
+            structure += `    └── [various music folders]\n`;
+
+            preview.textContent = structure;
+
+            // Also check actual Storage
+            try {
+                const actualPaths = [];
+                const baseRef = window.storageRef(window.storage, 'content');
+                const result = await window.firebaseListAll(baseRef);
+
+                for (const folder of result.prefixes) {
+                    actualPaths.push(folder.name);
+                }
+
+                if (actualPaths.length > 0) {
+                    structure += '\n\n--- Carpetas Reales en Storage ---\n';
+                    structure += actualPaths.join(', ');
+                    preview.textContent = structure;
+                }
+            } catch (error) {
+                console.log('Could not list actual Storage folders:', error);
+            }
         }
 
         // Helper Functions
