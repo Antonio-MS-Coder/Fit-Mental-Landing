@@ -855,6 +855,22 @@
                     </div>
                 </div>
 
+                <!-- Audio Categories Section (config/audioCategories) -->
+                <div class="card" style="margin-bottom: var(--spacing-xl);">
+                    <h3>🎯 Categorías de Audio (audioCategories)</h3>
+                    <p style="color: var(--brown-600); margin-bottom: var(--spacing-lg);">
+                        Configuración avanzada de categorías para la App iOS. Se guarda en <code>config/audioCategories</code>
+                    </p>
+
+                    <button class="btn btn-primary" onclick="openAudioCategoryModal()" style="margin-bottom: var(--spacing-lg);">
+                        + Nueva Categoría de Audio
+                    </button>
+
+                    <div id="audioCategoriesList" style="display: grid; gap: var(--spacing-md);">
+                        <!-- Audio categories will be loaded here -->
+                    </div>
+                </div>
+
                 <!-- Storage Structure Preview -->
                 <div class="card">
                     <h3>🌳 Vista de Estructura Actual</h3>
@@ -890,12 +906,25 @@ Cargando estructura...
                     <select class="form-select" style="width: 200px;" id="filterCategory" onchange="filterMeditations()">
                         <option value="">Todas las categorías</option>
                     </select>
-                    <select class="form-select" style="width: 150px;" id="filterType" onchange="filterMeditations()">
+                    <select class="form-select" style="width: 180px;" id="filterType" onchange="filterMeditations()">
                         <option value="">Todos los tipos</option>
                         <option value="meditation">Meditación</option>
                         <option value="hypnosis">Hipnosis</option>
+                        <option value="music">Música</option>
                         <option value="song">Canción</option>
                         <option value="affirmation">Afirmación</option>
+                        <option value="sleep">Para Dormir</option>
+                        <option value="nature">Naturaleza</option>
+                        <option value="binaural">Binaural</option>
+                        <option value="mantra">Mantra</option>
+                        <option value="podcast">Podcast</option>
+                        <option value="story">Historia</option>
+                        <option value="soundscape">Paisaje Sonoro</option>
+                        <option value="whitenoise">Ruido Blanco</option>
+                        <option value="subliminal">Subliminal</option>
+                        <option value="breathing">Respiración</option>
+                        <option value="visualization">Visualización</option>
+                        <option value="therapy">Terapia</option>
                         <option value="lesson">Lección</option>
                     </select>
                     <select class="form-select" style="width: 150px;" id="filterStatus" onchange="filterMeditations()">
@@ -991,17 +1020,30 @@ Cargando estructura...
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Tipo de Contenido *</label>
+                        <label class="form-label">Tipo de Contenido (contentType) *</label>
                         <select id="medType" class="form-select" required>
                             <option value="">Seleccionar tipo</option>
                             <option value="meditation">🧘 Meditación</option>
                             <option value="hypnosis">😴 Hipnosis</option>
+                            <option value="music">🎼 Música</option>
                             <option value="song">🎵 Canción</option>
                             <option value="affirmation">💭 Afirmación</option>
+                            <option value="sleep">😴 Para Dormir</option>
+                            <option value="nature">🌿 Sonidos de Naturaleza</option>
+                            <option value="binaural">🎧 Beats Binaurales</option>
+                            <option value="mantra">🕉️ Mantra</option>
+                            <option value="podcast">🎙️ Podcast</option>
+                            <option value="story">📖 Historia/Cuento</option>
+                            <option value="soundscape">🌊 Paisaje Sonoro</option>
+                            <option value="whitenoise">📻 Ruido Blanco</option>
+                            <option value="subliminal">🧠 Subliminal</option>
+                            <option value="breathing">🌬️ Respiración</option>
+                            <option value="visualization">🎯 Visualización</option>
+                            <option value="therapy">💆 Terapia</option>
                             <option value="lesson">📚 Lección</option>
                         </select>
                         <p style="font-size: var(--font-size-xs); color: var(--brown-600); margin-top: var(--spacing-xs);">
-                            Define el formato del audio (meditación guiada, música, hipnosis, etc.)
+                            Define el tipo de contenido según la estructura de la App iOS
                         </p>
                     </div>
                 </div>
@@ -1043,17 +1085,38 @@ Cargando estructura...
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Idioma</label>
+                        <label class="form-label">Idioma (language)</label>
                         <select id="medLanguage" class="form-select">
                             <option value="es">Español</option>
                             <option value="en">Inglés</option>
+                            <option value="universal">Universal (música/sonidos sin palabras)</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Tags (separados por comas)</label>
-                    <input type="text" id="medTags" class="form-input" placeholder="relajación, mindfulness, respiración">
+                    <input type="text" id="medTags" class="form-input" placeholder="relajación, sueño, ansiedad, mindfulness">
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Orden (para ordenar dentro de categoría)</label>
+                        <input type="number" id="medOrder" class="form-input" value="0" min="0" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Estado</label>
+                        <div style="display: flex; gap: var(--spacing-lg); margin-top: var(--spacing-sm);">
+                            <label style="display: flex; align-items: center; gap: var(--spacing-sm);">
+                                <input type="checkbox" id="medIsActive" checked>
+                                <span>Activo (visible en la app)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: var(--spacing-sm);">
+                                <input type="checkbox" id="medIsFavorite">
+                                <span>Destacado</span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="grid grid-2">
@@ -1086,16 +1149,102 @@ Cargando estructura...
                     </div>
                 </div>
 
+                <div style="display: flex; gap: var(--spacing-md); justify-content: flex-end; margin-top: var(--spacing-2xl);">
+                    <button type="button" class="btn btn-outline" onclick="closeMeditationModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-success" id="saveMeditationBtn">Guardar Meditación</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Audio Category Modal -->
+    <div id="audioCategoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="audioCategoryModalTitle">Nueva Categoría de Audio</h2>
+                <button class="modal-close" onclick="closeAudioCategoryModal()">×</button>
+            </div>
+
+            <form id="audioCategoryForm" onsubmit="saveAudioCategory(event)">
+                <input type="hidden" id="audioCatId">
+
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Nombre en Español *</label>
+                        <input type="text" id="audioCatNameSpanish" class="form-input" required placeholder="Ej: Meditación para Dormir">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Nombre en Inglés *</label>
+                        <input type="text" id="audioCatNameEnglish" class="form-input" required placeholder="Ej: Sleep Meditation">
+                    </div>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Tipo de Contenido (contentType) *</label>
+                        <select id="audioCatContentType" class="form-select" required>
+                            <option value="">Seleccionar tipo</option>
+                            <option value="meditation">meditation</option>
+                            <option value="hypnosis">hypnosis</option>
+                            <option value="music">music</option>
+                            <option value="song">song</option>
+                            <option value="affirmation">affirmation</option>
+                            <option value="sleep">sleep</option>
+                            <option value="nature">nature</option>
+                            <option value="binaural">binaural</option>
+                            <option value="mantra">mantra</option>
+                            <option value="podcast">podcast</option>
+                            <option value="story">story</option>
+                            <option value="soundscape">soundscape</option>
+                            <option value="whitenoise">whitenoise</option>
+                            <option value="subliminal">subliminal</option>
+                            <option value="breathing">breathing</option>
+                            <option value="visualization">visualization</option>
+                            <option value="therapy">therapy</option>
+                            <option value="lesson">lesson</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Icono SF Symbols *</label>
+                        <input type="text" id="audioCatIcon" class="form-input" required placeholder="Ej: moon.stars">
+                        <p style="font-size: var(--font-size-xs); color: var(--brown-600); margin-top: var(--spacing-xs);">
+                            Nombre del icono de SF Symbols (iOS)
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Color (Hex) *</label>
+                        <div style="display: flex; gap: var(--spacing-sm);">
+                            <input type="color" id="audioCatColorPicker" value="#6366F1" onchange="document.getElementById('audioCatColorHex').value = this.value">
+                            <input type="text" id="audioCatColorHex" class="form-input" required placeholder="#6366F1" value="#6366F1" style="flex: 1;" onchange="document.getElementById('audioCatColorPicker').value = this.value">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Orden *</label>
+                        <input type="number" id="audioCatOrder" class="form-input" required value="1" min="1" placeholder="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Subcategorías (separadas por comas)</label>
+                    <input type="text" id="audioCatSubcategories" class="form-input" placeholder="Insomnio, Relajación Profunda, Sueños Lúcidos">
+                </div>
+
                 <div class="form-group">
                     <label style="display: flex; align-items: center; gap: var(--spacing-md);">
-                        <input type="checkbox" id="medIsActive" checked>
+                        <input type="checkbox" id="audioCatIsActive" checked>
                         <span>Activo (visible en la app)</span>
                     </label>
                 </div>
 
                 <div style="display: flex; gap: var(--spacing-md); justify-content: flex-end; margin-top: var(--spacing-2xl);">
-                    <button type="button" class="btn btn-outline" onclick="closeMeditationModal()">Cancelar</button>
-                    <button type="submit" class="btn btn-success" id="saveMeditationBtn">Guardar Meditación</button>
+                    <button type="button" class="btn btn-outline" onclick="closeAudioCategoryModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-success" id="saveAudioCategoryBtn">Guardar Categoría</button>
                 </div>
             </form>
         </div>
@@ -1531,12 +1680,50 @@ Cargando estructura...
             });
         }
 
+        // Helper function to get content type label
+        function getContentTypeLabel(type) {
+            const contentTypeLabels = {
+                'meditation': '🧘 Meditación',
+                'hypnosis': '😴 Hipnosis',
+                'music': '🎼 Música',
+                'song': '🎵 Canción',
+                'affirmation': '💭 Afirmación',
+                'sleep': '😴 Para Dormir',
+                'nature': '🌿 Naturaleza',
+                'binaural': '🎧 Binaural',
+                'mantra': '🕉️ Mantra',
+                'podcast': '🎙️ Podcast',
+                'story': '📖 Historia',
+                'soundscape': '🌊 Paisaje Sonoro',
+                'whitenoise': '📻 Ruido Blanco',
+                'subliminal': '🧠 Subliminal',
+                'breathing': '🌬️ Respiración',
+                'visualization': '🎯 Visualización',
+                'therapy': '💆 Terapia',
+                'lesson': '📚 Lección'
+            };
+            return contentTypeLabels[type] || type || 'meditation';
+        }
+
+        // Helper function to get language label
+        function getLanguageLabel(lang) {
+            const langLabels = {
+                'es': '🇪🇸 ES',
+                'en': '🇺🇸 EN',
+                'universal': '🌍 Universal'
+            };
+            return langLabels[lang] || lang || 'es';
+        }
+
         function renderMeditationCard(meditation) {
             const grid = document.getElementById('meditationsGrid');
             const card = document.createElement('div');
             card.className = 'content-card';
+            // Use contentType if available, fallback to type for legacy data
+            const contentType = meditation.contentType || meditation.type || 'meditation';
             card.innerHTML = `
                 <div class="quick-actions">
+                    ${meditation.isFavorite ? '<span style="margin-right: 4px;" title="Destacado">⭐</span>' : ''}
                     <button class="quick-action-btn" onclick="toggleMeditationStatus('${meditation.id}', ${meditation.isActive !== false})" title="${meditation.isActive !== false ? 'Desactivar' : 'Activar'}">
                         ${meditation.isActive !== false ? '👁️' : '👁️‍🗨️'}
                     </button>
@@ -1548,13 +1735,8 @@ Cargando estructura...
                 <div class="content-body">
                     <h3 class="content-title">${meditation.title || 'Sin título'}</h3>
                     <div class="content-meta">
-                        <span class="badge badge-${meditation.type || 'meditation'}">
-                            ${meditation.type === 'meditation' ? '🧘 Meditación' :
-                              meditation.type === 'song' ? '🎵 Canción' :
-                              meditation.type === 'hypnosis' ? '😴 Hipnosis' :
-                              meditation.type === 'affirmation' ? '💭 Afirmación' :
-                              meditation.type === 'lesson' ? '📚 Lección' :
-                              meditation.type || 'meditation'}
+                        <span class="badge badge-${contentType}">
+                            ${getContentTypeLabel(contentType)}
                         </span>
                         <span class="badge badge-${meditation.accessType || 'free'}">${meditation.accessType || 'free'}</span>
                         <span class="badge badge-${meditation.isActive !== false ? 'active' : 'inactive'}">
@@ -1562,9 +1744,11 @@ Cargando estructura...
                         </span>
                     </div>
                     <div class="content-meta">
-                        <span>📂 Tema: ${meditation.category || 'Sin categoría'}</span>
+                        <span>📂 ${meditation.category || 'Sin categoría'}</span>
                         <span>⏱️ ${formatDuration(meditation.duration || 0)}</span>
+                        <span>${getLanguageLabel(meditation.language)}</span>
                     </div>
+                    ${meditation.order > 0 ? `<div class="content-meta"><span>📋 Orden: ${meditation.order}</span></div>` : ''}
                     <p style="font-size: var(--font-size-sm); color: var(--brown-600); margin-top: var(--spacing-sm); min-height: 40px;">
                         ${meditation.description ? meditation.description.substring(0, 100) + (meditation.description.length > 100 ? '...' : '') : 'Sin descripción'}
                     </p>
@@ -1625,7 +1809,8 @@ Cargando estructura...
             }
 
             if (type) {
-                filtered = filtered.filter(med => med.type === type);
+                // Support both contentType (new) and type (legacy) fields
+                filtered = filtered.filter(med => (med.contentType || med.type) === type);
             }
 
             if (status) {
@@ -1687,16 +1872,20 @@ Cargando estructura...
                 if (doc.exists()) {
                     currentMeditation = { id: doc.id, ...doc.data() };
 
-                    // Fill form with meditation data
+                    // Fill form with meditation data - support both contentType and legacy type field
                     document.getElementById('medTitle').value = currentMeditation.title || '';
-                    document.getElementById('medType').value = currentMeditation.type || 'meditation';
+                    document.getElementById('medType').value = currentMeditation.contentType || currentMeditation.type || 'meditation';
                     document.getElementById('medCategory').value = currentMeditation.category || '';
                     document.getElementById('medAccessType').value = currentMeditation.accessType || 'free';
                     document.getElementById('medDescription').value = currentMeditation.description || '';
                     document.getElementById('medInstructor').value = currentMeditation.instructor || '';
                     document.getElementById('medLanguage').value = currentMeditation.language || 'es';
                     document.getElementById('medTags').value = currentMeditation.tags ? currentMeditation.tags.join(', ') : '';
+
+                    // New fields
                     document.getElementById('medIsActive').checked = currentMeditation.isActive !== false;
+                    document.getElementById('medIsFavorite').checked = currentMeditation.isFavorite === true;
+                    document.getElementById('medOrder').value = currentMeditation.order || 0;
 
                     // Show current image
                     if (currentMeditation.imageURL) {
@@ -1766,16 +1955,32 @@ Cargando estructura...
             saveBtn.disabled = true;
             saveBtn.textContent = 'Guardando...';
 
+            // Build formData matching the new Firebase structure for iOS app
             const formData = {
+                // Campos Principales
                 title: document.getElementById('medTitle').value,
-                type: document.getElementById('medType').value,
-                category: document.getElementById('medCategory').value,
-                accessType: document.getElementById('medAccessType').value,
+                category: document.getElementById('medCategory').value, // Categoría en español
+                contentType: document.getElementById('medType').value, // Tipo: meditation, hypnosis, music, song, etc.
+                language: document.getElementById('medLanguage').value, // es, en, universal
+
+                // Información Adicional
                 description: document.getElementById('medDescription').value,
-                instructor: document.getElementById('medInstructor').value,
-                language: document.getElementById('medLanguage').value,
+                instructor: document.getElementById('medInstructor').value || '',
+
+                // Tags y Acceso
                 tags: document.getElementById('medTags').value.split(',').map(tag => tag.trim()).filter(tag => tag),
-                isActive: document.getElementById('medIsActive').checked
+                accessType: document.getElementById('medAccessType').value,
+
+                // Control de estado
+                isActive: document.getElementById('medIsActive').checked,
+                isFavorite: document.getElementById('medIsFavorite').checked,
+                order: parseInt(document.getElementById('medOrder').value) || 0,
+
+                // Estadísticas (valores iniciales, se actualizan desde la app)
+                completedCount: currentMeditation?.completedCount || 0,
+
+                // Legacy field for backwards compatibility
+                type: document.getElementById('medType').value
             };
 
             try {
@@ -1783,9 +1988,9 @@ Cargando estructura...
                 let imageURL = currentMeditation?.imageURL;
 
                 // Map category to storage format (iOS app expects English folder names)
-                const storageCategory = categoryMappings[formData.category] || formData.category.toLowerCase();
+                const storageCategory = categoryMappings[formData.category] || formData.category.toLowerCase().replace(/\s+/g, '-');
                 const language = formData.language || 'es'; // Default to Spanish
-                const contentType = formData.type || 'meditation'; // Use the type from the form
+                const contentType = formData.contentType || 'meditation'; // Use contentType from the form
 
                 // Upload audio if new file selected - Dynamic content type structure
                 if (selectedAudioFile) {
@@ -1834,23 +2039,26 @@ Cargando estructura...
 
                 // Save to Firestore
                 if (currentMeditation) {
-                    // Update existing
-                    formData.updatedAt = window.firebaseServerTimestamp();
+                    // Update existing - use lastUpdated to match iOS app structure
+                    formData.lastUpdated = window.firebaseServerTimestamp();
+                    formData.updatedAt = window.firebaseServerTimestamp(); // Keep for backwards compatibility
                     await window.firebaseUpdateDoc(
                         window.firebaseDoc(window.firebaseDb, 'meditaciones', currentMeditation.id),
                         formData
                     );
                     showAlert('Meditación actualizada exitosamente', 'success');
                 } else {
-                    // Create new
-                    formData.createdAt = window.firebaseServerTimestamp();
-                    formData.updatedAt = window.firebaseServerTimestamp();
-                    formData.order = 0;
+                    // Create new with all required fields for iOS app
+                    formData.dateAdded = window.firebaseServerTimestamp();
+                    formData.lastUpdated = window.firebaseServerTimestamp();
+                    formData.createdAt = window.firebaseServerTimestamp(); // Keep for backwards compatibility
+                    formData.updatedAt = window.firebaseServerTimestamp(); // Keep for backwards compatibility
+
                     const docRef = await window.firebaseAddDoc(
                         window.firebaseCollection(window.firebaseDb, 'meditaciones'),
                         formData
                     );
-                    // Update with ID
+                    // Update with ID field to match iOS app structure
                     await window.firebaseUpdateDoc(docRef, { id: docRef.id });
                     showAlert('Meditación creada exitosamente', 'success');
                 }
@@ -3282,12 +3490,212 @@ Cargando estructura...
                 // Display category mappings
                 displayCategoryMappings();
 
+                // Load audio categories
+                await loadAudioCategories();
+
                 // Load structure preview
                 await previewStorageStructure();
             } catch (error) {
                 console.error('Error loading storage structure:', error);
             }
         }
+
+        // ==================== Audio Categories Management ====================
+        let currentAudioCategory = null;
+        let audioCategories = [];
+
+        async function loadAudioCategories() {
+            const container = document.getElementById('audioCategoriesList');
+            if (!container) return;
+
+            container.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+            try {
+                const audioCatDoc = await window.firebaseGetDoc(
+                    window.firebaseDoc(window.firebaseDb, 'config', 'audioCategories')
+                );
+
+                if (audioCatDoc.exists()) {
+                    const data = audioCatDoc.data();
+                    audioCategories = data.categories || [];
+                } else {
+                    audioCategories = [];
+                }
+
+                renderAudioCategories();
+            } catch (error) {
+                console.error('Error loading audio categories:', error);
+                container.innerHTML = '<p style="color: var(--danger-color);">Error al cargar las categorías</p>';
+            }
+        }
+
+        function renderAudioCategories() {
+            const container = document.getElementById('audioCategoriesList');
+            if (!container) return;
+
+            if (audioCategories.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: var(--spacing-xl); color: var(--brown-600);">
+                        <p>No hay categorías de audio configuradas</p>
+                        <p style="font-size: var(--font-size-sm);">Haz clic en "Nueva Categoría de Audio" para agregar una</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+            // Sort by order
+            const sorted = [...audioCategories].sort((a, b) => (a.order || 0) - (b.order || 0));
+
+            sorted.forEach((cat, index) => {
+                const card = document.createElement('div');
+                card.style.cssText = 'background: var(--sand-50); border: 2px solid var(--sand-200); border-radius: var(--radius-md); padding: var(--spacing-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md);';
+                card.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: var(--spacing-md);">
+                        <div style="width: 40px; height: 40px; background: ${cat.colorHex}; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;">
+                            ${cat.order || index + 1}
+                        </div>
+                        <div>
+                            <strong>${cat.nameSpanish}</strong>
+                            <p style="font-size: var(--font-size-sm); color: var(--brown-600); margin: 0;">${cat.nameEnglish} • ${cat.contentType} • ${cat.icon}</p>
+                            ${cat.subcategories && cat.subcategories.length > 0 ? `<p style="font-size: var(--font-size-xs); color: var(--brown-500); margin: 0;">Subcategorías: ${cat.subcategories.join(', ')}</p>` : ''}
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: var(--spacing-sm);">
+                        <span class="badge badge-${cat.isActive ? 'active' : 'inactive'}">${cat.isActive ? 'Activo' : 'Inactivo'}</span>
+                        <button class="btn btn-outline btn-sm" onclick="editAudioCategory('${cat.id}')">✏️</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteAudioCategory('${cat.id}')">🗑️</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function openAudioCategoryModal(categoryId = null) {
+            const modal = document.getElementById('audioCategoryModal');
+            const title = document.getElementById('audioCategoryModalTitle');
+
+            currentAudioCategory = null;
+
+            if (categoryId) {
+                title.textContent = 'Editar Categoría de Audio';
+                const cat = audioCategories.find(c => c.id === categoryId);
+                if (cat) {
+                    currentAudioCategory = cat;
+                    document.getElementById('audioCatId').value = cat.id;
+                    document.getElementById('audioCatNameSpanish').value = cat.nameSpanish || '';
+                    document.getElementById('audioCatNameEnglish').value = cat.nameEnglish || '';
+                    document.getElementById('audioCatContentType').value = cat.contentType || '';
+                    document.getElementById('audioCatIcon').value = cat.icon || '';
+                    document.getElementById('audioCatColorHex').value = cat.colorHex || '#6366F1';
+                    document.getElementById('audioCatColorPicker').value = cat.colorHex || '#6366F1';
+                    document.getElementById('audioCatOrder').value = cat.order || 1;
+                    document.getElementById('audioCatSubcategories').value = cat.subcategories ? cat.subcategories.join(', ') : '';
+                    document.getElementById('audioCatIsActive').checked = cat.isActive !== false;
+                }
+            } else {
+                title.textContent = 'Nueva Categoría de Audio';
+                document.getElementById('audioCategoryForm').reset();
+                document.getElementById('audioCatId').value = '';
+                document.getElementById('audioCatColorHex').value = '#6366F1';
+                document.getElementById('audioCatColorPicker').value = '#6366F1';
+                document.getElementById('audioCatOrder').value = audioCategories.length + 1;
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeAudioCategoryModal() {
+            const modal = document.getElementById('audioCategoryModal');
+            modal.classList.remove('active');
+            currentAudioCategory = null;
+        }
+
+        window.editAudioCategory = function(categoryId) {
+            openAudioCategoryModal(categoryId);
+        };
+
+        window.deleteAudioCategory = async function(categoryId) {
+            if (!confirm('¿Estás seguro de eliminar esta categoría de audio?')) {
+                return;
+            }
+
+            try {
+                // Remove from array
+                audioCategories = audioCategories.filter(c => c.id !== categoryId);
+
+                // Save to Firestore
+                await window.firebaseSetDoc(
+                    window.firebaseDoc(window.firebaseDb, 'config', 'audioCategories'),
+                    {
+                        categories: audioCategories,
+                        updatedAt: window.firebaseServerTimestamp()
+                    }
+                );
+
+                showAlert('Categoría eliminada exitosamente', 'success');
+                renderAudioCategories();
+            } catch (error) {
+                console.error('Error deleting audio category:', error);
+                showAlert('Error al eliminar la categoría', 'error');
+            }
+        };
+
+        async function saveAudioCategory(event) {
+            event.preventDefault();
+
+            const saveBtn = document.getElementById('saveAudioCategoryBtn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Guardando...';
+
+            try {
+                const categoryData = {
+                    id: document.getElementById('audioCatId').value || `cat_${Date.now()}`,
+                    nameSpanish: document.getElementById('audioCatNameSpanish').value,
+                    nameEnglish: document.getElementById('audioCatNameEnglish').value,
+                    contentType: document.getElementById('audioCatContentType').value,
+                    icon: document.getElementById('audioCatIcon').value,
+                    colorHex: document.getElementById('audioCatColorHex').value,
+                    order: parseInt(document.getElementById('audioCatOrder').value) || 1,
+                    isActive: document.getElementById('audioCatIsActive').checked,
+                    subcategories: document.getElementById('audioCatSubcategories').value
+                        .split(',')
+                        .map(s => s.trim())
+                        .filter(s => s)
+                };
+
+                if (currentAudioCategory) {
+                    // Update existing
+                    const index = audioCategories.findIndex(c => c.id === currentAudioCategory.id);
+                    if (index !== -1) {
+                        audioCategories[index] = categoryData;
+                    }
+                } else {
+                    // Add new
+                    audioCategories.push(categoryData);
+                }
+
+                // Save to Firestore at config/audioCategories
+                await window.firebaseSetDoc(
+                    window.firebaseDoc(window.firebaseDb, 'config', 'audioCategories'),
+                    {
+                        categories: audioCategories,
+                        updatedAt: window.firebaseServerTimestamp()
+                    }
+                );
+
+                showAlert('Categoría guardada exitosamente', 'success');
+                closeAudioCategoryModal();
+                renderAudioCategories();
+            } catch (error) {
+                console.error('Error saving audio category:', error);
+                showAlert('Error al guardar: ' + error.message, 'error');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Guardar Categoría';
+            }
+        }
+        // ==================== End Audio Categories Management ====================
 
         function displayContentTypes() {
             const container = document.getElementById('contentTypesList');
