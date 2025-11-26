@@ -1434,21 +1434,33 @@ Cargando estructura...
             }
         }
 
-        // Dynamic category mappings (will be loaded from Firestore)
+        // Category mappings aligned with iOS app AudioTheme (getDefaultThemes)
+        // Spanish category name -> theme ID (for Storage folder structure)
         let categoryMappings = {
-            // Default mappings - will be overridden by Firestore config
-            'Abundancia y Prosperidad': 'abundance',
-            'Calma y Ansiedad': 'anxiety',
-            'Despertar': 'despertar',
-            'Enfoque Pleno': 'focus',
-            'Sueño Profundo': 'sleep'
+            // Aligned with iOS app - these match mapCategoryToThemeName() and getDefaultThemes()
+            'Abundancia': 'abundance',      // #10B981 - dollarsign.circle
+            'Ansiedad': 'anxiety',          // #3B82F6 - heart.circle
+            'Autoestima': 'self-esteem',    // #F59E0B - star.circle
+            'Dormir': 'sleep',              // #6366F1 - moon.circle
+            'Energía': 'energy',            // #EF4444 - bolt.circle
+            'Enfoque': 'focus',             // #8B5CF6 - target
+            'Relajación': 'relaxation',     // #06B6D4 - leaf.circle
+            'Sanación': 'healing',          // #EC4899 - heart.text.square
+            'Creatividad': 'creativity',    // #A855F7 - paintbrush
+            'Gratitud': 'gratitude',        // #84CC16 - hands.sparkles
+            'Otro': 'other'                 // For uncategorized content
         };
 
         // Reverse mapping for loading from Storage
         let storageCategoryMappings = {};
 
-        // Dynamic content types (will be loaded from Firestore)
-        let contentTypes = ['meditation', 'hypnosis', 'song', 'affirmation', 'lesson'];
+        // Content types - aligned with iOS app
+        let contentTypes = [
+            'meditation', 'hypnosis', 'music', 'song', 'affirmation',
+            'sleep', 'nature', 'binaural', 'mantra', 'podcast',
+            'story', 'soundscape', 'whitenoise', 'subliminal',
+            'breathing', 'visualization', 'therapy', 'lesson'
+        ];
 
         // Update reverse mappings
         function updateReverseMappings() {
