@@ -2059,6 +2059,18 @@ Cargando estructura...
                         }
                     });
 
+                    // Add click event listener to open file picker
+                    smartUploadArea.addEventListener('click', function(e) {
+                        // Don't trigger if clicking on the button (it has its own onclick)
+                        if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+                            return;
+                        }
+                        const fileInput = document.getElementById('smartAudioFile');
+                        if (fileInput) {
+                            fileInput.click();
+                        }
+                    });
+
                     // Stop observing once we've set up the listeners
                     obs.disconnect();
                 }
@@ -2105,6 +2117,18 @@ Cargando estructura...
                         } else {
                             showAlert('Por favor, selecciona un archivo de audio (MP3, M4A, WAV)', 'error');
                         }
+                    }
+                });
+
+                // Add click event listener to open file picker
+                smartUploadArea.addEventListener('click', function(e) {
+                    // Don't trigger if clicking on the button (it has its own onclick)
+                    if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+                        return;
+                    }
+                    const fileInput = document.getElementById('smartAudioFile');
+                    if (fileInput) {
+                        fileInput.click();
                     }
                 });
 
