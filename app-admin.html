@@ -1128,14 +1128,12 @@ Cargando estructura...
                             Sube un archivo de audio y extraeremos automáticamente el título, la portada (si existe), comprimiremos el audio y convertiremos la imagen a WebP
                         </p>
                     </div>
-                    <div class="file-upload-area" id="smartUploadArea" style="background: var(--warm-white); cursor: pointer;">
+                    <label for="smartAudioFile" class="file-upload-area" id="smartUploadArea" style="background: var(--warm-white); cursor: pointer; display: block;">
                         <input type="file" id="smartAudioFile" accept="audio/mp3,audio/mpeg,audio/m4a,audio/wav,audio/x-m4a,.mp3,.m4a,.wav" style="display: none;" onchange="handleSmartUpload(this)">
-                        <div onclick="document.getElementById('smartAudioFile').click()">
-                            <div style="font-size: 2rem;">📁</div>
-                            <p><strong>Clic o arrastra un archivo aquí</strong></p>
-                            <p style="font-size: var(--font-size-sm); color: var(--brown-600);">MP3, M4A, WAV - Extrae título del nombre del archivo</p>
-                        </div>
-                    </div>
+                        <div style="font-size: 2rem;">📁</div>
+                        <p><strong>Clic o arrastra un archivo aquí</strong></p>
+                        <p style="font-size: var(--font-size-sm); color: var(--brown-600);">MP3, M4A, WAV - Extrae título del nombre del archivo</p>
+                    </label>
                     <div id="smartUploadStatus" style="margin-top: var(--spacing-md); display: none;">
                         <div style="display: flex; align-items: center; gap: var(--spacing-sm);">
                             <div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div>
