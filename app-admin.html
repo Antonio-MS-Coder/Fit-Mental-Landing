@@ -1128,8 +1128,8 @@ Cargando estructura...
                             Sube un archivo de audio y extraeremos automáticamente el título, la portada (si existe), comprimiremos el audio y convertiremos la imagen a WebP
                         </p>
                     </div>
+                    <input type="file" id="smartAudioFile" accept="audio/mp3,audio/mpeg,audio/m4a,audio/wav,audio/x-m4a,.mp3,.m4a,.wav" style="display: none;" onchange="handleSmartUpload(this)">
                     <label for="smartAudioFile" class="file-upload-area" id="smartUploadArea" style="background: var(--warm-white); cursor: pointer; display: block;">
-                        <input type="file" id="smartAudioFile" accept="audio/mp3,audio/mpeg,audio/m4a,audio/wav,audio/x-m4a,.mp3,.m4a,.wav" style="display: none;" onchange="handleSmartUpload(this)">
                         <div style="font-size: 2rem;">📁</div>
                         <p><strong>Clic o arrastra un archivo aquí</strong></p>
                         <p style="font-size: var(--font-size-sm); color: var(--brown-600);">MP3, M4A, WAV - Extrae título del nombre del archivo</p>
