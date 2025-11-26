@@ -1128,13 +1128,9 @@ Cargando estructura...
                             Sube un archivo de audio y extraeremos automáticamente el título, la portada (si existe), comprimiremos el audio y convertiremos la imagen a WebP
                         </p>
                     </div>
-                    <div class="file-upload-area" id="smartUploadArea" style="background: var(--warm-white); cursor: pointer;"
-                         onclick="triggerSmartUpload()"
-                         ondragover="handleDragOver(event, 'smartUploadArea')"
-                         ondragleave="handleDragLeave(event, 'smartUploadArea')"
-                         ondrop="handleSmartDrop(event)">
+                    <div class="file-upload-area" id="smartUploadArea" style="background: var(--warm-white); cursor: pointer;">
                         <input type="file" id="smartAudioFile" accept="audio/mp3,audio/mpeg,audio/m4a,audio/wav,audio/x-m4a,.mp3,.m4a,.wav" style="display: none;" onchange="handleSmartUpload(this)">
-                        <div style="pointer-events: none;">
+                        <div onclick="document.getElementById('smartAudioFile').click()">
                             <div style="font-size: 2rem;">📁</div>
                             <p><strong>Clic o arrastra un archivo aquí</strong></p>
                             <p style="font-size: var(--font-size-sm); color: var(--brown-600);">MP3, M4A, WAV - Extrae título del nombre del archivo</p>
@@ -2018,6 +2014,102 @@ Cargando estructura...
                 }
             }
         }
+
+        // Initialize Smart Upload drag and drop using JavaScript event listeners
+        // This runs after the DOM is ready since script is at bottom of body
+        (function initSmartUploadDragDrop() {
+            // Use MutationObserver to detect when smartUploadArea appears in DOM
+            const observer = new MutationObserver(function(mutations, obs) {
+                const smartUploadArea = document.getElementById('smartUploadArea');
+                if (smartUploadArea) {
+                    // Add drag and drop event listeners
+                    smartUploadArea.addEventListener('dragover', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.classList.add('dragover');
+                        this.style.borderColor = 'var(--success-color)';
+                        this.style.background = 'var(--lavender-100)';
+                    });
+
+                    smartUploadArea.addEventListener('dragleave', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.classList.remove('dragover');
+                        this.style.borderColor = '';
+                        this.style.background = 'var(--warm-white)';
+                    });
+
+                    smartUploadArea.addEventListener('drop', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.classList.remove('dragover');
+                        this.style.borderColor = '';
+                        this.style.background = 'var(--warm-white)';
+
+                        const files = e.dataTransfer.files;
+                        if (files.length > 0) {
+                            const file = files[0];
+                            if (file.type.startsWith('audio/') || /\.(mp3|m4a|wav)$/i.test(file.name)) {
+                                const fakeInput = { files: [file] };
+                                handleSmartUpload(fakeInput);
+                            } else {
+                                showAlert('Por favor, selecciona un archivo de audio (MP3, M4A, WAV)', 'error');
+                            }
+                        }
+                    });
+
+                    // Stop observing once we've set up the listeners
+                    obs.disconnect();
+                }
+            });
+
+            // Start observing the document for DOM changes
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+
+            // Also try immediately in case element already exists
+            const smartUploadArea = document.getElementById('smartUploadArea');
+            if (smartUploadArea) {
+                smartUploadArea.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.classList.add('dragover');
+                    this.style.borderColor = 'var(--success-color)';
+                    this.style.background = 'var(--lavender-100)';
+                });
+
+                smartUploadArea.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.classList.remove('dragover');
+                    this.style.borderColor = '';
+                    this.style.background = 'var(--warm-white)';
+                });
+
+                smartUploadArea.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.classList.remove('dragover');
+                    this.style.borderColor = '';
+                    this.style.background = 'var(--warm-white)';
+
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        const file = files[0];
+                        if (file.type.startsWith('audio/') || /\.(mp3|m4a|wav)$/i.test(file.name)) {
+                            const fakeInput = { files: [file] };
+                            handleSmartUpload(fakeInput);
+                        } else {
+                            showAlert('Por favor, selecciona un archivo de audio (MP3, M4A, WAV)', 'error');
+                        }
+                    }
+                });
+
+                observer.disconnect();
+            }
+        })();
 
         // Extract title from filename (removes extension and cleans up)
         function extractTitleFromFilename(filename) {
