@@ -1161,9 +1161,9 @@ Cargando estructura...
                         <label class="form-label">Archivo de Audio ${currentMeditation ? '(Opcional)' : '*'}</label>
                         <div class="file-upload-area" id="audioUploadArea">
                             <input type="file" id="medAudioFile" accept="audio/*" style="display: none;" onchange="handleAudioFile(this)">
-                            <div onclick="document.getElementById('medAudioFile').click()">
+                            <div>
                                 <div style="font-size: 2rem;">🎵</div>
-                                <p>Clic para seleccionar archivo de audio</p>
+                                <p>Clic o arrastra para seleccionar archivo de audio</p>
                                 <p style="font-size: var(--font-size-sm); color: var(--brown-600);">MP3, M4A, WAV (Max 100MB)</p>
                             </div>
                         </div>
@@ -1176,9 +1176,9 @@ Cargando estructura...
                         <label class="form-label">Imagen de Portada ${currentMeditation ? '(Opcional)' : '*'}</label>
                         <div class="file-upload-area" id="imageUploadArea">
                             <input type="file" id="medImageFile" accept="image/*" style="display: none;" onchange="handleImageFile(this)">
-                            <div onclick="document.getElementById('medImageFile').click()">
+                            <div>
                                 <div style="font-size: 2rem;">🖼️</div>
-                                <p>Clic para seleccionar imagen</p>
+                                <p>Clic o arrastra para seleccionar imagen</p>
                                 <p style="font-size: var(--font-size-sm); color: var(--brown-600);">JPG, PNG, WebP (Max 5MB)</p>
                             </div>
                         </div>
@@ -2135,6 +2135,109 @@ Cargando estructura...
                 observer.disconnect();
             }
         })();
+
+        // Initialize Classical Upload Areas (Audio and Image) for click and drag-drop
+        (function initClassicalUploadAreas() {
+            // Use MutationObserver to detect when upload areas appear in DOM
+            const observer = new MutationObserver(function(mutations, obs) {
+                const audioUploadArea = document.getElementById('audioUploadArea');
+                const imageUploadArea = document.getElementById('imageUploadArea');
+
+                if (audioUploadArea && imageUploadArea) {
+                    // Setup Audio Upload Area
+                    setupClassicalUploadArea(audioUploadArea, 'medAudioFile', 'audio');
+                    // Setup Image Upload Area
+                    setupClassicalUploadArea(imageUploadArea, 'medImageFile', 'image');
+                    obs.disconnect();
+                }
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+
+            // Also try immediately
+            const audioUploadArea = document.getElementById('audioUploadArea');
+            const imageUploadArea = document.getElementById('imageUploadArea');
+            if (audioUploadArea && imageUploadArea) {
+                setupClassicalUploadArea(audioUploadArea, 'medAudioFile', 'audio');
+                setupClassicalUploadArea(imageUploadArea, 'medImageFile', 'image');
+                observer.disconnect();
+            }
+        })();
+
+        // Helper function to setup classical upload areas
+        function setupClassicalUploadArea(uploadArea, fileInputId, type) {
+            // Click handler for the entire area
+            uploadArea.addEventListener('click', function(e) {
+                // Prevent double-triggering if clicking on the inner div that already has onclick
+                if (e.target.closest('input[type="file"]')) return;
+                const fileInput = document.getElementById(fileInputId);
+                if (fileInput) {
+                    fileInput.click();
+                }
+            });
+
+            // Drag over handler
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.classList.add('dragover');
+                this.style.borderColor = 'var(--success-color)';
+                this.style.background = 'var(--lavender-100)';
+            });
+
+            // Drag leave handler
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.classList.remove('dragover');
+                this.style.borderColor = '';
+                this.style.background = '';
+            });
+
+            // Drop handler
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.classList.remove('dragover');
+                this.style.borderColor = '';
+                this.style.background = '';
+
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    const file = files[0];
+                    const fileInput = document.getElementById(fileInputId);
+
+                    if (type === 'audio') {
+                        // Validate audio file
+                        if (file.type.startsWith('audio/') || /\.(mp3|m4a|wav)$/i.test(file.name)) {
+                            // Create a DataTransfer to set files on input
+                            const dataTransfer = new DataTransfer();
+                            dataTransfer.items.add(file);
+                            fileInput.files = dataTransfer.files;
+                            // Trigger the onchange handler
+                            handleAudioFile(fileInput);
+                        } else {
+                            showAlert('Por favor, selecciona un archivo de audio (MP3, M4A, WAV)', 'error');
+                        }
+                    } else if (type === 'image') {
+                        // Validate image file
+                        if (file.type.startsWith('image/') || /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name)) {
+                            // Create a DataTransfer to set files on input
+                            const dataTransfer = new DataTransfer();
+                            dataTransfer.items.add(file);
+                            fileInput.files = dataTransfer.files;
+                            // Trigger the onchange handler
+                            handleImageFile(fileInput);
+                        } else {
+                            showAlert('Por favor, selecciona un archivo de imagen (JPG, PNG, WebP)', 'error');
+                        }
+                    }
+                }
+            });
+        }
 
         // Extract title from filename (removes extension and cleans up)
         function extractTitleFromFilename(filename) {
