@@ -1700,7 +1700,8 @@ Cargando estructura...
                     return (a.title || '').localeCompare(b.title || '');
                 });
 
-                renderMeditations(allMeditations);
+                // Apply current filters instead of rendering all (fixes filter reset bug)
+                filterMeditations();
             } catch (error) {
                 console.error('Error loading meditations:', error);
                 grid.innerHTML = `
@@ -1856,12 +1857,22 @@ Cargando estructura...
             }
 
             if (category) {
-                filtered = filtered.filter(med => med.category === category);
+                // Case-insensitive category comparison
+                const normalizedCategory = category.toLowerCase().trim();
+                filtered = filtered.filter(med => {
+                    const medCategory = (med.category || '').toLowerCase().trim();
+                    return medCategory === normalizedCategory;
+                });
             }
 
             if (type) {
                 // Support both contentType (new) and type (legacy) fields
-                filtered = filtered.filter(med => (med.contentType || med.type) === type);
+                // Use case-insensitive comparison and handle whitespace
+                const normalizedType = type.toLowerCase().trim();
+                filtered = filtered.filter(med => {
+                    const medType = (med.contentType || med.type || '').toLowerCase().trim();
+                    return medType === normalizedType;
+                });
             }
 
             if (status) {
@@ -2733,11 +2744,14 @@ Cargando estructura...
                 const contentType = formData.contentType || 'meditation'; // Use contentType from the form
 
                 // Upload audio if new file selected - Dynamic content type structure
+                let uploadedFileName = null;
                 if (selectedAudioFile) {
                     showAlert('Subiendo audio...', 'info');
+                    const timestamp = Date.now();
+                    uploadedFileName = `${timestamp}_${selectedAudioFile.name}`;
                     const audioRef = window.storageRef(
                         window.storage,
-                        `content/${contentType}/${language}/${storageCategory}/${Date.now()}_${selectedAudioFile.name}`
+                        `content/${contentType}/${language}/${storageCategory}/${uploadedFileName}`
                     );
                     await window.uploadBytes(audioRef, selectedAudioFile);
                     audioURL = await window.getDownloadURL(audioRef);
@@ -2776,6 +2790,13 @@ Cargando estructura...
                 formData.imageURL = imageURL || '';
                 formData.storageCategory = storageCategory; // Keep track of the English folder name
                 formData.storagePath = `content/${contentType}/${language}/${storageCategory}/`;
+
+                // Store fileName for duplicate detection during sync
+                if (uploadedFileName) {
+                    formData.fileName = uploadedFileName;
+                } else if (currentMeditation?.fileName) {
+                    formData.fileName = currentMeditation.fileName;
+                }
 
                 // Save to Firestore
                 if (currentMeditation) {
@@ -3657,22 +3678,43 @@ Cargando estructura...
                             continue;
                         }
 
-                        // Check if already exists
-                        const existingQuery = await window.firebaseGetDocs(
+                        // Check if already exists by fileName
+                        const existingByFileName = await window.firebaseGetDocs(
                             window.firebaseQuery(
                                 window.firebaseCollection(window.firebaseDb, 'meditaciones'),
-                                window.firebaseWhere('fileName', '==', fileName),
-                                window.firebaseWhere('type', '==', contentType)
+                                window.firebaseWhere('fileName', '==', fileName)
                             )
                         );
 
-                        if (!existingQuery.empty) {
+                        if (!existingByFileName.empty) {
                             skipped++;
                             continue;
                         }
 
-                        // Import the file
-                        await importContentFile(itemRef, contentType, displayCategoryName, storageCategoryName, fileName, basePath, language);
+                        // Also check by audioURL (fallback for legacy entries without fileName)
+                        const audioURL = await window.getDownloadURL(itemRef);
+                        const existingByAudioURL = await window.firebaseGetDocs(
+                            window.firebaseQuery(
+                                window.firebaseCollection(window.firebaseDb, 'meditaciones'),
+                                window.firebaseWhere('audioURL', '==', audioURL)
+                            )
+                        );
+
+                        if (!existingByAudioURL.empty) {
+                            // Update the existing document to add fileName for future sync
+                            const existingDoc = existingByAudioURL.docs[0];
+                            if (!existingDoc.data().fileName) {
+                                await window.firebaseUpdateDoc(
+                                    window.firebaseDoc(window.firebaseDb, 'meditaciones', existingDoc.id),
+                                    { fileName: fileName }
+                                );
+                            }
+                            skipped++;
+                            continue;
+                        }
+
+                        // Import the file (audioURL already fetched above)
+                        await importContentFile(itemRef, contentType, displayCategoryName, storageCategoryName, fileName, basePath, language, audioURL);
                         imported++;
                     }
                 }
@@ -3683,12 +3725,24 @@ Cargando estructura...
             return { imported, skipped };
         }
 
-        async function importContentFile(itemRef, contentType, displayCategory, storageCategory, fileName, basePath, language) {
-            const audioURL = await window.getDownloadURL(itemRef);
+        // Import content file - accepts optional pre-fetched audioURL to avoid duplicate fetches
+        async function importContentFile(itemRef, contentType, displayCategory, storageCategory, fileName, basePath, language, preloadedAudioURL = null) {
+            const audioURL = preloadedAudioURL || await window.getDownloadURL(itemRef);
 
-            // Extract title from filename
-            let title = fileName.replace(/^\d+_/, '').replace(/\.[^.]+$/, '');
-            title = title.replace(/_/g, ' ').replace(/-/g, ' ');
+            // Extract title from filename - aggressively remove timestamps and clean up
+            let title = fileName;
+            // Remove extension first
+            title = title.replace(/\.[^.]+$/, '');
+            // Remove leading timestamp patterns (e.g., 1764720430124_)
+            title = title.replace(/^\d{10,}_/, '');
+            // Replace underscores and hyphens with spaces
+            title = title.replace(/[_-]/g, ' ');
+            // Remove any remaining leading numbers (track numbers like "01 ")
+            title = title.replace(/^\d+\s+/, '');
+            // Clean up multiple spaces and trim
+            title = title.replace(/\s+/g, ' ').trim();
+            // Capitalize first letter of each word
+            title = title.replace(/\b\w/g, l => l.toUpperCase());
 
             // Try to find matching image
             let imageURL = await findMatchingImage(title, storageCategory);
@@ -3779,15 +3833,15 @@ Cargando estructura...
                             continue;
                         }
 
-                        // Check if already exists in Firestore
-                        const existingQuery = await window.firebaseGetDocs(
+                        // Check if already exists in Firestore by fileName
+                        const existingByFileName = await window.firebaseGetDocs(
                             window.firebaseQuery(
                                 window.firebaseCollection(window.firebaseDb, 'meditaciones'),
                                 window.firebaseWhere('fileName', '==', fileName)
                             )
                         );
 
-                        if (!existingQuery.empty) {
+                        if (!existingByFileName.empty) {
                             skipped++;
                             continue;
                         }
@@ -3795,9 +3849,35 @@ Cargando estructura...
                         // Get file URL
                         const audioURL = await window.firebaseGetDownloadURL(itemRef);
 
-                        // Extract title from filename (remove timestamp and extension)
-                        let title = fileName.replace(/^\d+_/, '').replace(/\.[^.]+$/, '');
-                        title = title.replace(/_/g, ' ').replace(/-/g, ' ');
+                        // Also check by audioURL (fallback for legacy entries without fileName)
+                        const existingByAudioURL = await window.firebaseGetDocs(
+                            window.firebaseQuery(
+                                window.firebaseCollection(window.firebaseDb, 'meditaciones'),
+                                window.firebaseWhere('audioURL', '==', audioURL)
+                            )
+                        );
+
+                        if (!existingByAudioURL.empty) {
+                            // Update existing document to add fileName for future sync
+                            const existingDoc = existingByAudioURL.docs[0];
+                            if (!existingDoc.data().fileName) {
+                                await window.firebaseUpdateDoc(
+                                    window.firebaseDoc(window.firebaseDb, 'meditaciones', existingDoc.id),
+                                    { fileName: fileName }
+                                );
+                            }
+                            skipped++;
+                            continue;
+                        }
+
+                        // Extract title from filename - aggressively remove timestamps and clean up
+                        let title = fileName;
+                        title = title.replace(/\.[^.]+$/, '');  // Remove extension
+                        title = title.replace(/^\d{10,}_/, ''); // Remove timestamp prefix
+                        title = title.replace(/[_-]/g, ' ');    // Underscores/hyphens to spaces
+                        title = title.replace(/^\d+\s+/, '');   // Remove track numbers
+                        title = title.replace(/\s+/g, ' ').trim();
+                        title = title.replace(/\b\w/g, l => l.toUpperCase());
 
                         // Look for matching image in iOS structure
                         let imageURL = null;
@@ -4096,9 +4176,14 @@ Cargando estructura...
         async function importMusicFile(itemRef, category, fileName, basePath) {
             const audioURL = await window.firebaseGetDownloadURL(itemRef);
 
-            // Extract title from filename
-            let title = fileName.replace(/^\d+_/, '').replace(/\.[^.]+$/, '');
-            title = title.replace(/_/g, ' ').replace(/-/g, ' ');
+            // Extract title from filename - aggressively remove timestamps and clean up
+            let title = fileName;
+            title = title.replace(/\.[^.]+$/, '');  // Remove extension
+            title = title.replace(/^\d{10,}_/, ''); // Remove timestamp prefix
+            title = title.replace(/[_-]/g, ' ');    // Underscores/hyphens to spaces
+            title = title.replace(/^\d+\s+/, '');   // Remove track numbers
+            title = title.replace(/\s+/g, ' ').trim();
+            title = title.replace(/\b\w/g, l => l.toUpperCase());
 
             const musicData = {
                 name: title,
